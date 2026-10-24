@@ -1,0 +1,881 @@
+# The Spellbound package line: the roadmap
+
+What this is: the plan for building the line, for a person or an agent who needs the order of work, the dates, the costs and the first stories. For: anyone starting or leading a build session on the line, in any repository of the organisation. Date: 2026-10-24. Read `Brief.md` first if you have read nothing else; the binding rules, the packages and the shared conventions are in `Line.md` beside this file. Every rule in those files is decided and is not asked again. Anything a story leaves open becomes a setting with a sensible default, named in that step's report. Nothing is pinned, every date is an estimate the developer is not bound by, and the game is Saboteer.
+
+A "gate" is one story that a person reviews and signs off. The planning rate is one gate per person per working day, beside their own work, with two people (two streams) from 2026-11-02. Sprints are 14 days from 2026-11-02.
+
+## The result in six lines
+
+- **889 gates in 119 epics**, 148.0 million tokens, 167.3 million with the red-team rounds (15.7 million for 49 epics of eight stories or more, 3.6 million for four milestone rounds). Re-priced on 2026-10-24 with the owners' counts after the readers' round: A5a 6 and A5b 4, A4c (2 gates, new), R6d 3, and UI4c (2 gates, new), five gates more than the 884 of the hand-off. Outside the dates: 14 undated gates (1.9 million tokens) and 21 backlog gates (3.3 million), priced and not scheduled.
+- **Two milestones measured by the games, and one release.** Saboteer on the line, estimated **2028-01-10** (538 gates finished; its soak ends 2028-01-04 and the make-playable loop closes it). Corsairs Isle on the line, estimated **2028-04-25** (676 gates). Saboteer's first Steam release, estimated **2028-06-12** (736 gates): it waits for every Saboteer-tagged part, for Corsairs' soak and for the first final tags, because from the day it ships Saboteer follows a maintenance branch that refuses removals. The plan ends, estimated, 2028-10-11. With leave and public holidays priced in (0.93 gates per person per day) the estimates are 2028-04-10, 2028-06-12 becomes 2028-10-20, 2028-08-21 and 2029-03-27.
+- **Capacity decides the dates.** The longest chain is 100 gates to Saboteer's soak, 111 to Corsairs' and 124 to the first release. With unlimited streams and no freeze Saboteer would land 2027-04-13 and Corsairs 2027-04-29. Two streams at the planning rate carry 885 gates in about 443 working days each.
+- **Saboteer's Next Fest demo is due before 11 February 2027 and the plan meets it, with the new UI and chat in it and no margin.** The cut-over (44 gates, Corsairs' compile-only cut-over included) ends estimated 2027-01-14, the first day of the code freeze: the train's two manifest lines are the freeze's one exemption and UI4c is not Saboteer-tagged, so nothing runs in the freeze that the rule forbids. The five gates of the re-price cost two working days on Saboteer's milestone and four on Corsairs'.
+- **Navigation, ships and moving decks included, runs after the Corsairs milestone and before any Corsairs launch**: 51 gates in six epics (estimated 2028-05-22 to 2028-08-29) plus a 5-gate spike that runs early (estimated 2027-05-05 to 2027-05-11). The plan refuses any earlier start of the Navigation epics.
+- **Nothing waits on a decision.** Saboteer goes on sale in June 2028, after the removals and the first final tags, confirmed by the developer's note of 2026-10-24: Saboteer does not release until the packages are final. The one thing the plan cannot do is hold a margin: the cut-over's last Saboteer-tagged part ends the working day before the freeze, and a loss of two days anywhere in the first ten weeks moves it behind the festival.
+
+## The two milestones and what each means
+
+A milestone is the day the last part of its class finishes. "Gates so far" counts every gate finished by that date, whatever its class. Every date is an estimate.
+
+| Milestone | Estimated date | Gates so far | What it means |
+|---|---|---|---|
+| Cut-over before the freeze | 2027-01-14 | 86 | Core on assemblies with its consumers' references, the layout and shell template, the first slice of Persistence, the operations, Saboteer's ten commands on the new console, the UI kit split from Chat and Core, widgets, input contexts, the HUD layout section, Switchboard with Saboteer's cut-over, and Corsairs' compile-only cut-over of its console view and chat glue. Nothing else rewires Saboteer before the freeze; the train lands on the freeze's first day under the manifest-line exemption |
+| Saboteer's demo build (the developer's) | build due before 2027-02-11, assumed 2027-02-03 | 114 | Today's Saboteer on the branches it follows, with the cut-over in it. The Steam deploy is the developer's act |
+| Foundation round (a waypoint, not a milestone) | 2027-04-19 | 206 | Operations, the Pipeline bridge, the shipped agent context, the observation and simulation vocabularies, the runner, the baseline soak, the authoring contract, the first stranger. A round of eight readers runs here |
+| **Saboteer on the line** | **2028-01-10** (2028-04-10 at 0.93) | 538 | Saboteer plays the same or better on the new packages and is easier to extend. Core with operations, observation and the authoring contract, the old console gone; WorldObjects, StateMachine and Character with reference frames, riding and containment; Networking in place of its terrain module and chat glue, its crew log relay kept; UI as a kit with one console, Switchboard over the wire, tooltips and settings rows; GeoForge's density seam; Places with Saboteer's solver, captures and boards, GeoForge Pro out of its manifest; prefabs on contract nodes; inventory transactions with the linked move on the owner's authority; Persistence with both games' stores converted and the upgrade of old saves; the make-playable loop (a held prop into the game without an engineer); the soak and fault matrix. It still compiles Entities through Core and still follows the branches |
+| **Corsairs Isle on the line** | **2028-04-25** (2028-08-21 at 0.93) | 676 | Today's Corsairs on the new packages: the world model and density seam, objects out, Places in the world, Horizon and near-meets-far, seed preview, lines and scatter, the store and the Instancing seam with Core free of Entities, its network modules replaced, its commands converted and the old console gone, its inventory on transactions, its saving on the new Persistence, the shared studio content, a board nested in a place, and its own soak. Saboteer sheds Entities and its soak is repeated once, before it ships. It is not the launch |
+| **Saboteer's first Steam release** | **2028-06-12** (2028-10-20 at 0.93) | 736 | The act of shipping, not a gate. It follows every Saboteer-tagged part, Corsairs' soak, Diagnostics and Studio.Online, Core's audit and Core 2.0, the tag gate, the release checklist and the candidate tag; LV6m (the window's maintenance mode) and WF5m (the maintenance branch cut and protected in every repository) land that day. From this day Saboteer follows `release-<major>` and a removal can no longer reach it. The date is confirmed by the developer's note of 2026-10-24: Saboteer does not release until the packages are final |
+| Navigation window | 2028-05-22 to 2028-08-29 | | The ground field, the hierarchy, built things, the authoring and agent surface, ships and moving decks, path following, and World's tag volumes with its story that runs Navigation's reachability check against a place (ends 2028-09-20), after the Corsairs milestone and before any launch. The Places gym (W4c) runs 2028-05-23 to 2028-06-13 beside it |
+| The line complete | 2028-10-04 | | Every package with operations, the racing and underwater strangers and the matrix, the rest of Send, Navigation, Diagnostics and the editor face |
+| Plan ends (audit and its fixes) | 2028-10-11 | 889 | The audit pass of every package that is not Core and its fixes |
+| Undated, after Corsairs on the line | none | 14 | Selling, the test runner spike, the provisional far layer |
+
+Each milestone is followed by an eight-lens red-team round (0.91 million tokens) and its fix gates, and this plan is re-issued with the measured gate rate and token rate.
+
+### Saboteer's Next Fest demo
+
+Steam Next Fest runs 22 February to 1 March 2027, the press preview is 11 February and registration is about 10 January. Those dates come from third-party sites. The developer checks Steam's own partner page before 14 December 2026, and the freeze moves with whatever it says.
+
+- **Contains:** the new console with Saboteer's ten commands, the new chat window and settings page with Saboteer's cut-over to Switchboard (a thin chat network, local transport), the split UI package and widgets, input contexts, the layout section (a HUD layout saved in an earlier build shows the default once; the demo is exempt from the saves rule), Core on assemblies with the manifest edits, and the first slice of Persistence.
+- **Does not contain:** the networked chat bridge (UI4b, estimated 2027-07-07 to 2027-07-13, so the chat corruption above U+00FF stays), the minimal Send and artist ruleset (A5a 2027-03-15 to 2027-03-23, WF1r 2027-03-24), the demo tag script and template files (WF7a 2027-03-30 to 2027-04-01, so the demo is tagged by hand), and any rewire beyond the cut-over (the first, L3, starts 2027-04-20).
+- **Side branch:** Modifiers' move onto the authoring contract (inside CL4, built estimated 2027-02-11 to 2027-02-25 on `definition-contract`, with `beta` merged into the branch at the end of each sprint) merges estimated 2027-03-02, after the festival's last gate. It is the one change that could break Saboteer's build. Nothing waits for it.
+- **Freeze:** no Saboteer-tagged part runs from 2027-01-14 to 2027-03-01 (bug fixes and media only, build scenes frozen); manifest lines (LS, W10aL) are exempt. The four festival gates are fixed days: ship the demo build 2027-02-03, defects 2027-02-09, festival fixes 2027-02-24, wrap up and re-test 2027-03-02.
+- **Exposure:** nothing is pinned, so the packages Saboteer follows keep changing under the demo (Core on its dev branch, GeoForge on its 1.0 development branch, nine packages on their default branch). Core's assemblies, the references that follow them (L1, L1r, LM, LS) and the cut-over reach those branches as one train on 2027-01-14, the first day of the freeze, under the exemption for manifest lines: LM and LS wait for the console and the chat (UI4a, UI6b, CL3a) and LM for Corsairs' compile-only cut-over (UI4c, 2027-01-12 to 2027-01-13), so Corsairs keeps compiling on the branches it follows. Persistence's first slice (L8a) is a new slice under the new package id, installed beside the old `com.spellbound.persistence` that Saboteer still uses in 10 files, so nothing is renamed under the demo. Parts that run inside the window and are not Saboteer-tagged are additive or on the side branch.
+- **Margin:** none. The last Saboteer-tagged part of the cut-over (UI6b) ends one working day before the freeze and the train lands on the freeze's first day. At 0.93 gates per person per day the train lands 2027-03-29, after the festival; with one person away in sprints 3 and 4 it lands 2027-03-17. The console is first (UI3 ends estimated 2027-01-06) and the chat cut-over last, so a slip costs the chat cut-over and keeps the new console in the demo.
+- **Exception to the context rule:** the shipped agent context (CL5, then LV4a) normally stands before any rewire; the cut-over is the one exception because its sessions run on the studio's own skill files. Every later rewire waits for both.
+- **Not met, and not meant to be:** the line itself cannot be in the demo (114 gates are finished by the build date and Saboteer on the line needs 534). Steam's own steps (store page review, demo app, build review, registration) are in no gate count.
+
+## Build steps with hard stops
+
+The epics are grouped into 70 steps in dependency order. A lead-engineer session takes one step at a time. **Each step ends with the report below and a full stop.** The next step starts only when the developer has sent the evidence the last column names and has said to continue. A step never starts before the steps in its "Waits for steps" column. Where that column shows no link between two steps the two streams may take them side by side; the epics table below carries the plan's dates, and steps follow dependency order, not calendar order. A step whose last column names a pitch, a spike or a probe stops at the written result, and the developer's answer is part of the evidence.
+
+The gates in the step rows add up to 885, the plan's 889 dated gates less the 4 festival gates (row F), which are the developer's own. The design source of a step is the area file its epic ids name (below the table); the step's stories are written at its start, in the format of step 1's stories, and the developer approves them before the first is built.
+
+| Step | Epics and parts (gates) | Gates | What it delivers | Waits for steps | Stop and wait for |
+|---|---|---|---|---|---|
+| 1 | **Core on assemblies**: L1 stories 1 to 6 (6), L1r (3) | 9 | Core drawn as assemblies with an engine-only part, the world-object and console folders in assemblies of their own, the folder cycles broken, the rebuild re-measured, and every consumer's references updated against CoreDev's working tree through a temporary local manifest line. | none | Evidence of a clean Core-only compile, the new rebuild numbers and each consumer compiling against the working tree. Nothing is merged to a branch a game follows; the developer makes the branch and removes the local lines. |
+| 2 | **Layout, templates, Core's first vocabulary**: LV1a (2), LV1b (4), L1 story 7 (1), WF2a (4), L2c (3), R0d (1) | 15 | The one package layout proved by a probe, Inventory and Decals moved to it, Core's own move to it, the shell templates, Core's ground vocabulary, section attribute and reference frame noun, and the layout description of Core's packing (`CoreKit.Packing.Describe(type)`), which the section header's fingerprint and the surface writer both call. | 1 | The probe's written result. If git or Git LFS misbehave inside the package folder, or Unity rejects the short folder name, stop and ask. |
+| 3 | **Persistence pitch**: PP (4) | 4 | The Persistence pitch with its spike: storage seam, section header, capture contract, database seam, and the upgrade of a shipped game's old saves. | 2 | The developer reviews and approves the pitch and judges the spike. Nothing in Persistence is built before. |
+| 4 | **Operations in Core**: CL1 (10) | 10 | The operation attributes, catalog, parser, host, result type and audience tag, the built-in operations, and the reflection check first. | 1, 2 | The written go or no-go of the reflection check (a no-go moves discovery to a source generator) and the developer reading `core help` in a test project. |
+| 5 | **The UI kit**: UI1 (10), UI2 (9) | 19 | UI split into Widgets, Screens and Tests with a truthful package, Unity's own TabView, theme variants, and the styled text, log, entry and window frame with a Gallery sample. | 1, 2 | The developer opens the Gallery and judges the widgets; the 10,000-line log flush figure is reported. |
+| 6 | **Console, Saboteer's commands, layout**: UI3 (6), CL3a (2), L8a (2), UI6a (2), UI6b (2) | 14 | The new console over the operation list, Saboteer's ten commands converted and its old console views deleted, input contexts, and the first slice of Persistence (a new slice under the new id, beside the old package) with the HUD layout saved as a section. | 2 (with R0d), 3, 4, 5 | The developer plays Saboteer on the branch: console works, ten commands run, a HUD layout saved earlier shows the default once. |
+| 7 | **Switchboard and Saboteer's chat**: UI4a1 (5), UI4a2 (5), UI4a (1) | 11 | Switchboard's library, its UI and settings page, and Saboteer's cut-over to it with a thin network layer and the local transport. | 2, 5, 6 | The developer plays a two-player session in Saboteer and judges the chat window and settings page. The networked bridge is not part of this step. |
+| 8 | **The train reaches the games**: UI4c (2), LM (1), LS (1) | 4 | Corsairs' console view and chat glue take a compile-only cut-over onto the new console and Switchboard, then the manifest lines in both games follow the layout move, and Core's assemblies, the references, the console and the chat reach the branches the games follow together, on one day. | 1, 2, 6, 7 | The developer opens both games once on the followed branches and confirms they resolve and compile. The train lands on the first day of the freeze, under the exemption for manifest lines. |
+| | *Cut-over before the freeze complete, estimated 2027-01-14, the first day of the freeze; its last Saboteer-tagged part ends 2027-01-13.* | | | | |
+| F | **Festival, the developer's own gates**: SF (4) | 4 | Ship the demo build 2027-02-03, defects 2027-02-09, festival fixes 2027-02-24, wrap up and re-test 2027-03-02, all estimated and moved with Steam's partner page. Steps 9 onward run beside them | 8 | The developer chooses the build, runs the Steam deploy and the tag |
+| 9 | **The agent route**: CL2 (6), CL5 (7) | 13 | The Pipeline bridge and the `spellbound_run` command, Volumetrics' commands as the first converted package, and the shipped agent context with generated operation blocks. | 4 | The developer sees an agent run a Core operation through the Unity CLI in a fixture project and reads the context file once. |
+| 10 | **Probes and the Studio shell**: NW10 (1), NW2g (1), UN9 (4), L11t (2) | 8 | Who steps a world that predicts, the networking gate and its install offer (it also proves the error and player-build stop when PurrNet is installed outside the tested range), the Unity 6.7 beta and Unity 7 alpha notes from a throwaway copy of the Corsairs Isle project folder (a plain folder copy that skips Library, Temp and Logs), and the Studio.Tools shell. | 1, 2 | The developer reads and closes the written rule, the gate result and the Unity note. |
+| 11 | **One convention, one board**: WF1a (2), WF1b (10), WF2b (4) | 16 | The board fields and report script, the commit subject rule, issue forms, the pull request Action, the organisation's GitHub App, protected main branches, and the template files. | 2 | The developer creates the GitHub App the organisation owns, stores its key as an organisation secret, and tries `setup.sh` on a clean Windows machine and a Mac. |
+| 12 | **Authoring contract**: CL4 (10) | 10 | The authored-definition contract, the check seam (`IDefinitionCheck<T>` and one attribute), drafts and approve, and Modifiers adopting the contract on a side branch. | 4 | The TypeCache proof, and the developer merging the side branch after the festival (estimated 2027-03-02). The branch is never merged earlier. |
+| 13 | **Simulation vocabulary and editor controls**: R0 (9), UI7a (4), UN1a (4) | 17 | The tick, seeded stream, instance id, the clock with the tick source seam that answers the rate, and the seconds round trip in Core; the four shared editor controls; the Unity ledger and its check. | 1, 2, 4, 11, 12 | The developer confirms that the tick rate and the fixed step read as two independent settings (50 steps give 20 ticks on the default source), and judges the ledger rows. |
+| 14 | **Runner, window shell, first inspectors**: LV2 (10), LV4a (3), UI7c1 (2), UI7c2 (1) | 16 | PackageCheck's read tier and the Spellbound window shell, the agent context contract and generators, and three inspectors rewritten in UI Toolkit. | many, latest 13 | The developer judges the three inspectors and the first run of the check page. |
+| 15 | **Minimal Send and demo files**: A5a (6), WF1r (1), WF7a (3) | 10 | The artist's minimal Send with the branch-point rule, stacked sends and Get latest, the artist ruleset switched on in each game repository, and Saboteer's template files and tag script. | 10, 11 | A pushed art branch of the shape art/<artist>-<slug> opens a pull request from the commit subject, the clone's sign-in covers the push, and a branch of another shape is reported as refused or not; the developer reads the template files in Saboteer's repository. |
+| 16 | **Readiness for Unity 6.7**: UN8 (5), MV (7) | 12 | CoreCLR and domain-reload readiness, then every project moved to Unity 6.7 LTS once it ships. | 4, 13, 14 | The developer opens each project on the new editor, reads the beta results, and decides whether the C++ runtime files go in the Steam upload. |
+| 17 | **Observation, WorldObjects pitch, baseline soak**: R1a (5), PWO (4), R7a (4) | 13 | Observation declarations and per-world context, the WorldObjects pitch with its spike, and Saboteer's baseline soak figures. | 1, 2, 4, 13 | The developer approves the WorldObjects pitch, judges the spike, and captures the frame figures on the reference PC. Then run the foundation round (eight readers over the whole). |
+| | *Foundation round (a waypoint), estimated 2027-04-20.* | | | | |
+| 18 | **GeoForge presenter seam, world model start**: W1g (1), L7a (7), W1a (7) | 15 | Golden hashes of today's world output, taken in default float mode with today's Saboteer floor build time per seed recorded beside them, GeoForge's replaceable presenter and surface case query, and the first half of the world model. | many, latest 17 | The developer checks the golden hashes equal today's output and plays Saboteer on the branch. |
+| 19 | **WorldObjects package**: FX1 (3), L3 (10) | 13 | The foundation round's fixes, then WorldObjects as a package with a world instance stepping its own physics scene. | many, latest 18 | The developer plays both games after the rewire. |
+| 20 | **Navigation spike, packing slice**: NV1 (5), PK (5) | 10 | The Navigation spike with its written go or no-go, and Core's wire half (caller-owned buffers, bit writer, pure delta). | 2 | The developer closes the Navigation go or no-go in writing. On a no-go the decided fallback applies (Unity's NavMesh for walkers, our own volume search for the other movers) and NV2 onward are re-sized from the numbers. |
+| 21 | **Replication protocol**: R1k (3), NW1 (12) | 15 | The intent key and ledger, then the engine-only replication protocol with its simulator. | 2, 13, 17, 20 | The developer reads the simulator's hostile-command and join-race results. |
+| 22 | **Density out**: W20 (1), W2a (14) | 15 | Pro's nine generation passes planned (go or no-go), then GeoForge's density source seam, run-list read, change event and chunk interest. | 18, 20 | The written go or no-go of the Pro spike and the developer's check that the Corsairs budgets still hold. |
+| 23 | **Places core**: W4a (15) | 15 | The Place asset with typed layers, owners, adjacency composition from Saboteer's solver, nesting, validation and preview. | 2, 12, 19 | The solver convergence result on Saboteer's real parts, and the developer judging a composed place. |
+| 24 | **StateMachine and Character**: L4 (10), R5a (5), R4p (1) | 16 | Controller split into StateMachine and Character, the rig contract asset and edit-mode surface, and the playable marker on the controller. | 1, 2, 9, 14, 17 | The developer plays both gyms and judges feel. |
+| 25 | **ArtPipeline core**: A1a (9), A1b (8) | 17 | The art rules as game assets, checks, importer repairs, the docked verdict window, the folder audit, the reference sample and Keep as new material. | 2, 4, 12, 13 | The developer judges the verdict picture and the Maya and Blender hint wording in the applications. |
+| 26 | **Networking on PurrNet, Saboteer's chat bridge**: NW2 (12), NW4a (4), W6n (1), UI4b (4) | 21 | The replication hub on PurrNet with Saboteer's terrain module replaced, the event channel, the far layer planning story, and Switchboard's networked bridge that retires the chat corruption. | many, latest 21 | A two-process test watched by the developer, who also defines the telemetry-off symbol and makes the region prefab. |
+| 27 | **Places layers**: W4b (14) | 14 | GeoForge.Places capture and bake as operations, the voxel layer, the edit-mode brush; the voxel layer's size and import time measured on one converted capture; the 51 captures stay Saboteer's only copy until W10a (step 32). | 2, 18, 21, 22, 23 | The developer sculpts a cave in edit mode. |
+| 28 | **Art on characters**: A2 (10), A3 (5) | 15 | The Character bridge checks and the hold and wear tests with the verdict picture. | 12, 24, 25 | The developer judges the hold alignment picture. |
+| 29 | **Flight recorder, riding**: R1b (6), R3a (7) | 13 | Guards, flight recorder and measurements, and reference frames with riding and four deleted ride copies. | 2, 13, 17, 21, 24 | The developer plays the gym on a moving platform. |
+| 30 | **Containment and the audit**: L6 (5), R4 (10) | 15 | The Inventory and Modifiers audit, and containment with the support gate and rescue ladder. | many, latest 29 | The developer reads the audit's report and plays the rescue cases. |
+| 31 | **Persistence finished**: L8 (4), L8c (4), L8u (4) | 12 | Persistence rewritten under the studio id, both games' store files converted, and the upgrade of a shipped game's old saves. | 3, 6 | The developer saves and loads in each game and opens a save written by today's Saboteer in a build from the line. |
+| 32 | **Boards and generators**: L11d1 (1), W10a (12), W10aL (1) | 14 | The studio character and hold pose in Studio.Content, the board generators with no game's name, Saboteer's floors through Places, and GeoForge Pro removed from Saboteer's manifest. | many, latest 27 | The developer judges that the generated rooms match the old ones, the golden floors equal the default-mode hashes of step 18 (unless R0's both-modes comparison showed a difference and the developer re-took them), and the floor build time per seed is no slower than the figure from step 18. |
+| 33 | **Checks, rules and strangers begin**: LV3a (6), LV5a (2), LV5s (1), WF3a (4), CL4b (3) | 16 | Operations and the Project Auditor probe, the stranger harness and card game, the title check and local gate, and the authored-key scan. | many, latest 14 | The Project Auditor go or no-go and the developer's post-status line; merge blocking on private repositories is agreed. |
+| 34 | **Releases from commits, release gates**: WF4a (6), LV3b (5), LV7a (3), WF5a (3), LV7d (2) | 19 | Semantic release in CI with beta branches, compiled rules and the Studio.Tools story, the push gate and floor compile, the release train, and the stored-format and release scan gates. | 10, 31, 33 | A person merges the beta branch into the release candidate at the first release rehearsal. |
+| 35 | **Studio.Gameplay, transactions**: PG (3), R6a (3), L11a1 (3), LV5b1 (1), LV5b2 (2) | 12 | The Studio.Gameplay pitch, Inventory's public transaction surface, equipment and talents in Studio, and the stranger projects for them. | many, latest 33 | The developer reviews and approves the Studio.Gameplay pitch. |
+| 36 | **Decals, Volumetrics, tooltips**: L12 (8), UI5 (7) | 15 | Volumetrics renamed, Decals' URP default behind a bridge, TetherShop in its own repository, and the tooltip host with bound settings rows. | 1, 2, 5, 30 | The developer judges the fog and rope look and the tooltip look in both games. |
+| 37 | **Inventory transactions**: R6b (5), R6c (5), R6d (3) | 13 | Raw writers closed and the chest, world item take and hotbar swap on transactions in Saboteer; Corsairs converted; the linked move across two writers, in both directions (the owner writes the source, the host writes the source), with its two-viewer test. | 26, 35 | The two-viewer latency test, and the developer playing the linked move: it must never show as lag. |
+| 38 | **Networked riding and operations**: CL1b (3), NW4b (5), NW3s (1), R3b (3), R3c (1), R3d (1) | 14 | The router seam, the operation gateway and the networked clock, the physics-step order test, and riding over the network and with WorldObjects. | many, latest 29 | The developer watches the two-build test. |
+| 39 | **Prefabs on contract nodes, readiness**: A4 (5), UI1b (1), FL (2), LV5b3 (1), LV5c0 (1) | 10 | Saboteer's two player prefabs rebuilt by hand on contract nodes, the Studio.Presentation folder, the floor move when 6.3 support ends, and two more stranger parts. | many, latest 38 | The developer judges the rebuilt prefabs; an engineer rebuilds them by hand. |
+| 40 | **Make playable**: R8a (3), R8b (2), A7a (4) | 9 | WorldObjects' preset, spawn, find, inspect and remove operations and the object layer validator; the two authoring operations that write drafts; the prefab variant of a model, its preset and definition drafts, and Approve in the window, so a held prop reaches the game without an engineer. | 12, 19, 25, 30 | The developer runs scenario step 9 on a new prop and approves its drafts. |
+| 41 | **Saboteer's soak**: R7b (4) | 4 | The full soak and fault matrix on Saboteer. This closes the Saboteer milestone; Saboteer keeps following the branches until its first Steam release, so removals can still reach it. | many, latest 40 | The developer captures the frame figures on the reference PC and watches the hull test. Then run the Saboteer round. |
+| | *Saboteer on the line, estimated 2028-01-10.* | | | | |
+| 42 | **Objects out, batch measurement**: FX2 (3), W3 (8), W9s (1), UN3 (5) | 17 | The round's fixes, WorldForge's placement records into WorldObjects, the 20,000 instance benchmark scene, and the batch path measurement with a written go or no-go. | many, latest 21 | The developer runs the measurement on the reference PC and reads a no-go if it comes. |
+| 43 | **The world model and WorldForge pitch**: W2b (12), W6p (1), PW (3) | 16 | The bridge from WorldForge to GeoForge for Corsairs, Pro's pipeline retired for Corsairs, and the WorldForge internals pitch. | 1, 2, 18, 22, 26 | The developer captures the Corsairs F2 numbers with the bridge in place and approves the pitch. |
+| 44 | **World model, second half**: W1b (12) | 12 | The rest of the world model: estimates, rasters and the compare story that prints one seed's golden hashes. | 18, 42 | The developer reads the compare output. |
+| 45 | **Horizon**: W6a (6), W6b (5), W70 (1) | 12 | Horizon on URP with a height source, palette and handover, the far-field candidates measured, and the chosen renderer. | 2, 17, 18, 42 | The developer judges the seam by eye in the test scene. |
+| 46 | **WorldObjects store and Instancing**: UN4a (5), UN5 (8) | 13 | The native-column store with the awakening job and region release, and the Instancing seam with its small culling routine. | many, latest 41 | The benchmark with 1, 20 and 200 viewers. |
+| 47 | **The world in Corsairs**: W2c (2), W7 (10), UN6 (8) | 20 | Blob tables as plain structs, near meets far, and Entities leaving the games' manifests; UN6 waits for Saboteer's soak and W2c only, and Saboteer's own edits land before it ships. | many, latest 45 | The developer judges the seam in the test scene. |
+| 48 | **Region streaming**: NW3a (7), NW3b (3) | 10 | World scope end to end with a capacity report, then WorldObjects.Networking and Corsairs' modules retired. | 19, 38, 45 | The developer measures a thousand colliders in a real dedicated-server build. |
+| 49 | **Places, scatter, labels, nesting**: W5 (6), W9a (6), W8 (5), W10b (2) | 19 | Places in the world, carve and scatter rules, seed preview and labels, and a board nested in a place. | many, latest 45 | The developer plays a place in context at a real seed's site and judges the colour ramp. |
+| 50 | **Corsairs conversion**: WF7b (5), L11a2 (1), L11d2 (1), UN4b (3), A4c (2), CL3b (4) | 16 | Corsairs on the template files with the pre-deploy hook that runs the release scan, the ability commands, Core's ECS deleted and Entities removed from Core's manifest, Corsairs' prefabs onto the rig contract, and Corsairs' commands converted with the old console types gone. Until A4c lands a prop sent to Corsairs sits at its pivot. | many, latest 46 | The developer plays Corsairs after the rewire. |
+| 51 | **Corsairs' soak**: R7c (3) | 3 | Corsairs' own soak and one repeat of Saboteer's. This closes the Corsairs milestone. | many, latest 50 | The developer captures the figures and plays both games. Then run the Corsairs round. |
+| | *Corsairs Isle on the line, estimated 2028-04-25.* | | | | |
+| 52 | **Places gym**: W4c (14) | 14 | The gym over a Place or a prefab with the game's playable character, the cell grid with reroll-seed preview and checks, and Studio.Content's gym profile that offers the studio's playable characters. | 51, and every Saboteer-class part has ended | The developer plays a place in the gym and judges the cell-grid inspector. |
+| 53 | **Navigation, the ground**: FX3 (3), NV2a (7), NV2b (6) | 16 | The round's fixes, then the ground field, tiles, profiles, four movers, grid and heightfield sources, and the GeoForge bridge with its oracle test. | 12, 17, 20, 22, 29 | The developer judges the spider and swimmer samples. |
+| 54 | **Navigation, built things and hierarchy**: NV4 (10), NV3 (8) | 18 | Footprints, doors and portals, handles for owners, then the tile graph, free-space octree, why, distances and line of sight. | 19, 46, 53 | The developer judges the door, wall and column scenario. |
+| 55 | **Navigation, authoring and reachability**: NV5 (9), W9b (3) | 12 | The profile inspector, gizmos, operations and the context file, then World's tag volumes and its story that runs Navigation's reachable-deposits check, built in NV5, against a place. | many, latest 54 | The developer judges the authoring surface. |
+| 56 | **Navigation, following and ships**: NV9 (6), NV6 (5) | 11 | Path following, the crowd registry and avoidance chosen by measurement, then ships and moving decks. | 2, 24, 29, 53, 54 | The developer judges a path across a moving deck and the raid-of-forty test. |
+| 57 | **Diagnostics, Studio.Online, Studio.Presentation, guards**: R2a (4), R2b (3), L11b (2), L11c (1), NW5 (7) | 17 | The collector, black box and overlay, the counter relay, Studio.Online, the Studio.Presentation remainder, and the networking audit and journal seam. Diagnostics and Studio.Online are new repositories, so they exist before the first release cuts its branch in every repository. | many, latest 41 | The developer judges the overlay and the window. |
+| 58 | **Instancing internals**: PIN (3), UN7 (5), IN1 (4) | 12 | The Instancing internals pitch, mesh LOD and golden images, and grass and impostors. | 42, 46 | The developer approves the pitch and judges the grass and golden images. |
+| 59 | **Command line and UI surfaces**: CL6a (6), CL7 (4), UI7b (5), UI8 (4) | 19 | Operations for Persistence, Character and the console, the editor face, UI.Editor's skin and Gallery, and the `ui` operations for agents. | many, latest 33 | The developer judges the skin in the Gallery. |
+| 60 | **Release machinery**: WF4b (6), WF3b (5), LV4b (4) | 15 | The first release and final tag mechanism (estimated 2028-05-05 to 2028-05-15), the Unity jobs and local gate, and the rest of the context and first hour. | 14, 33, 34 | A person merges beta into the release candidate and moves main at the first stable release rehearsal. |
+| 61 | **The window and rituals**: LV6 (8), UN1b (1), UN1c (1), WF8 (3) | 13 | The Spellbound window's Line and Package pages (the catalogue reader picks the known-good line whose Core range admits the installed Core), the ledger's Editor job and player bench, and the rituals. | many, latest 60 | The developer runs the drift report by hand. |
+| 62 | **ArtPipeline finished**: A5b (4), A7b (1), A6 (2) | 7 | The setup check, the window and the check at Send, Open in gym, and the bridge docs and pair test. | many, latest 60 | The developer judges the open-in-gym step. |
+| 63 | **Every package's operations**: CL6b (3), CL6c (5), CL6e (3), CL6d (2), CL6n (1) | 14 | One read-state operation per package, scheduled after the Corsairs milestone and before any launch. | many, latest 57 | The developer reads the operation list through `core help`. |
+| 64 | **Persistence trade, Unity pool, far layer, prediction spike**: L8b (6), UN2 (6), NW9 (3), NW7 (1) | 16 | Durable trade and the database seam, Unity's pool and the registry asset, the far layer build, and the prediction packing spike. | many, latest 48 | The developer closes the prediction go or no-go in writing and moves Corsairs' presets out of Resources. |
+| 65 | **Strangers and the matrix**: LV5m (1), LV5c (2), LV5d (2) | 5 | The Core-only compile without Entities, the racing and underwater strangers and the matrix with its drift report, which the release checklist waits for. | many, latest 53 | The developer reads the drift report. |
+| 66 | **Saboteer's first Steam release**: AUc (3), CT (1), LV7b (2), LV7c (1), WF5b (2), LV6m (1), WF5m (1) | 11 | Core's audit and Core 2.0 (the stable tag of the rewrite above the baseline `v1.1.9`), the tag gate and the release checklist, the candidate tag that starts the strangers run and the pair matrix as a release artifact, the window's maintenance mode, and the maintenance branch `release-<major>` cut and protected in every repository. The release Action writes a package's known-good catalogue line for the major of the branch its tag was cut from. | 47, 50, 51, 57, 60, 64, 65 | Run `packagecheck release-scan` over Saboteer's project, then the developer runs the first Steam release act (estimated 2028-06-12). After it Saboteer follows `release-<major>` and no removal can reach it. |
+| 67 | **The scenario in CI**: CL8 (3) | 3 | The cave-with-ore scenario scripted with the Unity CLI against a stranger project of five packages, run in CI, its navigation steps live once NV5 has landed. | 52, 55, 59, 63 | The developer reads the scenario's run. Then run the round that closes the line. |
+| | *The line complete, estimated 2028-10-04.* | | | | |
+| 68 | **Round fixes**: FX4 (3) | 3 | The fixes after the line is complete. | 67 | The developer reads the fixes. |
+| 69 | **Audit**: AU (2), FX5 (6) | 8 | One audit pass of every package that is not Core, and its fixes. This ends the plan. If the audit finds a public line to remove or change in a package Saboteer installs, that change waits for the next major. | many, latest 68 | The developer reads the audit and its fixes. |
+| | *The plan ends, estimated 2028-10-11.* | | | | |
+
+The area file of an epic is named by its id: L, LM, LS, PK, MV, FL, IN1 and the pitches are `Areas/Line.md` and `Areas/Roadmap.md`; CL is `Areas/CommandLine.md`; R is `Areas/Runtime.md`; UI is `Areas/UI.md`; W is `Areas/World.md`; NW is `Areas/Networking.md`; UN is `Areas/Unity.md` and `Areas/UnityChanges.md`; NV is `Areas/Pathfinding.md`; A is `Areas/Art.md`; LV is `Areas/Living.md`; WF is `Areas/Workflow.md`; L11 and PG are the Studio sections of `Areas/Line.md` and `Areas/Homes.md`. Those files sit in the `Areas` folder beside this file; a step's lead reads the sections of its area file that name its epic, and nothing else of the pitch. Inside the area files a path of the form `Revisited/<Area>.md` names the same file under `Areas/`.
+
+## The epics in order
+
+Class says which milestone first needs an epic: **Cut-over and demo** (before the freeze and in Saboteer's Next Fest build), **Saboteer** (Saboteer on the line), **Corsairs** (Corsairs Isle on the line), **After Corsairs, before launch** (needed by neither game's milestone, built before any launch), and **the first release** (what Saboteer's first Steam release waits for). Every start and end is an estimate. An epic with several parts runs from its first part's start to its last part's end; the paragraphs name the parts. "Waits on" names parts by their ids, and a plan program checked every start against them.
+
+| Epic | Name | Gates | Estimated start | Estimated end | Class | Waits on |
+|---|---|---|---|---|---|---|
+| L1 | Core as assemblies | 10 | 2026-11-02 | 2027-01-11 | Cut-over and demo | L1: none; L1r: L1 |
+| LV1 | Layout and probes | 6 | 2026-11-02 | 2026-11-09 | Cut-over and demo | LV1a: none; LV1b: LV1a |
+| WF2 | Templates | 8 | 2026-11-10 | 2027-02-10 | Cut-over and demo | WF2a: LV1a; WF2b: WF2a, WF1a |
+| UI1 | UI split, truthful package, UIKit, theme validator, TabView | 11 | 2026-11-11 | 2028-01-07 | Cut-over and demo; UI1b Saboteer | UI1: L1, LV1b; UI1b: UI1, L11t |
+| L2c | Core's ground vocabulary, section attribute and reference frame noun | 3 | 2026-11-17 | 2026-11-19 | Cut-over and demo | L1 |
+| CL1 | Operations in Core | 13 | 2026-11-20 | 2027-11-01 | Cut-over and demo; CL1b Saboteer | CL1: L1; CL1b: CL1 |
+| PP | Persistence pitch with its spike | 4 | 2026-11-26 | 2026-12-02 | Cut-over and demo | L2c |
+| UI2 | StyledText, TextLog, TextEntry, WindowFrame | 9 | 2026-12-03 | 2026-12-16 | Cut-over and demo | UI1 |
+| R0 | Simulation vocabulary in Core | 10 | 2026-12-07 | 2027-03-12 | R0d Cut-over and demo; R0 Saboteer | R0d: L1; R0: L1, L2c, R0d |
+| L8 | Persistence rewrite | 6 | 2026-12-08 | 2027-08-30 | L8a Cut-over and demo; L8 Saboteer | L8a: PP, L2c, LV1b, R0d; L8: L8a |
+| UI4 | Switchboard | 17 | 2026-12-10 | 2027-07-13 | UI4a1, UI4a2, UI4a Cut-over and demo; UI4c Corsairs; UI4b Saboteer | UI4a1: UI1, L2c, L8a, WF2a; UI4a2: UI4a1, UI2, UI6a; UI4a: UI4a2, UI3, UI6a; UI4b: UI4a, NW4a, CL4; UI4c: UI3, UI4a |
+| UI6 | Input contexts, layout as a Persistence section | 4 | 2026-12-17 | 2027-01-13 | Cut-over and demo | UI6a: UI1, L2c; UI6b: UI6a, L8a |
+| UI3 | ConsolePanel and ConsoleView over the operation list | 6 | 2026-12-18 | 2027-01-06 | Cut-over and demo | UI2, CL1 |
+| CL3 | Retire the old console, convert Saboteer and Corsairs | 6 | 2027-01-08 | 2028-04-24 | CL3a Cut-over and demo; CL3b Corsairs | CL3a: CL1, UI3; CL3b: CL3a, L3, UI4a, R8a |
+| LM | Corsairs follows the layout move | 1 | 2027-01-14 | 2027-01-14 | Corsairs | L1, L1r, LV1b, UI4a, UI6b, CL3a, UI4c |
+| LS | Saboteer follows the layout move | 1 | 2027-01-14 | 2027-01-14 | Saboteer | L1, L1r, LV1b, UI4a, UI6b, CL3a |
+| CL2 | Pipeline bridge and spellbound_run | 6 | 2027-01-15 | 2027-01-25 | Saboteer | CL1 |
+| NW10 | Stepping ownership when a world predicts | 1 | 2027-01-15 | 2027-01-15 | Saboteer | none |
+| NW2 | PurrNet adapter and first consumers | 13 | 2027-01-18 | 2027-07-30 | Saboteer | NW2g: L1; NW2: NW1, L7a, NW2g |
+| L11 | Studio packages | 11 | 2027-01-19 | 2028-05-22 | Saboteer | L11t: L1, WF2a, LV1b; L11a1: PG, L4, L6, R6a; L11a2: L11a1, UI5; L11b: NW2, R2b, UI4b; L11c: L8, UI6b, UI1b; L11d1: W4b, L11t, L4, R5a; L11d2: L11a1, L11a2, L11d1 |
+| UN9 | Probe: Unity 6.7 beta and a Unity 7 copy | 4 | 2027-01-21 | 2027-01-27 | After Corsairs, before launch (runs early, 2027-01) | none |
+| CL5 | AI context | 7 | 2027-01-26 | 2027-02-03 | Saboteer | CL1, CL2 |
+| WF1 | One convention, one board | 13 | 2027-01-28 | 2027-03-24 | WF1a, WF1b Cut-over and demo; WF1r Saboteer | WF1a: none; WF1b: WF1a; WF1r: A5a |
+| SF | Saboteer festival gates | 4 | 2027-02-03 | 2027-03-02 | Cut-over and demo | fixed days: 2027-02-03, 2027-02-09, 2027-02-24, 2027-03-02 |
+| CL4 | Authoring contract and check seam | 13 | 2027-02-11 | 2027-10-13 | Saboteer | CL4: CL1; CL4b: CL4 |
+| UN1 | The Unity ledger | 6 | 2027-02-18 | 2028-09-28 | After Corsairs, before launch | UN1a: CL1, WF1b; UN1b: UN1a, WF3b; UN1c: UN1a, CL2, UI2 |
+| UI7a | Core.Editor controls | 4 | 2027-02-26 | 2027-03-03 | Saboteer | CL4 |
+| LV2 | Runner and read tier | 10 | 2027-03-04 | 2027-03-18 | Saboteer | L1, LV1b, UI7a, CL4 |
+| A5 | Send and Get latest | 10 | 2027-03-15 | 2028-09-05 | A5a Saboteer; A5b After Corsairs, before launch | A5a: WF1b, WF2b, L11t; A5b: A5a, A1b, WF3a, A4 |
+| LV4 | Context and the first hour | 7 | 2027-03-22 | 2028-08-10 | LV4a Saboteer; LV4b After Corsairs, before launch | LV4a: CL1, LV2, CL5; LV4b: LV4a |
+| UI7c | Three inspectors in UI Toolkit | 3 | 2027-03-25 | 2027-03-29 | After Corsairs, before launch | UI7c1: L1, UI7a; UI7c2: UI7c1, LV2 |
+| UN8 | CoreCLR and domain-reload readiness | 5 | 2027-03-25 | 2027-03-31 | After Corsairs, before launch | LV2, CL1 |
+| WF7a | Saboteer's demo build files | 3 | 2027-03-30 | 2027-04-01 | Cut-over and demo | WF1b, WF2b |
+| MV | Move to Unity 6.7 LTS | 7 | 2027-04-01 | 2027-04-12 | After Corsairs, before launch (runs early, 2027-03) | UN1a, UN8 |
+| R1a | Observation declarations and per-world context | 5 | 2027-04-05 | 2027-04-09 | Saboteer | L1, CL1 |
+| PWO | WorldObjects pitch with its spike | 4 | 2027-04-12 | 2027-04-15 | Saboteer | L1, R0 |
+| R7a | Baseline soak | 4 | 2027-04-13 | 2027-04-19 | Saboteer | R1a |
+| W1 | The world model | 20 | 2027-04-19 | 2028-02-29 | Saboteer for W1g and W1a; Corsairs for W1b | W1g: none; W1a: L1, L2c, R0, R1a, CL4, W1g; W1b: W1a, PW |
+| FX | Findings fixed after each round | 18 | 2027-04-20 | 2028-10-11 | Saboteer | the round each part follows: foundation round, Saboteer round, Corsairs round, line complete, audit |
+| L3 | WorldObjects package | 10 | 2027-04-20 | 2027-05-04 | Saboteer | L1, R0, CL1, R1a, WF2a, W1g, R7a, PWO, CL5, LV4a, NW10 |
+| L7a | GeoForge presenter seam | 7 | 2027-04-23 | 2027-05-04 | Saboteer | L1, CL1, LV1b, CL5, LV4a |
+| NV1 | Navigation spike | 5 | 2027-05-05 | 2027-05-11 | Saboteer | WF2a, LV1a |
+| PK | Packing slice | 5 | 2027-05-12 | 2027-05-19 | Saboteer | none |
+| R1b | Flight recorder, guards, intent key and ledger, measurements | 9 | 2027-05-17 | 2027-08-13 | Saboteer | R1k: R1a; R1b: R1a, R1k |
+| W2 | Density out | 29 | 2027-05-20 | 2028-03-07 | Saboteer for W20 and W2a; Corsairs for W2b and W2c | W20: none; W2a: W1a, L7a, W20, NV1; W2b: W2a, NW2; W2c: W2b, W10aL |
+| W4a | Places core | 15 | 2027-05-20 | 2027-06-10 | Saboteer | CL4, L3, L2c |
+| L4 | StateMachine and Character | 10 | 2027-06-14 | 2027-06-28 | Saboteer | L1, WF2a, R7a, CL5, LV4a |
+| NW1 | Replication protocol | 12 | 2027-06-14 | 2027-06-30 | Saboteer | PK, R0, R1a, R1k, L2c |
+| A1 | ArtPipeline core | 17 | 2027-06-29 | 2027-09-22 | Saboteer | A1a: CL1, CL4, WF2a, LV1a; A1b: A1a, UI7a |
+| NW4 | Events, operations and time | 9 | 2027-07-01 | 2027-12-06 | Saboteer | NW4a: NW1, NW2g, CL1, UI3, R0; NW4b: NW1, NW4a, CL1b, R0 |
+| W6 | Horizon draws | 13 | 2027-07-13 | 2028-02-21 | Corsairs | W6p: L1, L2c; W6a: W6p, WF2a; W6n: NW1; W6b: W6a, R1a, W1a |
+| W4b | Places layers | 14 | 2027-07-14 | 2027-08-03 | Saboteer | W4a, W2a, NW1, L7a, L2c |
+| R5a | Character.Rig edit-mode surface | 5 | 2027-08-02 | 2027-08-09 | Saboteer | L4 |
+| R4 | Containment and the outside move seam | 11 | 2027-08-04 | 2027-11-01 | Saboteer | R4p: L4; R4: R1b, R3a, L7a, W2a |
+| A2 | Character bridge | 10 | 2027-08-10 | 2027-08-24 | Saboteer | A1a, L4, R5a, R4p, CL4 |
+| L6 | Inventory and Modifiers audit | 5 | 2027-08-16 | 2027-08-23 | Saboteer | L3, CL4, UI1 |
+| R3 | Reference frames and riding | 12 | 2027-08-24 | 2027-12-20 | Saboteer | R3a: L4, R1a, R0, L2c; R3b: R3a, NW2; R3c: R3a, L3, PWO; R3d: R3a, NW3s |
+| L8c | Persistence: both games' stores converted | 4 | 2027-08-31 | 2027-09-06 | Saboteer | L8 |
+| LV5 | StrangersDev | 13 | 2027-09-02 | 2028-06-06 | LV5a, LV5s, LV5b1, LV5b2, LV5b3, LV5c0 Saboteer (8 gates); LV5m, LV5c, LV5d with the first release (5 gates) | LV5a: L1, LV2; LV5m: LV5a, UN4b; LV5s: LV5a, UI1; LV5b1 to LV5b3 and LV5c0: the packages each stranger installs (L3, L4, L6, L8, NW2, NW4b, UI2, UI4a, R6a, W4a); LV5c: LV5b1, L12, W6b, NV2a, L7a, R2a, L11b, UI4b, W4b, NW3a, L11a1, W2a; LV5d: LV5c |
+| PG | Studio.Gameplay pitch | 3 | 2027-09-07 | 2027-09-09 | Saboteer | L6 |
+| R6 | Inventory transactions | 11 | 2027-09-07 | 2027-12-13 | Saboteer | R6a: L6, R1b, NW1, NW2; R6b: R6a, L11a1, LV5b2; R6d: R6b, NW2 |
+| W10a | Boards and generators | 13 | 2027-09-13 | 2027-09-30 | Saboteer | W10a: W4a, W4b, W1a, W2a, W20, L11d1; W10aL: W10a |
+| LV3 | Operations and compiled rules | 11 | 2027-09-23 | 2027-11-19 | Saboteer | LV3a: CL1, CL4, LV2; LV3b: LV3a, L11t, CL4b |
+| WF3 | Checks, adoption and the local gate | 9 | 2027-10-04 | 2028-08-22 | Saboteer | WF3a: WF1b, WF2b, LV2; WF3b: WF3a, LV3a |
+| A3 | Hold test and wear test | 5 | 2027-10-08 | 2027-10-14 | Saboteer | A2, R5a |
+| WF4 | Releases from commits | 12 | 2027-10-19 | 2028-05-15 | Saboteer | WF4a: WF3a; WF4b: WF4a, LV5a |
+| L12 | Decals, Volumetrics, TetherShop to the bar | 8 | 2027-11-02 | 2027-11-11 | Saboteer | L1, WF2a, LV1b |
+| R6c | Corsairs onto transactions | 5 | 2027-11-09 | 2027-11-16 | Corsairs | R6b |
+| UI5 | Tooltip host and bound settings rows | 7 | 2027-11-17 | 2027-11-25 | Saboteer | UI2, L6 |
+| A4 | Rewire Saboteer's prefabs onto contract nodes | 7 | 2027-11-22 | 2028-04-17 | A4 Saboteer; A4c Corsairs | A4: A2, L4, A1b, A3; A4c: A4, A2, A3, L4, R5a |
+| LV7 | Gates | 8 | 2027-11-29 | 2028-06-07 | LV7a and LV7d Saboteer (5 gates); LV7b and LV7c with the first release (3 gates) | LV7a: LV3a, WF3a; LV7b: LV7a, WF4b, LV5b2, LV5c0, R7b, LV5m; LV7c: LV7b, LV5d; LV7d: LV3b, L8, LV7a |
+| L8u | Persistence: upgrade of a shipped game's old saves | 4 | 2027-12-02 | 2027-12-07 | Saboteer | PP, L8 |
+| FL | Floor moves to 6000.7 when 6.3 support ends | 2 | 2027-12-13 | 2027-12-14 | After Corsairs, before launch | LV7a, MV |
+| WF5 | The release train | 6 | 2027-12-14 | 2028-06-12 | WF5a Saboteer; WF5b and WF5m with the first release | WF5a: WF4a; WF5b: WF5a, WF4b, LV5b1; WF5m: WF5a, R7b, every Saboteer-tagged part, R7c, CT, LV7c, WF5b, R2b, L11b, L11c |
+| NW3 | Region streaming and the capacity report | 11 | 2027-12-17 | 2028-04-12 | Saboteer | NW3s: NW2; NW3a: NW3s; NW3b: NW3a, L3, UN4a |
+| R8 | WorldObjects operations, object layer validator, authoring operations | 5 | 2027-12-20 | 2028-01-04 | Saboteer | R8a: L3, CL1; R8b: R8a, L6 |
+| R7b | Full soak, gyms, fault matrix | 7 | 2027-12-21 | 2028-04-25 | R7b Saboteer; R7c Corsairs | R7b: every Saboteer rewire and the rest of Saboteer's class (L8c, L8u, LV7d, A4, R3, R4, R5a, R6b, R6d, W10a, W4b, WF5a, UI4b, UI5, NW4b, L12, L11a1); R7c: R7b and every Corsairs-class part (UN6, UN4b, UN5, W2b, W7, W9a, W5, W8, W1b, NW3b, R6c, W10b, WF7b, L11a2, L11d2, A4c) |
+| A7 | Make playable and open in gym | 5 | 2028-01-05 | 2028-09-26 | A7a Saboteer; A7b After Corsairs, before launch | A7a: A1b, R8b, CL4; A7b: A7a, W4c |
+| W3 | Objects out | 8 | 2028-01-10 | 2028-01-19 | Corsairs | W1a, L3, NW1 |
+| W9a | Lines, scatter, benchmark scene | 7 | 2028-01-20 | 2028-04-04 | Corsairs | W9s: W1a, W3; W9a: W9s, W1b, UN5 |
+| UN3 | Batch path measurement | 5 | 2028-01-24 | 2028-01-28 | Corsairs | L1, R1a, W9s |
+| PW | WorldForge internals pitch | 3 | 2028-02-01 | 2028-02-03 | Corsairs | W1a |
+| UN4 | WorldObjects store and awakening | 8 | 2028-02-07 | 2028-04-17 | Corsairs | UN4a: L3, R0, CL1, NW1, UN3; UN4b: UN4a, UN5 |
+| UN5 | Instancing seam | 8 | 2028-02-22 | 2028-03-02 | Corsairs | UN3, UN4a, CL1, W1a |
+| W7 | Near meets far | 11 | 2028-03-01 | 2028-03-22 | Corsairs | W70: W1a; W7: W2a, W3, W6b, W70 |
+| UN6 | Blobs and hosts leave the games | 8 | 2028-03-14 | 2028-03-24 | Corsairs | L7a, W1a, W2a, W10aL, W2c, R7b |
+| W5 | Places in the world | 6 | 2028-03-23 | 2028-03-30 | Corsairs | W1a, W4a |
+| W8 | Seed preview and labels | 5 | 2028-04-03 | 2028-04-07 | Corsairs | W1a |
+| WF7b | Games ship the same way | 5 | 2028-04-05 | 2028-04-11 | Corsairs | WF1b, WF2b, WF7a, R7b, LV7d |
+| W10b | A board nested in a place | 2 | 2028-04-18 | 2028-04-19 | Corsairs | W10a, W4a |
+| R2 | Diagnostics | 7 | 2028-04-25 | 2028-05-04 | After Corsairs, before the first release | R2a: R1a, R1b, UI2; R2b: R2a, NW2 |
+| UN2 | Unity's pool and the registry asset | 6 | 2028-05-02 | 2028-05-09 | After Corsairs, before the first release | L1, CL1 |
+| AUc | Core's audit before Core 2.0 | 3 | 2028-05-15 | 2028-05-17 | The first release | L1, PK, L2c, CL1, CL2, CL4, CL5, R0, R1a, R1b, UN2, UN4b, UN5 |
+| CT | Core 2.0, the stable tag of the rewrite | 1 | 2028-05-19 | 2028-05-19 | The first release | AUc, UN4b, UN2 |
+| NV2 | The ground field | 13 | 2028-05-22 | 2028-06-21 | After Corsairs, before launch | NV2a: NV1, CL4, R1a, R3a, L2c, and the Corsairs milestone reached; NV2b: NV2a, W2a, L2c |
+| W4c | Places gym and checks | 14 | 2028-05-23 | 2028-06-13 | After Corsairs, before launch; behind every Saboteer-class part | W4a, W4b, UI7a, L11d1, and every Saboteer-class part has ended |
+| LV6m | Window maintenance and branch modes | 1 | 2028-06-08 | 2028-06-08 | The first release | LV2, WF5a, R7b, every Saboteer-tagged part, R7c, CT, LV7c, WF5b, R2b, L11b, L11c |
+| NV4 | Built things | 10 | 2028-06-13 | 2028-06-27 | After Corsairs, before launch | NV2a, L3, UN4a |
+| NV3 | Hierarchy, why, distances, line of sight | 8 | 2028-06-22 | 2028-07-04 | After Corsairs, before launch | NV2b |
+| NV5 | Authoring and agent surface | 9 | 2028-06-28 | 2028-07-11 | After Corsairs, before launch | NV2b, NV4, W4a, CL4, UI7a |
+| PIN | Instancing internals pitch | 3 | 2028-07-05 | 2028-07-10 | After Corsairs, before launch | UN3, UN5 |
+| CL6 | Every package's operations | 20 | 2028-07-11 | 2028-09-27 | After Corsairs, before launch | CL6a: CL2, L8, L4, UI3, UI4a; CL6b: CL2, L12; CL6c: CL2, L6, L7a, W1a, UN5; CL6d: CL2, NW2, R2a; CL6e: CL2, W4a, W6a, A1a; CL6n: CL2, NV2a |
+| CL7 | Editor face | 4 | 2028-07-12 | 2028-07-17 | After Corsairs, before launch | CL1, CL4, CL4b, LV2, UI3 |
+| UN7 | Batch renderer and mesh LOD | 5 | 2028-07-18 | 2028-07-25 | After Corsairs, before launch | UN3, UN5, PIN |
+| LV6 | The Spellbound window: Line and Package pages | 8 | 2028-07-19 | 2028-07-31 | After Corsairs, before launch | CL1, LV2, WF4a, UI1 |
+| NW5 | Guards, context and journal | 7 | 2028-07-26 | 2028-08-03 | After Corsairs, before launch | NW2, CL4, LV2 |
+| L8b | Persistence: durable trade, per-entity records, database seam | 6 | 2028-08-07 | 2028-08-14 | After Corsairs, before launch | PP, L8, R6a, NW2 |
+| NV9 | Path following, crowd registry, avoidance | 6 | 2028-08-11 | 2028-08-21 | After Corsairs, before launch | NV2b, NV3, L4, R3a |
+| NV6 | Fields in reference frames and joined fields: ships and moving decks | 5 | 2028-08-23 | 2028-08-29 | After Corsairs, before launch | NV4, R3a, L2c |
+| UI7b | UI.Editor: skin, Gallery, validators, Console page | 5 | 2028-08-29 | 2028-09-05 | After Corsairs, before launch | UI2, UI3, UI7a, LV2, CL7 |
+| IN1 | Grass and impostors | 4 | 2028-09-06 | 2028-09-11 | After Corsairs, before launch | PIN, UN7 |
+| UI8 | ui operations for agents | 4 | 2028-09-06 | 2028-09-11 | After Corsairs, before launch | UI6a, UI3, CL1, CL2 |
+| CL8 | Scenario on a stranger project in CI | 3 | 2028-09-12 | 2028-09-14 | After Corsairs, before launch | CL2, CL4, CL5, LV5a, CL6a, CL6e, W4c, R8a |
+| NW9 | Far layer build | 3 | 2028-09-18 | 2028-09-20 | After Corsairs, before launch | NW3a, W6n, W6a |
+| W9b | Tag volumes and reachability | 3 | 2028-09-18 | 2028-09-20 | After Corsairs, before launch | W9a, W3, W4c, NV4, NV5 |
+| A6 | Bridge docs, AI context, pair test | 2 | 2028-09-21 | 2028-09-22 | After Corsairs, before launch | A2, LV4b |
+| WF8 | Rituals | 3 | 2028-09-21 | 2028-09-25 | After Corsairs, before launch | WF1b, UN1a |
+| NW7 | Prediction packing spike | 1 | 2028-09-27 | 2028-09-27 | After Corsairs, before launch | NW2 |
+| AU | Audit pass of the other packages | 2 | 2028-10-02 | 2028-10-03 | After Corsairs, before launch | every dated part |
+
+### What each epic delivers
+
+One paragraph per epic, grouped by area. Gate counts and dates are in the table above.
+
+#### Line and Core
+
+**L1 Core as assemblies.** Core is drawn as assemblies inside its own repository. One assembly depends on the engine alone and carries no Unity package; the world-object folders and the console folder each get an assembly of their own, waiting for their new homes; the folder cycles are broken; Core's packing is checked for engine types; the clean rebuild is measured again against the figures taken on 2026-10-22 (in Corsairs no Spellbound assembly starts compiling until Entities Graphics finishes, 27.9 s of a 35.4 s wall). One story moves Core's repository to the settled layout. Three more, L1r, add the new assembly references to GeoForge, Chat, VolumetricFog, Modifiers and Corsairs, which name the moved namespaces. L1 reaches the branches the games follow only together with L1r, LS and LM. Worth having alone: yes, the compiler now enforces Core's boundary. The compile gain for a project without Entities arrives when Entities leaves Core's manifest, in the last story of UN4.
+
+**LM Corsairs follows the layout move.** Core and Inventory and Decals move to the settled layout, so Corsairs' manifest lines for those packages, which follow branches, need the path form. One story edits them in Corsairs in the same sitting as the restructure merge. Worth having alone: yes, Corsairs resolves its packages. A person opens Corsairs once.
+
+**LS Saboteer follows the layout move.** The same story for Saboteer's manifest lines. It edits a manifest line and no scene or code, so it is allowed inside the code freeze. A person opens Saboteer once.
+
+**PK Packing slice.** Core's wire half, split out so Networking does not wait on the rest of Core: packing into a caller-owned or pooled buffer, decode limits, the bit writer with varints and quantisation, standard reads as fast as the bitwise path, and the pure delta pack and unpack. No reader for an old layout is kept: a changed layout means re-save. Worth having alone: yes, it closes the measured packing gaps.
+
+**L2c Core's ground vocabulary, section attribute and reference frame noun.** What the line puts in Core that no area epic carries: the section attribute (no versions, no migration steps), the ground vocabulary (surface sample and occupancy source) and the reference frame noun (`ReferenceFrameId`, `IReferenceFrame`, `ReferenceFramePose`, the per-world `ReferenceFrameDirectory` and `ReferenceFrameChecks.RequireConstantUp`). World's surface request, WorldForge's guard, Networking's partition case and the Places stamp compile against it months before riding is built. Worth having alone: partly, each declaration is usable the day it lands.
+
+**L3 WorldObjects package.** WorldObjects becomes a package: the folders leave Core, a world instance steps its own physics scene, a replaceable presenter sits under the server define, change and resolve are named and enforced, ids come through the allocation seam, and there are no statics. Modifiers' stat binding and WorldForge's twelve files are rewired and both games follow. One story is the collision part that compiles in every build. It waits for the probe of who steps a world that predicts (NW10) before its driver story is frozen. Worth having alone: yes, Core is engine-only once Entities is gone. A person plays both games after the rewire.
+
+**L4 StateMachine and Character.** Controller becomes StateMachine and Character (Body and Rig assemblies, the rig contract asset); its five unused dependencies go; the ragdoll builder and both games' copied state bindings come home. Walk, run, jump and fall are a Character sample over StateMachine; the house set of states lives in Studio.Gameplay. One story restructures the Controller repository. Worth having alone: yes. A person plays the two gyms and judges feel.
+
+**L6 Inventory and Modifiers audit.** An audit of Inventory and Modifiers: conform both to the bar, measure them against the games, red-team their public surface, and confirm the seams Studio.Gameplay and Inventory transactions build on. One of its five stories restructures Modifiers. Worth having alone: yes.
+
+**L7a GeoForge presenter seam.** GeoForge gets a replaceable chunk presenter under the server define (the internal prefab field opens) and the surface case query seam; the demo controller and legacy jobs go; two stories move GeoForge and WorldForge to the settled layout. Worth having alone: yes.
+
+**L8 Persistence rewrite.** Persistence is rewritten under the studio id over Core's section attribute: a storage seam, owners' sections, unknown ids reported, and a section header carrying name, layout fingerprint and length. Durations are seconds. One story restructures the repository. L8a, the first two stories, writes and reads one section with Core's header and is built early because the HUD layout and the chat settings need it; it ships under the new id as a new slice beside the old `com.spellbound.persistence` package, which Saboteer keeps using until L8c, so it is exempt from the pairing below. It waits for the layout description R0d. The other four follow. L8 reaches the branch the games follow only together with L8c. Worth having alone: yes, for every consumer that saves.
+
+**L8c Persistence: both games' stores converted.** Saboteer's settings, progress and chat settings files and Corsairs' stores (characters, inventory, equipment, stats, UI layout, GeoForge edits) move from the old static entry point and package id onto the rewritten Persistence. L8 keeps no reader of the old layout, so L8 and L8c reach the followed branch together. Worth having alone: no, it is the games' own conversion. A person saves and loads once in each game.
+
+**L8u Persistence: upgrade of a shipped game's old saves.** In a shipped game the upgrade of its players' old saves runs on its own, and a customer may extend Persistence for their own players however they want. Detection stays as it is (an old layout is refused by name); this is the part that carries a player's save across. A game sold on Steam is a customer from its first release, so this is built before Saboteer's first Steam release; the Next Fest demo is exempt. Sized by the Persistence pitch. Worth having alone: yes, for every shipped game that saves.
+
+**L8b Persistence: durable trade, per-entity records, database seam.** One durable unit across two containers (a gift between two characters is written to both or to neither), per-entity records loaded on login, partial region loads, and a database implementation of the storage seam. It serves the MMO and any game with accounts, so neither game waits on it. Sized by the Persistence pitch.
+
+**L12 Decals, Volumetrics, TetherShop to the bar.** VolumetricFog is renamed Volumetrics; Decals' URP default becomes a bridge under the server define; TetherShop gets its own repository with its game-named kinds moved to its sample; every manifest carries a floor of 6000.3 and every bridge a version range. One story restructures VolumetricFog. Worth having alone: yes. A person judges the fog and rope look after the rename.
+
+**MV Move to Unity 6.7 LTS.** Every project and dev project moves to Unity 6.7 LTS when it ships (the studio edits on 6.4 until then), using the Move template from UN1, after UN8's canary shows what breaks. Nothing waits for it: if 6.7 is late, work continues on 6.4 and the move carries it. Seven stories: the four of the move itself, Unity's Localization migration in Saboteer's eight files, the saved-reference cycle rules that become compile errors (11 files in Modifiers, 3 in Core, 1 in Corsairs), and the ambient-shadowing settings copied by hand into a Volume together with the C++ runtime files in the Steam upload. It does not start before 2027-01-04. A person opens each project on the new editor.
+
+**FL Floor moves to 6000.7 when 6.3 support ends.** The floor moves to 6000.7 when 6.3 LTS support ends in December 2027: the 6.3 test row is dropped, the floor compile moves up and every manifest's floor is raised. The first Unity cycle's floor-move story.
+
+**IN1 Grass and impostors.** Instancing's mass drawing from non-interactive placements and the scrolling cover grid, culling and impostors, with the grass measurement first. A placeholder priced from an earlier plan until the Instancing pitch replaces it. A person judges the grass.
+
+#### Command line
+
+**CL1 Operations in Core.** The operation attributes, catalog (marked assemblies only), tokenizer and parser, host, run, result, caller, the built-in help, about, history, stats and observation operations, the effect gate and audience check, and tests. Its first story is the reflection check: operation discovery under build stripping on Mono and IL2CPP against Unity's notes for 6.7 and the next major, ending in a go or no-go (a no-go moves discovery to a source generator). Its second checks that a Play Mode test can wait on a custom yield instruction. CL1 is stories 1 to 10, which UI's console needs; CL1b is stories 11 to 13: state replay of lines, the target marker on an operation and the router seam, which only Networking's operation stories read. Worth having alone: yes, it replaces three console mechanisms with one that has tests.
+
+**CL2 Pipeline bridge and spellbound_run.** The Pipeline bridge assembly and the `spellbound_run` command, the caller policy and settings, a development build proven with the runtime flag, a fixture project driven by the Unity CLI in a test, and Volumetrics' three commands converted as the first package on the registry. It also runs on the 6000.3 floor row. Worth having alone: yes, an agent can run every Core and game operation from the Unity CLI.
+
+**CL3 Retire the old console, convert Saboteer and Corsairs.** The three old attributes, the command interface, the two registries, the router and the console logger leave Core; Saboteer's ten command classes and Corsairs' fifty-seven methods are converted; Chat's sample and registry are deleted. CL3a (2 stories) converts Saboteer's ten classes once the new console exists and stands before the freeze so the demo shows the new console; CL3b (4 stories) converts Corsairs' commands, removes the old types and waits for WorldObjects' preset and spawn operations, because only Corsairs' commands call them.
+
+**CL4 Authoring contract and check seam.** The authored-definition contract, the report and runner with the inspector banner and previewer, the check seam in Core.Editor as one interface, `IDefinitionCheck<T>`, and one attribute (a package adds its own check to a definition another package owns, and Core never changes for a new package), the draft folder and approve (an agent may not approve its own drafts unless one setting grants it), validate and preview operations, and a package folder as a subject. The check seam opens with proof that `TypeCache` finds an attributed class implementing a closed generic interface, with a scan of marked assemblies as the fallback. Modifiers adopts the contract first, on a branch called `definition-contract`, built during the freeze and merged on 2 March 2027 (estimated): it is the one change that could break Saboteer's build inside the freeze. CL4b (3 stories) holds the authored-key scan with the stored value text, `core revise` and the banner path. There is no format version, no migration step and no written note of a lost value: a changed format means re-author. Worth having alone: partly, valuable for Modifiers alone; the agent flow needs CL2. A person approves drafts in the window.
+
+**CL5 AI context.** The six agent-context headings, the generated operation blocks rendered through `core context` (LV4a writes them into AGENTS.md and the release check fails a stale hash), `core context`, `core context-install`, `core about` and `core ledger`, with Volumetrics' file as the pilot. The dangling-identifier check is Living's (LV4a) and runs right after, so a package's hand-written headings are verified before the first rewire. Both are scheduled early: the agents that do the rewires learn each package's front door, rules and operations from this context and not from its source. The cut-over before the freeze is the one exception, because its sessions run on the studio's own skill files.
+
+**CL6 Every package's operations.** One story per package, each a read-state operation with tests: twenty stories in six parts (CL6a Persistence, Character and the console; CL6b the three small packages; CL6c Inventory with the world seams; CL6d Networking and Diagnostics; CL6e Places, Horizon and ArtPipeline; CL6n Navigation, which waits for the ground field). WorldObjects' operations are R8's. Each part is scheduled after the Corsairs milestone and before any launch, not with its package's first epic. Until its part lands, a package ships without its read-state operation and its AGENTS.md operation table is empty; the line's rule that every package ships operations is met by launch, not by the package's first release. `artpipeline fix --keep` needs the audience `approver`, which a person in the window holds and an agent does not; an agent gets `refused:` with the way forward. CL6e adds no ArtPipeline operation beyond A1a's (check, fix, explain, preview, audit, unmatched, rules, setup); its ArtPipeline part is the registry check that the group lists in `core help`. Each is worth having alone.
+
+**CL7 Editor face.** The Operations tab and the Drafts tab content, the completion data the console draws from, and the form generator, inside the Spellbound window.
+
+**CL8 Scenario on a stranger project in CI.** The cave-with-ore scenario scripted with the Unity CLI against a stranger project of five packages, run in CI. The three navigation steps (7, 12 and 15) run when the report's checks line lists `navigation.reachable-deposits`, which holds from NV5, and are skipped until then, so the scenario does not wait for Navigation. Worth having alone: no, it is the acceptance test.
+
+#### Runtime
+
+**R0 Simulation vocabulary in Core.** R0d, one story built first in the cut-over closure, is `CoreKit.Packing.Describe(type)`, the layout description of Core's packing that the section header's fingerprint and the surface writer both call. R0, nine stories: Core's 64-bit tick, the tick source seam that answers the rate with the tick, its game-time default that adds each fixed step's length to a total and counts whole ticks at its own rate (tested at 50 steps giving 20 ticks), the never-backwards test, the up field, the seeded stream with golden vectors and a battery run, the instance id with its allocation seam, the determinism harness in the testing assembly, the clock in Core with its driver (started with one call in a scene that has no world instance), the float-mode measurement, which also hashes the golden regions in both float modes and prints any difference for the developer to decide on, and the seconds round trip: a save holds no tick rate, durations are written in seconds and converted at load, and nothing is refused for a rate. The tick rate and the fixed step are settings read once, 20 and 50 as the starting values, and a test shows that changing either changes no code. Worth having alone: yes, a package can drop `Time.time` and `UnityEngine.Random`.
+
+**R1a Observation declarations and per-world context.** Observation keys with required descriptions, counters, gauges, costs with budgets and quality levels, per-operation costs, the call-site log sink and the observation operations. The bridges of the line wait on it. Worth having alone: yes, every package can report, and how often stops depending on message text.
+
+**R1b Flight recorder, guards, intent key and ledger, measurements.** R1k is the intent key and the ledger, one per world in Core, which Networking stamps; R1b proper is the flight recorder, guards with policy, a native queue for jobs, the profiler mirror, the settings asset and key validator, and the measurements of the numbers table. The ledger's grace time is a number of seconds, and a departure rule has its own soak. Worth having alone: yes.
+
+**R2 Diagnostics.** The collector, the black box as text and as an editor window, the counter relay over Networking's hub, and the one overlay that replaces five. The shipped recorder, its file and its relay are held for the prediction spike. Diagnostics comes after Corsairs on the line and before any launch, Saboteer's frame cost trace goes when R2's overlay lands. Its crew log relay stays until the shipped recorder exists, which waits for the prediction spike. A person judges the overlay and the window.
+
+**R3 Reference frames and riding.** In Character.Body the `ReferenceFrameBinding`, the rider, the frame sources and motion claims, with the probe cost measured and Saboteer's four ride implementations deleted; the Character.Networking bridge; the Character.WorldObjects bridge after L3's collision part; and the world-step order test, which waits for Networking's Simulate story. The test asserts the order of clock, scripts, one Simulate with `Time.fixedDeltaTime`, then Stepped. It includes a hitch case that asserts the lag is reported and no extra step runs, a PredictionManager scene left alone, and a default-scene game where the clock still advances. R3a is what Navigation's ships and moving decks wait for. Worth having alone: yes, four copies become one tested one. Designers add the frame sources in the inspector; a person plays the gym.
+
+**R4 Containment and the outside move seam.** The support gate, containment on a stride, the rescue ladder over a claim, Character.GeoForge and GeoForge's readiness query, and the outside move seam; the base floater and Corsairs' falling fix are deleted. R4p, its first story, adds the playable marker (`IPlayableCharacter`, `CharacterKit.Body.IsPlayable`) on the game's controller, tested in edit mode; it needs only Character, so ArtPipeline's Character bridge does not wait for the containment stories. Worth having alone: partly, the guard and ladder work without the gate.
+
+**R5a Character.Rig edit-mode surface.** The rig contract asset with hold pose, rebinding of worn items, the ragdoll dry run, sockets resolved by id once at spawn, and the character operations. The contract has no integer version and its reference figure is a playable character's prefab. ArtPipeline's bridge calls these.
+
+**R5b Ragdoll driver on claims (backlog).** Knock-down, hips handoff, get-up and carry as a claim. Backlog; see the backlog list.
+
+**R6 Inventory transactions.** R6a is the public transaction surface (receipts, commit, mint and burn, conservation guard and audit, intent replay), on which Studio.Gameplay's equipment is built. Saboteer is owner-authoritative, so there is no escrow step: a player's own inventory changes at once. R6b makes the raw writers internal and moves the treasure chest, the world item take and the hotbar swap onto transactions; it merges to Inventory's followed branch only together with R6c, which starts right after it. R6d, three stories, is the linked move across two writers in both directions: both halves under one intent key, the first step always on the source's writer, the return step on a refusal, and a test with two viewers under simulated latency and loss. When the owner writes the source, its step commits on the click and the host's receipt follows. When the host writes the source (a chest the player takes from), the host commits the withdraw and the owner commits the deposit when the host's batch arrives; the mover's view draws the stack in flight at once, two takers of one stack resolve by the host's arrival order and the loser's drawing fades, and a use of the just-taken stack is held for at most one round trip plus 0.09 s (170 ms at an assumed 80 ms ping, computed). The client never sees a half: the stack is drawn in its target slot at once and swapped for the real item when the host's step replicates. Worth having alone: yes.
+
+**R6c Corsairs onto transactions.** Corsairs' own conversion, right after R6b: the player bag engine's sort and merge as moves in one transaction, the save load as a mint, equipment inventory, the crafting console commands and the player container's writer setting. Seven call sites in Corsairs write slots today. Worth having alone: no; without it Corsairs stops compiling the day the raw writers close.
+
+**R7a Baseline soak.** The areas scenario run against today's Saboteer with R1a's counters, so every later epic shows a before and after number. The fourth story records Saboteer's frame cost, worst frame and memory on the reference PC through the game's own frame cost trace (its first check is whether the trace gives total memory). Worth having alone: yes, it counts the bugs that exist.
+
+**R7b Full soak, gyms, fault matrix.** Saboteer's soak and fault matrix (withheld support, hitch, repeated intent, late joiner, linked move under latency, save and load with a growing crop and a timed modifier set, and a rider on a hull in a dedicated-server build), run headless through local Unity CLI test runs after every Saboteer rewire has landed; its fourth story reruns the frame figures against R7a's baseline. It also waits for the saves upgrade and the stored-format gate, because Saboteer on the line means its players' saves keep loading. R7c (3 stories) is Corsairs' run after its last rewire, plus one repeat of Saboteer's soak after UN6. The soak uses its own playable prefab field until the gym lands. A person watches the hull test.
+
+**R8 WorldObjects operations, object layer validator, authoring operations.** R8a: WorldObjects' presets, spawn, find, inspect and remove operations and the object layer validator. R8b: the two authoring operations (a preset from a model, an item definition from a preset); both write drafts only, and a person approves them into a named folder. Both are Saboteer's class, because the make-playable loop (A7a) calls them.
+
+#### UI and text
+
+**UI1 UI split, truthful package, UIKit, theme validator, TabView.** UI becomes Widgets, Screens and Tests; the game-shaped content leaves, while the menu chrome and the studio theme stay with the game that reads them (Saboteer's copy lives in the game) until UI1b makes the Studio.Presentation folder and L11c moves them in, so nothing Saboteer's menus read is deleted before the folder exists; the package declares Core; samples move to the samples folder; the slot styles go to Inventory; Unity's own TabView replaces the tab widgets; theme variants and serialized view identity are added. Two of the eleven stories restructure UI and Chat. The Studio.Presentation folder in StudioDev is split off as UI1b so the console does not wait for the Studio.Tools shell. UI1's assembly split is the breaking merge, so it stands before the freeze. Worth having alone: yes, a stranger can install UI without the Input System and without Chat.
+
+**UI2 StyledText, TextLog, TextEntry, WindowFrame.** Styled text with template spans, the text log, text entry and the window frame, with edit-mode logic tests and play-mode element tests; the Gallery sample shows them; the log's flush cost is measured with 10,000 lines. Worth having alone: yes, both games can replace their copies of the focus code.
+
+**UI3 ConsolePanel and ConsoleView over the operation list.** The console panel and view over the operation directory with completion, audience filter, history and the scoped log sink, and the public result-to-lines helper. Core's uGUI console and prefabs and Chat's console are deleted here; the old registries, attributes, router and console logger go in CL3b. It stands before the freeze so the demo shows the new console. Worth having alone: yes, one console replaces three.
+
+**UI4 Switchboard.** The networked text package. UI4a1 (5 stories) is the library: profile, kinds, scopes, session, host, filters, rate limit, mute list, templates, history and the in-process loopback. UI4a2 (5) is Switchboard.UI with the chat view, the UI bridge and the chat settings page. UI4a (1) is Saboteer's cut-over: its own profile asset, its chat network kept thin as the client interface's implementation, its input contexts class, the console and chat views in place of its own, and its chat window, settings panel and hand-wired switches deleted. UI4c (2) is Corsairs' compile-only cut-over of its console view and chat glue onto UI3 and UI4a, Corsairs' class, landing with the train on 2027-01-14 so Corsairs keeps compiling on the branches it follows; the rest of its conversion is UI4b's. UI4b (4) is Switchboard.Networking over the protocol assembly (the client and delivery halves, then the region and group scopes), the profile check in Switchboard.Networking.Editor, and Corsairs' cut-over of its chat glue, console view, input switches and layout glue; it retires Saboteer's thin chat network and the chat corruption above U+00FF and waits for Networking's event channel and the check seam. The console-view part of Corsairs' cut-over waits for CL3b. Worth having alone: yes, the first eleven stories replace the chat window and the console with no Networking.
+
+**UI5 Tooltip host and bound settings rows.** The tooltip host with detail tiers and bound labelled rows over Unity's own binding; Saboteer's settings view and Corsairs' tooltip view are ported as the proof. A person judges the tooltip look in both games.
+
+**UI6 Input contexts, layout as a Persistence section.** The input-context seam, the layout store saved as a Persistence section, the modal host and confirm dialog, and Saboteer's hand-wired switches deleted. UI6a: input contexts and the modal host, with Saboteer's hand-wired switches replaced by one class of the game. UI6b: the layout section and Saboteer's layout glue deleted, Corsairs' switches and layout glue going in UI4b. UI6b needs only the first slice of Persistence. The layout has no version: an older layout is not read and a tester who saved one sees the default HUD once; the demo is exempt from the saves rule.
+
+**UI7a Core.Editor controls.** Core.Editor's four controls: the type picker, the report view (two action buttons, the check's name per finding and a conditional banner), the section card and the header bar. Worth having alone: yes, with UI absent.
+
+**UI7b UI.Editor: skin, Gallery, validators, Console page.** The skin, the Gallery, the theme and view validators, New View, and the Console page reached through the window's page attribute. A person judges the skin in the Gallery.
+
+**UI7c Three inspectors in UI Toolkit.** Core's log settings, GeoForge's material table (moved into GeoForge's editor assembly) and the identity asset, built from the Core.Editor controls. The first two stories delete the old types. A person judges the three inspectors.
+
+**UI8 ui operations for agents.** The `ui` operations (views, show, hide, toggle, tree, find, click, set, focus, themes, theme, capture), the editor-audience `ui new-view` and `ui validate`, and the agent context file; the first story tests whether a simulated click reaches a button in a player. Worth having alone: yes, an agent can see and drive the UI.
+
+#### World
+
+**W1 The world model.** The world model behind WorldForgeKit: surfaces, operators, rules, footprint sampling, occupancy, a plan without statics, no Entities in WorldForge's 35 runtime files, derived ids, a detect-only fingerprint, estimate and rasters. Today's output is frozen as golden hashes first (W1g, one story) and WorldForge's 124 tests are ported, with no old-format reader. W1a is seven stories, which W2 and W10a wait on; the WorldForge internals pitch sits between it and W1b (12 stories), whose compare story prints one seed's golden region hashes so the Unity 6.7 probe and the Unity 7 alpha copy can list every difference. Worth having alone: yes, seed preview, maps and plan work without a voxel.
+
+**W2 Density out.** W20 is the planning story for Pro's nine generation passes, ending in a go or no-go that gates Saboteer's boards. W2a: the density source seam and public encoding in GeoForge, point queries, a camera-free versioned run-list read, the change and residency event, chunk interest over Core's viewer source, the presenter split into a collision part and a picture part, and the manager as an instance; the world instance steps the collision scene. W2b (12 stories): the WorldForge-to-GeoForge bridge, occupancy skipping, Pro's pipeline retired for Corsairs and the edit store synced. W2c (the last two stories): the blob tables become plain structs and arrays and the three fillers are deleted; it waits for the story that removes GeoForge Pro from Saboteer's manifest, because Pro's nine passes compile against both and Saboteer follows the branch. W2a waits for Navigation's spike so its go or no-go can shape the run-list read and the change event before both games depend on them. Worth having alone: yes; the gate is the Corsairs budgets unchanged. The developer captures the Corsairs F2 numbers with the bridge in place.
+
+**W3 Objects out.** Placement records with derived ids into WorldObjects, decoration stampers as rules, the static scratch lists gone, and WorldForge stops emitting entity spawn requests (UN4 deletes the old path after the batch measurement's go).
+
+**W4a Places core.** The Place asset with typed layers, owners, composition from Saboteer's solver and six sockets, nesting, duplicate, validation and preview, per-cell rules, and the public read surface for checks (harvestable layers, entrance, rules). The first story measures whether the adjacency solver converges with many cells fixed, on Saboteer's real parts. A Place's data is Unity serialization, with packing for saves and the wire; the first story also proves that a layer whose type is missing survives a save of the asset. Worth having alone: yes.
+
+**W4b Places layers.** GeoForge.Places capture and bake as operations, WorldObjects.Places with its preset-reference check in its editor assembly, the voxel layer as serialized fields (its first story measures file size and import time against today's 63.7 MiB), the edit-mode voxel brush and a stamp that may name a reference frame. One converted capture is the size fixture; the re-import of the 51 captures and the replay of the SculptPass recordings are W10a's, done once in one sitting so a point of interest exists once at a time. The brush story also carries `geoforge layer-edit`, which revises an approved layer through its owner. A person sculpts a cave in edit mode.
+
+**W4c Places gym and checks.** `places gym-start`, `gym-status` and `gym-leave` over a Place or a prefab asset, with the playable character of the game (the project names the prefab; the gym profile type, Places' neutral default and Studio.Content's profile that offers the studio's playable characters are all W4c's, and the studio profile is edited in StudioDev only), the stable character name and the held prop, the cell grid with a reroll-seed preview, and a farming-village stranger step run on the default profile. The gym sits behind Saboteer's milestone and before any Corsairs launch, in no milestone's class because no Corsairs rewire needs it; the plan refuses a start before every Saboteer-class part has ended. Until it lands a shared place is played in the game. The gym walk-through carries no navigation line until Navigation lands. Its held-item story waits for a packaged character and its hold pose. The soak does not use it. A person plays a place in the gym and judges the cell-grid inspector.
+
+**W5 Places in the world.** WorldForge.Places: place rules, pads, anchors and the footprint contract; locations lose their content entries. A person plays a place in context at a real seed's site.
+
+**W6 Horizon draws.** The first story plans the far field: it lists the candidates (today's tiles moved into Horizon, nested rings, Unity Terrain), the reference machine and the world sizes, and chooses none. W6a: Horizon on URP behind HorizonKit with a height array source, palette, published shader constraints, status and handover operations, meters, and the measurement of the candidates. W6b: the chosen renderer. The far layer planning story (W6n) is counted once, in W6: W6 is 13 stories including W6n, so World's own count of the remaining W6 stories is 12, and Networking counts none. Worth having alone: yes, a racing game gets a far field before any voxel exists. A person judges the seam by eye in the test scene.
+
+**W7 Near meets far.** The first story plans the saved world: what a save stores beyond seed, fingerprint and deltas, and whether the generated base is stored, ending in a go or no-go (the stored-base stories are built only on a "store" answer). Then the near-coverage interface, Horizon.GeoForge, the handover band, the seam test scene, and WorldForge's Meshing assembly retired. A person judges the seam in the test scene.
+
+**W8 Seed preview and labels.** Rasters in the editor and the game, a high-fidelity bake, label queries and the sample. The headline of the WorldForge brief. The colour ramp is the game's look.
+
+**W9a Lines, scatter, benchmark scene.** W9s is the 20,000-instance benchmark scene over 64 regions that the batch measurement needs, built first; then carve operators for roads and rings, and scatter rules out to Instancing naming a visual. It no longer waits for Navigation. Worth having alone: partly, carving stands alone, the outputs wait.
+
+**W9b Tag volumes and reachability.** Tag volumes for roads, rivers and water out to Navigation, the WorldForge.Navigation bridge that calls the reachability check, and Navigation's reachable-deposits check (built in NV5, in Navigation.Places.Editor) exercised against a place. After the Corsairs milestone and before any launch, because it waits for Navigation's built things and its authoring surface.
+
+**W10a Boards and generators.** The generators rebuilt in Studio.Content under names that name no game (a cave rooms generator, a grid board generator, a ramp generator), their settings assets and Saboteer's configurations, the 51 captures re-imported and the SculptPass recordings replayed, golden floors per seed equal to today's, and Saboteer's floors generated through Places and no longer through Pro's pipeline. The last story, W10aL, removes GeoForge Pro from Saboteer's manifest; it is a manifest line, so it is exempt from the freeze, and W2c and Unity's blob epic (UN6) wait on it. Saboteer sheds Entities only when UN6, UN4b and that story have all landed. WorldForge is updated to serve both games and Pro's repository is untouched. A person judges that the generated rooms match the old ones.
+
+**W10b A board nested in a place.** A Corsairs place nests a configured board through Places' nesting, and the nested board generates the same rooms per seed as the stand-alone board. The showpiece; nothing waits on it.
+
+**W11 The far layer (provisional, undated).** Built after the far-field renderer is measured: a far client sees a forest felled 2 km away as felled, and dug ground as dug, through Networking's far summary contract and GeoForge's coarse edit summary. See the undated list.
+
+#### Networking
+
+**NW1 Replication protocol.** The engine-only protocol assembly: contract, dirty set, counted sections, sequence and gaps, snapshot pager, batch ring, join scheduler, interest map with the audience reach bound, lease ids (a block's upper bound is written durably outside the sliced world save before any lease in it is granted, so a restarted shard never reissues an id a persistent world saved), stamping of Core's intent key, `WritePolicy` and the owner-mode path (who may write each replicated thing is a configuration per thing with no privileged default; owner mode needs no validator), and the in-memory simulator with hostile-command and join-race cases. No PurrNet type appears in it. Worth having alone: partly, a tested protocol with no consumer yet.
+
+**NW2 PurrNet adapter and first consumers.** Everything in Networking is created by one world instance and serves only that world: the hub, the region streamer and its interest map, the lease issuer and table, the reference frame identity map, the clock schedule, the event link and the ledger; nothing in it is static and nothing covers the process. The replication hub and region on PurrNet, the pooled byte-data carrier, the three write policies (an unset one refused by the settings check), the owner-mode relay in the adapter, resync, host handling, GeoForge.Networking over the protocol assembly, and Saboteer's terrain module (534 lines and a defect list) and the GeoForge sample module replaced. Two stories carry the linked move: the hold (a batch names its linked partner and a client holds a half for at most one tick) and the linked upload (one message carrying step 1's records and step 2's packed call, applied by the host in one step), with the second-process latency test. The tick rate (20) and the fixed step (50) are settings read once, and nothing is derived from either. NW2g, the gate story (the PURRNET define, the constraints and the bootstrap that offers the install, proved first as a probe, with the error and player-build stop when PurrNet is installed outside the tested range), stands before the freeze; the other twelve are the consumer stories and land after the festival. Worth having alone: yes, Saboteer drops 534 lines and a defect list. A person defines the telemetry-off symbol, makes the region prefab and watches a two-process test.
+
+**NW3 Region streaming and the capacity report.** NW3s reads the manual on `PhysicsScene.Simulate` from a late FixedUpdate and runs it in a second scene (Runtime's order test waits for it). NW3a: world scope end to end, a synthetic-viewer benchmark, the PurrNet whitelist and spawn cost measured, the capacity report, and a two-world smoke test whose falling body uses the world instance's step driver. NW3b: WorldObjects.Networking, and Corsairs' five hand-written modules (2,575 lines), proximity job and 49-region respawn retired. Worth having alone: yes; the first eight give a measured streamer. A person measures a thousand colliders in a real dedicated-server build.
+
+**NW4 Events, operations and time.** NW4a (4 stories, after the festival): the event channel with audiences (Participants, Region, Group, All) over PurrNet's player broadcast, the audience reach bound and the event backstop place, and a two-peer test that carries a Saboteer chat line; its first story reads whether the broadcast calls exist in the PurrNet version Saboteer already runs. NW4b (5 stories): the operation gateway with the audience enforced, `PurrNetTickSource` and `ServerClock` over Core's `TickClock`, routing of a write by the policy of the source that holds its target, the two-build test, and the retirement of Corsairs' per-tick time request; its operation stories wait for the router seam (CL1b). Saboteer's crew log relay stays until the shipped recorder exists. Worth having alone: yes, the chat corruption and the per-tick time request go.
+
+**NW5 Guards, context and journal.** `NetworkingKit` with the networking operations, the audit as check classes through Core's check seam with a package as the subject, the layout fingerprint, the telemetry check, the hub inspector and scene overlay, the sample, the AI context and the journal seam. Worth having alone: yes, the audit helps any PurrNet project.
+
+**NW6 Delta codecs (backlog).** An adapter that registers Core's pure delta pack and unpack with PurrNet for unreliable per-entity streams; the per-player ledger is deferred. Built only if a measurement asks.
+
+**NW7 Prediction packing spike.** A written answer, from a measured PurrDiction scene in NetworkingDev, on how a predicted world's state and input are packed, together with the black box's questions (shipped builds, its file, the dump relay). Nothing is built from it. A person closes the go or no-go in writing.
+
+**NW9 Far layer build.** `FarSummarySource` and the horizon layer prefab, the picture summary source in WorldObjects.Networking, and the layer's cost next to the near layers with its simulator case. It waits for the far-field renderer's measurement. Worth having alone: yes, a forest chopped 2 km away reads chopped.
+
+**NW10 Stepping ownership when a world predicts.** One probe story in NetworkingDev: one scene holding PurrDiction's `PredictionManager` and one scene stepped by a driver, asserting that each local physics scene is stepped once, reading `Physics.simulationMode` and `Time.fixedDeltaTime` after the manager starts, and a written rule for the driver (it leaves a scene that holds a manager alone, and steps the default scene when the process is in script mode). The predictor steps a predicted world. It lands before L3's driver story. A person closes the written rule.
+
+#### Unity
+
+**UN1 The Unity ledger.** The ledger of Unity systems the line builds on, the check operation with changelog scan and exit code, the Move story template and a CI job (UN1a, four stories, including the facts bench with rows for Simulate from a latest-order FixedUpdate, local physics scenes and `ExtractAsset` with `AddRemap`); the Editor-gate job (UN1b); the player test bench for Pipeline discovery and a simulated click (UN1c). The stripping check itself is CL1's first story. Worth having alone: yes, the table is useful before the check. A person judges each ledger row changed, unchanged or unsure.
+
+**UN2 Unity's pool and the registry asset.** Unity's pool in place of Core's, the registry asset in preloaded assets with an Addressables bridge, four registries moved out of Resources, and the sample import operation. A broken reference is re-saved with no redirect. A person moves Corsairs' presets out of Resources and creates the registry asset.
+
+**UN3 Batch path measurement.** The missing captures, the 20,000-instance scene, one prototype of Unity's `BatchRendererGroup` path, the measurement report in editor and in a Windows player, and a written go or no-go. Entities Graphics is only the baseline. It gates the Instancing seam and must finish before the old path is deleted. Worth having alone: yes, the answer is the product. A person runs it on the reference PC, judges the pop between levels of detail and reads a no-go.
+
+**UN4 WorldObjects store and awakening.** UN4a: WorldObjects' store as native columns per reference frame partition (a row is 47 bytes), the awakening job and policy, region release, the timer pass and a benchmark with 1, 20 and 200 viewers against the old query. UN4b: ObjectParent and Corsairs rewired, Core's ECS deleted, and the Entities package removed from Core's manifest in its last story. Worth having alone: yes, Core is Entities-free the day UN4b lands.
+
+**UN5 Instancing seam.** `InstancingKit`, the batch and visual types, settings, the batch renderer with a small culling routine of ours, and the WorldObjects bridge; Corsairs draws again without Core's ECS once UN4b lands, as one unit. No Entities method, no stopgap, no renderer of our own beyond the culling routine.
+
+**UN6 Blobs and hosts leave the games.** Blob tables become plain structs and native arrays in GeoForge, WorldForge and Saboteer, the generation system becomes a plain driver, and Entities leaves their manifests. It starts after the story that removes GeoForge Pro from Saboteer's manifest and after World's last two density stories, follows Saboteer's soak, and edits Saboteer's own code after the soak, so Corsairs' soak repeats Saboteer's once; the first release waits for it. Core keeps the Entities package in its manifest until UN4b, so Saboteer compiles Entities at its milestone either way; Saboteer sheds Entities only when UN6, UN4b and W10aL have all landed.
+
+**UN7 Batch renderer and mesh LOD.** Mesh LOD selection, the importer check, material validation, a golden-image test per URP version, and the submitted-versus-visible report. A person judges the golden images.
+
+**UN8 CoreCLR and domain-reload readiness.** A statics audit by text scans (the Project Auditor go or no-go stays in LV3a alone), one call for the four assembly scans, Volumetrics' domain-unload releases replaced, a play-mode test that enters twice with domain reload off, CI on the 6.7 beta and the experimental CoreCLR player (allowed to fail), and the bridge-define Safe Mode drill. A person runs the Safe Mode drill and reads the beta results.
+
+**UN9 Probe: Unity 6.7 beta and a Unity 7 copy.** A probe that waits for nothing and that nothing waits for. It installs the Unity 6.7 beta in a throwaway copy of the Corsairs Isle project folder, made by a plain folder copy that skips what Unity regenerates (Library, Temp, Logs; `run-local-tests.sh` is WF3a's and reuses the same exclusions later), so the working project stays on its editor and every package the checks need (PurrNet, WorldForge, GeoForge, UI, Entities) is in the copy; a check that still needs something the copy lacks is written down as not run. It writes what breaks against the ledger rows 6.7 changes; the ten ordered checks of the Unity 6.7 and Unity 7 summary are the steps of stories 1 to 3. The fourth story copies the same folder again and opens the copy once in the newest Unity 7 alpha, writing every error and warning into one list that says whether the Unity 7 move is a small or a large job; the working project never opens in it. If a beta or alpha will not install, the story ends with a note. A person reads the note.
+
+#### Navigation
+
+**NV1 Navigation spike.** A throwaway spike in NavigationDev measuring tile build time from GeoForge's run lists, bytes per tile, nodes per millisecond for surface and open searches, and whether a mixed-resolution seam keeps paths sound. It ends in a written go or no-go filed as a Decision issue that blocks NV2. It runs before W2a builds GeoForge's run-list read and change event, because its answer can change their shape. Its 5 gates are the one Navigation part inside Saboteer's gate count, because W2a waits on its written result; every other Navigation epic is after the Corsairs milestone. A person closes the Decision issue in writing.
+
+**NV2 The ground field.** The swimmer step through an open water volume, samples with coverage, tiles, cell classes, profiles, four movers, labels, `FindPath` and `Reachable`, `NavigationKit`, grid and heightfield sources, a minimal runtime overlay and two samples, then the GeoForge bridge with an oracle test against GeoForge's own voxel query. NV2a starts only after the Corsairs milestone; the plan refuses an earlier start. Worth having alone: yes, a spider crawls a cave and a swimmer crosses a flooded one.
+
+**NV3 Hierarchy, why, distances, line of sight.** Tile graph, free-space octree, solid components, time slicing, why, distances, line of sight, stale paths, and the moat-at-every-level matrix with soundness property tests.
+
+**NV4 Built things.** Footprints, the resolution ladder, tag volumes, portals and states, the Navigation.WorldObjects bridge, handles for owners, and the door, wall and column scenario. Worth having alone: yes, a base with a door.
+
+**NV5 Authoring and agent surface.** The profile inspector with preview, footprint gizmos, scene overlay, the navigation operations (path, reach, why, field, probe, fit-footprint), `FitFootprint` and `CheckReachability`, the context file, the Navigation.Places adapter, and the reachable-deposits check. World's reachability story and ArtPipeline's footprint check call it.
+
+**NV6 Fields in reference frames and joined fields: ships and moving decks.** A ship deck as a field riding its reference frame, a path that crosses from the deck's field into the ground's through a gangplank link, a moving or spherical GeoForge volume through the reference frame and the up provider, a water world, and a ship profile that floats on a water tag. The first story proves a path across a moving deck. It sits after the Corsairs milestone and before any Corsairs launch, because a sailing game does not launch without boats. It waits for Navigation's built things, for the reference frame binding in Character.Body, and for Core's half of the noun.
+
+**NV7 Strategic layer (backlog).** Optimistic unknown space and a coarse source such as WorldForge's plan or Horizon's shape; replan on load.
+
+**NV8 Jumps, drops, ladders as links (backlog).** Generated and authored links for jumps, drops and ladders.
+
+**NV9 Path following, crowd registry, avoidance.** `PathFollower`, the crowd registry, a replaceable `ILocalAvoidance` chosen by measurement against the raid-of-forty test, and the Navigation.Character bridge to Character.Body's input seam. Worth having alone: yes, a raid reaches a door without stacking.
+
+#### Art
+
+**A1 ArtPipeline core.** The rule set as game assets with Studio.Presentation's as defaults, palettes and the palette type, kinds, model and texture checks, importer repairs, the docked verdict window, the folder audit, the artpipeline operations, a reference sample with six broken models, and Keep as new material (a material embedded in a model becomes a material file in the palette folder). A1a is the checks (9 stories), A1b the window, audit, sample and Keep (8). A1b stands before A4, because once A4 removes the hand-placed grip the artist's only sight of a misplaced grip would otherwise be the command line. Lives at Packages/ArtPipeline. Worth having alone: yes, a farming sim or a card game uses it with no Character. A person judges the verdict picture and checks Maya and Blender hint wording in the applications.
+
+**A2 Character bridge.** Rig, socket, grip and wear checks, the contract check, the socket step at import, the humanoid repair, and the ragdoll check at import, which runs Character's own builder as the artist's preview. The tenth story is the row-figure check over the rule set; both checks ask `CharacterKit.Body.IsPlayable`, so A2 waits for the playable marker.
+
+**A3 Hold test and wear test.** The prop shown in the reference figure's hand through reference poses, the wear test, and the verdict picture written to a file. A person judges the hold alignment picture.
+
+**A4 Rewire Saboteer's prefabs onto contract nodes.** Saboteer's two player prefabs (5,217 and 10,248 lines of YAML) are rebuilt by hand as variants of the model, contract nodes replacing the hand objects and the hand-placed grip; the audit's findings are worked off. Corsairs' prefabs follow in A4c (2 stories, Corsairs' class, after A4, A2, A3, L4 and R5a and before R7c, estimated 2028-04-13 to 2028-04-17). It stands in Saboteer's milestone: a prop that passes the grip check and is sent still sits at its pivot while the games align held items with the hand-placed grip, set by hand on 27 prefabs. It waits for the verdict window and the hold test, so that when the grip goes the artist can see whether a locator in the file worked. Until A4c lands, a prop sent to Corsairs sits at its pivot. An engineer rebuilds the two unpacked prefabs by hand.
+
+**A5 Send and Get latest.** Destination base with preflight, changed, send and receive, `GitLfsDestination` in Studio.Tools, stacked sends, the setup check, and the commit contract with the pull request Action, which runs as the GitHub App the organisation owns. Send sends only the files the artist changed under the art folders, and a test proves a kept material and a rig contract travel with it. The artist's machine needs git and Git LFS only and never sees a git word. A5a is the minimal Send: the folder-based send set, the commit subject the title rule reads and the push of the artist's branch, with no window, plus the branch-point rule (the merged-or-removed test, stacked sends) and Get latest as its second menu item, so the artist's clone comes back to the default branch after a merge without an engineer. A5b is the rest: the setup check, the window and the check at Send, after the prefab rewire. A5a is 6 stories and A5b 4. A5a runs estimated 2027-03-15 to 2027-03-23 and is Saboteer's class; A5b is After Corsairs, before launch and ends estimated 2028-09-05, so Saboteer's 538 gates include only A5a's. A5b also makes Saboteer's release audit delegate to `artpipeline check` and removes its own texture size check, so there is one rule in one place. The artist ruleset switches on in a game repository when A5a lands there. The artist's first sign-in is a person's.
+
+**A6 Bridge docs, AI context, pair test.** The bridge's docs and AI context, and the bridge pair test in the Matrix on the rows the line's rule names on its date.
+
+**A7 Make playable and open in gym.** A7a (4 gates, Saboteer's class, with R8a and R8b): a prefab variant of the model with bounds colliders, then the kind's chain of operation lines: `artpipeline playable` runs the chain, and the chain's drafts (a preset, an item definition) stay in the drafts folder until the artist presses Approve in the window, which moves each into the folder the kind names; an agent cannot approve, and an agent running `artpipeline playable` ends with 'succeeded: 2 drafts waiting for approval'. So an artist gets a held prop into Saboteer alone before Saboteer's milestone. A7b (1 gate) is Open in gym through `places gym-start`, and alone waits for the gym (W4c). A person judges both.
+
+#### Living
+
+**LV1 Layout and probes.** LV1a: the probe of Packages/<name> (git and Git LFS working inside the folder, PackageInfo found for the embedded package, version defines, a git path install, Samples~ import, and Unity accepting the short folder name Packages/Core) and the bootstrap in a clean project. LV1b: the layout, the shell template and the restructure pilots (Inventory and Decals). Nothing is pinned, so LV1b carries no game manifest line; those are LM and LS. The folder-name answer is the developer's; a failed probe stops and asks.
+
+**LV2 Runner and read tier.** The PackageCheck repository and the read tier of the checks, with the Spellbound window shell and the Check page; the report adopts Core's shape. PackageCheck is the twenty-third package, a Tool.
+
+**LV3 Operations and compiled rules.** Operations, the run tier and the Project Auditor probe (LV3a), then compiled rules and the Studio.Tools story (LV3b). The checks include: a stored line holding a Tick, TickSpan or tick rate fails, packing's layout description is used, and stored lines are counted in the bump check. LV3b waits for the authored-key scan and stands in Saboteer's milestone because the stored-format gate waits for it.
+
+**LV4 Context and the first hour.** The AGENTS.md contract and generators, `core packages`, the names-resolve check, the snippet runner, sample import and sync, the smoke run and the docs convention. LV4a (3 stories) is the contract, the generators and the names-resolve check, built to end before the first rewire; LV4b (4) is the rest and follows Corsairs. `package-init` and `adopt` print the line text link, and the context names a Pipeline range. Worth having alone: partly, Core's own AGENTS.md is useful alone. "Understood in an hour" is a person's judgement.
+
+**LV5 StrangersDev.** The stranger projects in nine parts, each switching on with the packages it installs: the harness and Core-only project (LV5a), the Core-only compile without Entities (LV5m), the card game (LV5s), the farming sim without Places (LV5b1, LV5b2), the village step (LV5b3), the MMO server's first build with the grid board step in a project with no game (LV5c0), the racing and underwater strangers (LV5c), and the matrix with its drift report (LV5d). The Matrix row reads 6000.3 and the studio's editor (6000.4 today). Worth having alone: yes, from the Core-only project.
+
+**LV6 The Spellbound window: Line and Package pages.** The window's Line and Package pages, installing and updating from git URLs; the package list comes from GitHub, and the catalogue reader picks the known-good line whose Core range admits the installed Core, since a package has one line per supported Core major. Branch mode: `#beta`, Update re-adds the line, and a known-good tag is shown as advice, never a pin. A buyer's window installs the known-good released tag for its Core major, with a major about every 12 months, an upgrade offered at a reduced cost (whether the Asset Store offers upgrade pricing for a UPM product is unverified), and bug fixes with no API break for a year inside a major. A held package (GeoForge Pro until its own pitch) is installed only against the GeoForge tag its catalogue line names.
+
+**LV6m Window maintenance and branch modes.** The window's three modes on a slice that needs no catalogue: the committed project setting (tags, branch, maintenance), the manifest writer for `#beta` and `#release-<major>` over the installed packages, and Update re-adding the line. A buyer installs a released tag, our games follow a branch, and a shipped game follows the maintenance branch of its Core major. It is the first Steam release itself (estimated 2028-06-08, with WF5m on 2028-06-12) and waits for every Saboteer-tagged part, Corsairs' soak, Diagnostics and Studio.Online, Core 2.0, the tag gate, the release checklist and the candidate tag; until it lands a pushed Studio change reaches a game by re-adding the package line through the Package Manager, which is the same text. Its first step confirms the settings mechanism and that the package manager exposes the installed commit. A person opens Saboteer once on the maintenance branch.
+
+**LV7 Gates.** LV7a: the push gate, the floor compile and the 6.3 row, which no longer wait for the move to 6.7. LV7b and LV7c: the tag gate and the release checklist, undated. LV7d (2 stories): the stored-format release gate, because a game sold on Steam is a customer from its first release, and the release scan, which fails a release when any shipped text file starts with a `%UNITY` directive newer than the oldest supported editor. LV7d stands in Saboteer's milestone and the soak waits for it together with L8u, so the guarantee exists before Saboteer's first Steam release.
+
+#### Workflow
+
+**WF1 One convention, one board.** The Area options, fields and report script, the commit subject rule, the issue forms and the artist onboarding form, the reusable workflow that opens a pull request from a pushed art branch, the GitHub App the organisation owns for the release and pull request Actions, and the settings story (protected default branch, required unity-tests status, code owner review on the judgment fields, `line-text-address.txt` with its copy test). WF1a (2), WF1b (10), and WF1r (1), which switches the artist ruleset on in each game repository in the sitting where A5a lands there. A5a in turn needs WF1b's App, Action and protected main first. Worth having alone: yes, the day it lands for the team.
+
+**WF2 Templates.** Skeleton, initialise, setup and callers, and the template files. The template carries `line-text-address.txt` and a branch-named PackageCheck manifest line; `skeleton-version.txt` becomes a record, not a held version. A person tries `setup.sh` on a clean Windows machine and a Mac.
+
+**WF3 Checks, adoption and the local gate.** The title check, the Unity jobs and the local gate, which runs `packagecheck surface` for the stored-format hash. The author runs the Unity tests before review. The test runner spike is a single undated story. A person types the post-status line and agrees merge blocking on private repositories.
+
+**WF3s Test runner spike.** Whether a CI runner is worth having beyond local Unity CLI runs. Not required for the plan; undated.
+
+**WF4 Releases from commits.** semantic-release and commitlint in CI only, beta and release-candidate branches, the first release, and the final tag mechanism. Nothing is pinned: games follow branches. A person merges beta into the release candidate and fast-forwards main at the first stable release.
+
+**WF5 The release train.** Six stories: release order (Core first), one command for a line release, and the line release cutting and protecting `release-<major>` in every repository when a Core major's tags are made (WF5a, 3); the pair matrix as a release artifact, the candidate tag starting the StrangersDev run, and `drift-report.sh` (WF5b, 2); and WF5m, the maintenance branch for a shipped major: its entry in the release configuration (whose `range` is the package's own current major, Inventory at 1.x carrying `range: 1.x` on `release-2`), the pull request guard that refuses a breaking change or a removed surface line, and the check that a shipped game's manifest line names it. WF5m is Saboteer's first Steam release (estimated 2028-06-12), after every Saboteer-tagged part, Corsairs' soak and the first final tags; the plan holds it within a week of LV6m. WF5b's release Action writes a package's known-good catalogue line for the major of the branch its tag was cut from, and the Matrix runs once per supported Core major. `consumers.txt` and the rolling bump pull request are removed. The drift report is run by hand.
+
+**WF6 Selling (undated).** Store packing, the listing generator, a licence pass, docs publishing, the support routine and the bug button. See the undated list.
+
+**WF7a Saboteer adopts the template files.** Saboteer's repository takes the template files, the title rule, a protected main and the tag script, touching no game code and no scene. It is Saboteer-tagged and is not a bug fix or media, so it may not run in the freeze; the cut-over takes the whole window before it, so this epic lands after the festival and the Next Fest demo is tagged by hand. The freeze rule (a change to a branch Saboteer follows that can break its build waits on a side branch inside the freeze and merges after Next Fest) is a Decision issue a person closes with text. The Steam deploy and the tag are the developer's.
+
+**WF7b Games ship the same way.** After Next Fest: Corsairs adopts the template files and the title rule and normalises its bundle version; both games replace ParrelSync with Multiplayer Play Mode and hold the art pull request caller; `tag-release.sh` attaches the build folder's file list to the release and prints whether the C++ runtime files of a Windows 6.7 build are in it, so the Steam upload includes them or the copy is switched off deliberately; and `pre-deploy-check.sh` in GameTemplate runs Living's release scan before BuildPipeline's deploy runs steamcmd. It waits for the maintenance-branch pair so no later Saboteer-tagged part comes before them.
+
+**WF8 Rituals.** The scheduled Unity release review issue, a per-sprint line review issue and a retrospective form.
+
+#### Studio and pitches
+
+**PWO WorldObjects pitch with its spike.** The WorldObjects pitch before L3: three stories of pitch (the world instance, the presenter, change and resolve, ids, the collision part in every build) and one spike story that tests the riskiest seam on a copy before the package is cut. It decides the shape of L3 and of the riding epic's last story. A person reviews and approves the pitch and judges the spike's result.
+
+**PP Persistence pitch with its spike.** The Persistence pitch before L8: three stories of pitch (the storage seam, the section attribute's use and the section header, the capture contract with a per-tick budget, a database implementation that never blocks a tick, and the upgrade of a shipped game's old saves) and one spike story. It sizes L8, L8c, L8u and L8b. It runs in the first weeks of the plan because the first slice of Persistence (L8a) waits for it; the developer approves it in November.
+
+**L11 Studio packages.** StudioDev with its five packages: Studio.Tools first (the shell the ledger check, the art destination and the house rules need), then Gameplay (equipment, talents, the house set of states, tooltip wording, after its pitch), Online, Presentation and Content as the libraries they compile against land. Studio.Content holds only what both games share and never names a game. L11d1 holds the studio character and its hold pose only: a Studio.Content controller component over Character.Body carrying `IPlayableCharacter`, with the neutral four states imported from Character's sample, so it waits for Character and the rig surface and not for Studio.Gameplay; the gym profile type and the studio's profile are W4c's; the commands that grant abilities are L11d2's. UI1b creates the Studio.Presentation package folder in StudioDev and L11b the Studio.Online one, so Saboteer's chat profile stays in Saboteer until Studio.Online exists; L11c is what remains of Presentation. Studio.Online waits for Diagnostics. Studio.Content is edited in StudioDev and never inside a game. Worth having alone: yes, cluster by cluster.
+
+**PG Studio.Gameplay pitch.** The Studio.Gameplay pitch: equipment, skills and talents as Studio compositions of Inventory's and Modifiers' public surface, and the tooltip lines. It follows the Inventory and Modifiers audit, so it designs against the seams that exist. A person reviews and approves the pitch.
+
+**PW WorldForge internals pitch.** The deeper pitch for WorldForge's internals: the generation model the world model's boundary seams were drawn for. It follows the first half of the world model and precedes the second. A person reviews and approves it.
+
+**PIN Instancing internals pitch.** The deeper pitch for Instancing's internals (grass, impostors, levels of detail), after the batch measurement and the Instancing seam. Instancing draws with Unity's `BatchRendererGroup` only. A person reviews and approves it.
+
+#### Calendar and rounds
+
+**SF Saboteer festival: ship the demo, demo defects, festival fixes, wrap up.** Four gates on fixed days, estimated and moved with whatever Steam's partner page says: SFa on 2027-02-03 ships the demo build, SFd on 2027-02-09 handles defects before the press preview (2027-02-11), SFb on 2027-02-24 fixes what the festival shows, and SFc on 2027-03-02 wraps up and re-tests. A fix to a package Saboteer uses is made on that package's branch. A person chooses the build, runs the Steam deploy and the tag.
+
+**AUc Core's audit before Core 2.0.** Core's own audit against the line's rule for Core and the surface review, the compile cost re-measured, and one gate for what it finds. A step to Core 2.0, estimated 2028-05-15 to 2028-05-17, before Saboteer's first Steam release.
+
+**CT Core 2.0.** The stable tag of Core's rewrite, above the baseline `v1.1.9` (estimated 2028-05-19). After it Core changes only additively; a breaking change waits for a major, at most once per Unity LTS cycle.
+
+**FX Findings fixed after each round.** The gates that fix what each eight-lens round finds: three after the foundation round, the Saboteer milestone and the Corsairs milestone, three after the line is complete, and six after the audit. Nothing waits on it; it keeps the rounds honest.
+
+**AU Audit pass of the other packages.** One audit pass over every package that is not Core, after the line is complete, with the fix gates that follow it. Ends the plan.
+
+## Pitches, spikes and probes
+
+Five deeper pitches. A pitch is three gates and 1.28 million tokens; the two put before L3 and L8 carry a spike story and are four gates and 1.41 million. A person reviews and approves each pitch before the epic it precedes starts.
+
+| Pitch | Name | Follows | Precedes | Estimated start | Estimated end | Gates | Tokens (M) |
+|---|---|---|---|---|---|---|---|
+| PWO | WorldObjects pitch with its spike | L1, R0 | L3, R3c | 2027-04-12 | 2027-04-15 | 4 | 1.41 |
+| PP | Persistence pitch with its spike | L2c | L8a, L8, L8c, L8u, L8b, UI6b, UI4a1 | 2026-11-26 | 2026-12-02 | 4 | 1.41 |
+| PG | Studio.Gameplay pitch | L6 | L11a1 | 2027-09-07 | 2027-09-09 | 3 | 1.28 |
+| PW | WorldForge internals pitch | W1a | W1b | 2028-02-01 | 2028-02-03 | 3 | 1.28 |
+| PIN | Instancing internals pitch | UN3, UN5 | UN7, IN1 | 2028-07-05 | 2028-07-10 | 3 | 1.28 |
+
+Not scheduled: the MMO's own shard pitch, the prediction pitch of the first game that predicts, the second WorldForge pitch for an unbounded world, and any pitch the audit pass finds missing. Each is one more pitch of the same price when a game asks.
+
+Spikes and probes, with what each blocks. Each is a story inside the epic named, priced there, and ends in a written go or no-go closed by a person.
+
+| Spike or probe | In | What it blocks |
+|---|---|---|
+| Unity 6.7 beta and a Unity 7 alpha copy (estimated 2027-01-21 to 2027-01-27) | UN9 | Nothing; nothing waits for it. Its note feeds the executive brief |
+| Reflection discovery against 6.7 and the next major under stripping, Mono and IL2CPP | CL1 story 1 | Every story that registers an operation; a no-go moves discovery to a source generator |
+| Packages/<name> with git and Git LFS inside, version defines, path install, Samples~, the short folder name | LV1a story 1 | Every repository restructure, the template and every new package repository |
+| Bootstrap on clean 6000.3 and 6000.4 projects | LV1a story 2 | Core's constraint in every epic that rewrites a package |
+| `TypeCache` finds an attributed class that implements a closed generic interface (fallback: scan of marked assemblies) | CL4 story 10 | The check seam and every check registered through it |
+| Project Auditor on 6000.3 and 6000.4 | LV3a | The compiled smell rules, which are text scans until it answers |
+| Pro's nine generation passes | W20 | W2a and Saboteer's boards (W10a) |
+| The saved world: what a save stores, what the fingerprint names | W70 | W7 and the stored-base stories |
+| The far-field renderer: candidates, reference machine, world sizes | W6p | W6a's measurement and the choice of renderer |
+| The far layer plan (estimated 2027-07-13) | W6n | NW9 and W11, together with the renderer's measurement |
+| Navigation: tile build time, bytes, nodes per millisecond, the level seam (estimated 2027-05-05 to 2027-05-11) | NV1 | W2a (the GeoForge read it judges), NV2 and everything after it |
+| The batch path against today's draw path | UN3 | UN4a, UN5 and UN7 |
+| Does Simulate order as designed from a latest-order FixedUpdate | NW3s | R3d, the world-step order test |
+| Who steps a world that predicts: `PredictionManager` and a driver in one process (estimated 2027-01-15) | NW10 | L3's driver story |
+| PurrDiction's packing, the black box in shipped builds, its file | NW7 | Any prediction in a game; the shipped recorder in Diagnostics and the retirement of Saboteer's crew log relay |
+| The WorldObjects pitch's spike | PWO | L3 and R3c |
+| The Persistence pitch's spike | PP | L8a and with it UI4a and UI6b; then L8, L8c, L8u, L8b |
+| A pushed branch of the shape `art/<artist>-<slug>` opens the pull request; any other shape is refused | A5a | A5a's caller and WF1r |
+| The test runner | WF3s (undated) | Nothing; local Unity CLI runs are the merge rule meanwhile |
+
+## The undated list
+
+Undated: they wait on the second milestone and on decisions that need Corsairs on the line. Core's audit, Core 2.0, the tag gate and the release checklist left this list: Saboteer's first Steam release waits for them, so they are dated (step 66).
+
+| Item | Gates | Tokens (M) | Waits on | Why it is undated |
+|---|---|---|---|---|
+| Selling: store packing, listing, docs, support (WF6) | 7 | 0.93 | WF4a, CL2, WF6a, WF4b | a store step; publisher enrolment (five to seven business days) is the developer's own story and not a gate |
+| Test runner spike (WF3s) | 1 | 0.13 | WF3a | not required: local Unity CLI runs are the merge rule |
+| The far layer build (W11, provisional) | 6 | 0.88 | W6n, W6a, W7, NW9 | waits for the far-field renderer's measurement |
+
+### After the plan: a Core major
+
+After Core 2.0 a change between majors is additive. A Core major comes about every 12 months with the line's move to the Unity LTS of its time; buyers are offered the upgrade at a reduced cost and get bug fixes, maintenance and no API break for a year inside a major. No one has run a cycle, so the budget is priced by analogy to the epics named.
+
+| Step | Gates | Tokens (M) |
+|---|---|---|
+| Move to the new LTS | 4 | 0.56 |
+| Ledger re-judged against the new LTS | 1 | 0.16 |
+| Canary editor and domain-reload run | 1 | 0.17 |
+| Floor compile and test rows: the new row in, the row the floor leaves out | 2 | 0.29 |
+| Core major: audit and surface review | 3 | 0.51 |
+| Stored-format gate over every package's surface file | 1 | 0.16 |
+| Release order, one command, and the maintenance branch cut and protected in every repository | 3 | 0.40 |
+| Throwaway copy opened once in the newest Unity alpha | 1 | 0.14 |
+| Previous major kept for one cycle: backported fixes | 2 | 0.28 |
+| Ledger re-judged at each Unity update release in the cycle (about three) | 2 | 0.29 |
+| Upstream drift: PurrNet, URP, the Steam SDK | 2 | 0.29 |
+| Shipped games' saves checked against the new layouts | 2 | 0.29 |
+| Findings of the cycle's round fixed | 3 | 0.45 |
+| One eight-lens round over the major | 0 | 0.91 |
+| **Per major** | **27** | **4.89** |
+
+About 27 gates and 4.9 million tokens per major, about 6 percent of a year at two streams (a year holds about 450 gates). Not in the budget: the support routine, the studio's own packages' minors, and backported fixes beyond the two gates above.
+
+## The backlog
+
+Items that wait for the separation or for a measurement. Each names what it waits on and where it lands. Priced and not scheduled unless stated.
+
+| Item | Waits on | Lands in |
+|---|---|---|
+| Pack into a caller-owned buffer; decode limits; bit writer | PK | Core |
+| Standard read and write as fast as the bitwise path | PK | Core |
+| SmartPacker rewrite | PK | Core |
+| Byte-data carrier for every packed RPC | NW2 | Networking |
+| No text through PurrNet's string (corrupt above U+00FF) | PK, NW4a, UI4b | Core, Networking, Switchboard |
+| Delta encoding against what each player confirmed | PK (pure half), NW6 (per player, conditional on a measurement) | Core, Networking |
+| Turn PurrNet and PurrDiction telemetry off in every project | now; NW5 checks it | Studio.Online, games |
+| Seventeen module defects | NW2 (base), NW3b (Corsairs modules) | Networking |
+| Late-join paging, host loopback, pending observers, tick list, per-flush allocations, decode before consumer check | NW1, NW2 | Networking |
+| Voxel edit encoding; per-joiner edit table rebuild | W2a, NW2 | GeoForge, Networking |
+| Logging in join paths; verbose defines out of shipping builds | now | Corsairs |
+| Game time request every tick; round trip per hit | NW4b, R6 | Corsairs |
+| Seven scaling fixes | L3 (ids, euler), UN4a (index, proximity), NW3a (page size) | WorldObjects, Networking |
+| Saboteer's two no-rollback item paths | R6b | Saboteer over Inventory transactions |
+| Debug.Log in four packages | LV3a mechanical fixes; each package's restructure story | GeoForge, Switchboard, Persistence, Volumetrics |
+| Six packages demand a Resources folder | UN2 (registry asset) | each package |
+| Sample assets under Resources in Modifiers and Controller | L6, L4 | Modifiers, StateMachine |
+| GeoForge leaf prefab internal, own pools | L7a | GeoForge |
+| Decals' URP reference in the main assembly | L12 | Decals |
+| Land assumptions in WorldForge and Volumetrics | W1a, L12 | WorldForge, Volumetrics |
+| Unity package versions disagree across packages | LV1b (restructure) | all |
+| `UnityEditor` outside the editor guard in a runtime file (unverified) | L1 | Core |
+| The `useWorldForge` toggle | W2b (WorldSystem retired) | Corsairs |
+| Fifteen link renames | WF1b | all |
+| SpellboundDocs rebuilt from the documentation folders | WF6b (undated) | SpellboundDocs |
+| Rope level of detail and fake ropes | L12, then its own epic | TetherShop |
+| Terrain edits with any shape | W2a | GeoForge |
+| Point of interest workflow, nesting, sharing, skirts | W4a, W4b, W4c | Places, WorldForge |
+| Capture volumes from players | W4c, L11d1, L11d2 | Places, Studio.Content |
+| Models, armour, cosmetics, held items | A2, A4, L11a1 | ArtPipeline, Character, Studio.Gameplay |
+| Mechanics that break | R3a, R4, R6, R7b | Character, Inventory |
+| Grass, view distance | IN1, W6b, W7 | Instancing, Horizon |
+| Two-process network tests | NW2, WF7b (Multiplayer Play Mode) | NetworkingDev |
+| UI Toolkit runtime bindings replacing binders | UI4a, UI5 | UI, Switchboard, Inventory |
+| A lobby seam in Networking with Studio's Steam implementation | NW2, L11b | Networking, Studio.Online |
+| The Logging framework's export read by Core's sinks | MV | Core |
+
+Voxelising meshes belongs to GeoForge Pro and is out of scope.
+
+Marked backlog by their owners, priced and not scheduled:
+
+| Item | Gates | Tokens (M) | Waits on | Lands in |
+|---|---|---|---|---|
+| R5b Ragdoll driver on motion claims in Character.Rig | 7 | 1.07 | R3a, R5a, L4 | nothing on the line waits for it |
+| NV7 Strategic layer | 6 | 0.98 | NV3, W1a | Navigation |
+| NV8 Jumps, drops and ladders as links | 5 | 0.79 | NV3, NV4 | Navigation |
+| NW6 Delta codecs (conditional on a measurement) | 3 | 0.44 | NW2, PK | Networking |
+| Joined state replay with Networking's journal | not priced | | CL1b, the networking journal | Core |
+| Blender and Maya integration | not priced | | A1b, A2 | ArtPipeline |
+| Plan by region for unbounded worlds | not priced | | W1b | WorldForge |
+| Diagnostics' shipped recorder, its file and its relay, and the retirement of Saboteer's crew log relay they allow | not priced | | NW7's answer | Diagnostics |
+| Catch-up of physics after a hitch: for now physics may fall behind the clock; a later discussion once the games iterate, held for that discussion | not priced | | R3d, NW4b | Runtime, Networking |
+
+Nothing in the backlog decides a boundary. Items moved up into the critical path because they do: the resource registry seam (L1 and UN2), the golden hashes (W1g), the baseline soak (R7a), the packing slice (PK).
+
+## The developer's own acts and dates outside the gate count
+
+- **Steam's partner page:** check the festival dates, the last day a demo build may change and the registration steps before 14 December 2026. Third-party dates: Next Fest 22 February to 1 March 2027, press preview 11 February, registration about 10 January. The cut-over has no margin against a freeze that starts earlier than 2027-01-14.
+- **Publisher enrolment:** five to seven business days; undated, no gate.
+- **Asset Store review:** the time between submitting and going live is not stated anywhere and was not measured. It sits after the second milestone.
+- **Unity 6.7 LTS:** expected at the end of 2026 (the studio's estimate; no Unity page gives a date). UN9 installs the beta in a throwaway copy (estimated 2027-01-21 to 2027-01-27). The move (MV) does not start before 2027-01-04 and nothing waits for it. Unity 7 has no final date; UN9's fourth story opens one copy in the newest alpha once.
+- **6.3 LTS end of support, December 2027:** the floor moves to 6.7 then (FL, 2 gates, estimated 2027-12-13 to 2027-12-14).
+- **The merge of Modifiers' branch:** estimated 2027-03-02, after the festival's last gate; the developer's act.
+- **Saboteer's first Steam release:** the act has no gate; it is estimated 2028-06-12, after every Saboteer-tagged part, Corsairs' soak and the first final tags, and LV6m and WF5m put the window's mode and the maintenance branch in place that day (step 66). Until then Saboteer follows the branches. The order is confirmed by the developer's note of 2026-10-24: Saboteer does not release until the packages are final.
+- **GeoForge Pro:** the catalogue holds it with the status `held` and names the last GeoForge tag it compiles against; a Pro pitch is undated.
+- **Leave and public holidays:** priced as a rate row, not as dates.
+
+## How the plan differs from the product
+
+Nothing in this plan was run. The dates are the scheduler's run of 2026-10-24 (`Planning/PackageLine/Pitch/Revisited/Workflow/roadmap_svg.py` in the Spellbound workspace, re-priced with the owners' counts). The only measured figure is the cost of a red-team round, taken on the line in an earlier round. Every other cost is computed, every date comes from a program that places the epics on two streams, and every one of them is an estimate.
+
+| Cost | Per unit | Assumption |
+|---|---|---|
+| Reading | 36 tokens per line in scope | 12 tokens per line, read three times across a story's life |
+| Writing | 30 tokens per line written | 15 tokens of output per line, written twice (draft, fix after the gate) |
+| Verify loops | 8,000 tokens each, 6 per story | recompile, console, test run, read back |
+| Session overhead | 40,000 tokens per session, 2 per story | skills, instructions, memory, the status file |
+| Fan-out | reading times 1.5 | applied to every epic that reads 8,000 lines or more |
+| A deeper pitch | 1.28 million for 3 gates | 15,000 lines read, 3,000 written |
+| A red-team round | 0.32 million per epic of 8 stories or more | four readers, measured |
+| A milestone round | 0.91 million | eight readers over the whole, measured on the line |
+
+So a story costs 128,000 tokens before its reading and writing. The lines read and written are the owners' own estimates. Tokens do not cover wall-clock: Unity compile and test loops and the gate's turnaround are clock.
+
+- **The gate rate is unmeasured.** One gate per person per working day is the planning rate; sprint 1 measures it and the plan is re-issued. The token rates are unmeasured too; the first story of most epics measures what the epic's cost rests on.
+- **The program is a heuristic.** No part is preempted once started, so a small change of input moves a date by days in either direction. The sensitivity rows below are separate runs, not a prediction of the next one.
+- **Reserve:** the last working day of every sprint with 8 or more working days is held back on both streams (10 percent of capacity); the dates already include it. Sprints 5 and 31 (the Christmas weeks) have none. Off days: 2026-12-24, 25 and 28 to 31, 2027-01-01, 2027-12-24 and 27 to 31, 2028-12-25 to 29.
+- **Placeholders sized later:** L8a (the first 2 of Persistence's 6 gates), L8c and L8u (4 each) are sized by the Persistence pitch; IN1 and L8b are placeholders for their pitches; L6, the house-set story in L11 and the collision story in L3 are the planner's sizings.
+- **The planner's splits:** CL1/CL1b, CL3a/CL3b, CL4/CL4b, UI1/UI1b, UI4a1/UI4a2/UI4a, UI4c, L8a/L8, R4p, W2c, W10aL, W6n, WF1r, WF5m, NW2g, and L1r, LV4a, A5a, L8c, L8u and MV. The owners hold their epics whole.
+- **Counts the owners state differently** (the plan's figure is the plan's): L1 10 against 7, L3 10 against 9, L4 10 against 8, L6 5 against 7, L11 11 against 10, L12 8 against 7, MV 7 against 4, UI1 11 against 9, NW2 13 against a claim list of 12, UN8 5 against 6 (the area's six stories are priced as five gates), WF2 8 against 9 (the layout probe is LV1a story 1, counted once in Living's epic). After the readers' round the owners' tables moved again and this re-run (2026-10-24) priced them: Runtime 98 (R6d is 3 stories), Art 56 (A5a 6 and A5b 4; A4c 2 new), and UI4c, Corsairs' compile-only cut-over with the train (2 gates, the planner's own lines, 1,500 read and 400 written by analogy to CL3a). Command line's table sums to 72, the plan's figure; Workflow's 68 against 67 and Unity's 56 against 55 each count once more a probe the plan prices elsewhere (WF2's layout probe in LV1a, UN8's Project Auditor probe in LV3a) and stand at the plan's figures. Totals by area as priced: Line and Core 93, Pitches 17, Studio 11, Command line 72, Runtime 98, UI and text 70, World 166 (160 plus W11's 6 undated), Networking 60, Unity 55, Navigation 67, Art 56, Living 64, Workflow 67, Calendar and rounds 28.
+- **Classes differ in places:** the plan places an epic by the rule that an epic belongs to the first milestone that needs it (an epic that rewires, deletes code from or moves a game, and everything it depends on). Where an owner filed another class (CL4, CL6, CL7, R2, R8, UN1, UN2, UN7, UN8, UN9, W2b, W2c, NW10, UI4b, WF2, WF1a, WF1b, WF7a), the plan's class stands.
+- **Not in the gate count:** Steam's own steps, the Asset Store review, publisher enrolment, leave and public holidays.
+- **Unknown from here:** whether Unity 6.7 LTS ships at the end of 2026, how PurrNet behaves on 6.7, Steam's festival steps, and anything that runs. The 6.3 test row and the floor compile run by hand until LV7a lands.
+- **Open consequences:** a prop sent to Corsairs sits at its pivot until Corsairs' prefabs follow the contract (A4c, estimated 2028-04-17); the shipped black box recorder is unpriced; the cut-over runs on the studio's own skill files because the shipped agent context lands after it.
+
+If the rate differs (each row is a fresh run, every date an estimate):
+
+| Case | Saboteer on the line | Saboteer's first Steam release | Corsairs Isle on the line | End | Cut-over ends |
+|---|---|---|---|---|---|
+| Plan: two streams, one gate per person per day, freeze from 14 January | 2028-01-10 | 2028-06-12 | 2028-04-25 | 2028-10-11 | 2027-01-14 |
+| 0.93 gates per person per day (leave and holidays) | 2028-04-10 | 2028-10-20 | 2028-08-21 | 2029-03-27 | 2027-03-29 |
+| 0.75 gates per person per day | 2028-06-30 | 2029-02-13 | 2028-11-29 | 2029-08-02 | 2027-04-06 |
+| 1.25 gates per person per day | 2027-11-11 | 2028-04-06 | 2028-02-23 | 2028-07-25 | 2027-01-11 |
+| Three streams (a third person at the same rate) | 2027-08-17 | 2027-11-29 | 2027-10-26 | 2028-02-28 | 2027-01-05 |
+| One stream | 2029-03-07 | 2029-12-20 | 2029-10-08 | 2030-09-05 | 2027-04-20 |
+| One person away for the cut-over run-up (sprints 3 and 4), worse stream | 2028-01-20 | 2028-06-22 | 2028-05-08 | 2028-10-24 | 2027-03-17 |
+| Unity 6.7 ships after 2027-07-01 (only the move waits) | 2028-01-10 | 2028-06-12 | 2028-04-25 | 2028-10-11 | 2027-01-14 |
+
+The freeze rows are equal because the work that would run in the freeze window is package work the streams carry anyway. The only rows that move the cut-over are the ones that take capacity before 14 January. Losing a quarter of the rate (1.00 to 0.75) costs about 31 weeks on Corsairs. If the release checklist did not wait for the racing and underwater strangers, the first release would be 2028-05-23, 20 days sooner.
+
+## The stories of step 1: Core as assemblies (L1 with L1r)
+
+Step 1 is the smallest slice that shows the shape: Core redrawn as assemblies and every consumer compiling against them, with no behaviour changed. L1 has seven stories and L1r three. Stories L1-1 to L1-6 and L1r-1 to L1r-3 are step 1; L1-7 waits for the layout probe and is the first story of step 2. The split of L1 into seven stories is the planner's; the outcomes are the epic's. Facts are marked **verified** with the date (checked in source or measured) or **verify before building on it** (a lead from a survey that another session may have changed since).
+
+Applies to every story of the step:
+
+- **Rules:** Core's assemblies depend on the engine modules and nothing else Spellbound; references point down or sideways, never up; names are spelled out, one type per file, explicit access modifiers, no comments or XML docs, logging through Core, C# formatted to the studio's Rider settings (brace on the same line, 4 spaces, 120 columns, CRLF).
+- **Rules:** a move changes no namespace and no public type; no alias, no `MovedFrom`, no parallel old and new path; every consumer of a moved type is updated in the same change.
+- **Rules:** work only in the directories the kickoff names; a gap in a dependency or a change that belongs in another package is raised in the report and stops that story, never worked around; nothing merges to a branch the games follow.
+- **Rules:** every consumer resolves Core from GitHub and the lead never touches git, so no branch exists for the working tree. Each consumer's project takes a temporary manifest line of the form `"com.spellboundstudios.core": "file:../../CoreDev/Packages/Core"` (the path as it is on this machine) that points at CoreDev's working tree; it is a local path and not a pin, it is listed in the report under Files, and the developer removes it when the branch exists and the work merges.
+- **Regression contract:** Core's edit-mode tests pass unchanged (138, counted by attribute on 2026-10-22, not run: **verify before building on it**); the logger, packing, hashing, registries, `SingletonManager`, weighted tables and assembly scanning behave as before; every type that was public stays public under the same name and namespace.
+- **Regression contract:** Saboteer and Corsairs compile against the branch once L1r's references are in; neither game's code, scene or prefab changes.
+- **Done, for each story:** compiles clean in the dev project through the Unity CLI (`unity command recompile` with `--project-path`, then the console shows no error), the tests pass, and the report lists what moved and what was proposed.
+
+### L1-1 The engine-only assembly
+
+- **Outcome:** Core's runtime has one assembly that depends on the Unity engine modules alone and references no Unity package.
+- **Verified (2026-10-22):** Core 1.1.9 on its development branch has 124 runtime files, 62 of them a world-object framework.
+- **Verified (2026-10-22):** Core's assembly references Entities, Entities.Graphics, Entities.Hybrid, Burst, Collections, Mathematics, Transforms, TextMeshPro, Input System and uGUI, and Unity.Physics and Unity.Physics.Hybrid, which are referenced and unused.
+- **Verify before building on it:** `ImmutableAttribute.cs` line 3 has `using UnityEditor;` outside the editor guard in the runtime assembly; check it in this story and fix it if a player build would not tolerate it.
+- **Rules:** the engine-only assembly keeps the name every consumer references today (`Spellbound.Core`); the new assemblies take new names, default `Spellbound.Core.<Part>`, named in the report.
+- **Regression contract:** the vocabulary Core keeps (logger and sinks, tallies, packing, FNV hashing, registries, `SingletonManager`, weighted tables, assembly scanning) compiles in the engine-only assembly unchanged.
+- **Done:** the assembly definition lists no Unity package; the report holds the table of folder to assembly.
+
+### L1-2 The world-object assembly
+
+- **Outcome:** Core's world-object folders (Objects, ObjectData, ECS, ModuleContracts) sit in an assembly of their own, awaiting WorldObjects.
+- **Verified (2026-10-22):** the framework pulls Entities, TextMeshPro, Input System and uGUI into every project that installs Core, a card game included; Core has no tests for the ECS systems, presets, `DeltaResolver` or console parsing.
+- **Verify before building on it:** Modifiers' `StatData.cs` and 68 Corsairs files use the moved namespaces (searched 2026-10-24); WorldForge's assemblies reference only Core's main assembly.
+- **Rules:** the Entities references stay inside this assembly until Entities leaves Core's manifest, which is another epic's last story (UN4b); nothing here removes a package.
+- **Regression contract:** a type that moves keeps its name and namespace; with L1r in, both games compile and behave as before.
+- **Done:** the engine-only assembly does not reference this one; the report lists the types per assembly.
+
+### L1-3 The console assembly
+
+- **Outcome:** Core's console folder sits in an assembly of its own, default `Spellbound.Core.Console`.
+- **Verify before building on it:** `Core.Console` is used by 2 GeoForge files, 3 Chat files and 1 VolumetricFog file (searched 2026-10-24).
+- **Verified (2026-10-22):** Core's console is a uGUI console over a registry; its views are deleted later by the UI work, not here.
+- **Rules:** nothing is deleted or rewritten; the old console keeps working exactly as it does.
+- **Regression contract:** the three console mechanisms (Core's registry, Chat's second registry, the views) run as before in both games.
+- **Done:** compiles; the report names every consumer of the namespace so L1r can follow.
+
+### L1-4 The folder cycles
+
+- **Outcome:** the cycles between Core's folders are broken so every new assembly compiles with references pointing one way.
+- **Verify before building on it:** the cycle list comes from an outside review and the survey, not from this plan; read the real references in source first and list them in the report.
+- **Rules:** break a cycle by moving the shared type down into the assembly both sides reference, or by an interface in the lower assembly; do not merge assemblies back to hide a cycle.
+- **Rules:** if the clean fix needs a change outside Core, say so and stop that cycle.
+- **Regression contract:** no behaviour test changes; no public type changes its namespace.
+- **Done:** zero cycles; the report lists each cycle found and how it was broken.
+
+### L1-5 Packing and engine types
+
+- **Outcome:** it is known whether Core's packing uses any engine type, and if it uses none, packing compiles with no engine references.
+- **Verified (2026-10-22):** the same packing is the save format, the wire format and WorldObjects' instance data, so a change to packing itself is a Core major.
+- **Rules:** packing's byte layout does not change; no format version; if it does use engine types, list them in the report and leave packing where it is.
+- **Regression contract:** a round trip over every packed type, and a byte comparison of the output before and after the story, are identical.
+- **Done:** a written result in the report, and the compile setting changed only when the result is "none".
+
+### L1-6 The rebuild, measured again
+
+- **Outcome:** the clean rebuild of both games is measured again against the survey's figures.
+- **Verified (2026-10-22, one clean rebuild per game, Ryzen 9 9950X3D, 16 cores, 61.6 GB):** Corsairs' compile graph took 35.4 s and Saboteer's 20.4 s; Core started at 27.9 s and 16.1 s because it references Entities Graphics, which finished at 27.6 s and 15.8 s; Core's own compile and post-process took 0.44 s and 2.21 s in Corsairs, 0.38 s and 1.62 s in Saboteer.
+- **Verified (2026-10-22):** the two runs were taken under different conditions (Corsairs in a windowed editor, Saboteer in a headless one); take both the same way this time.
+- **Rules:** use the Unity CLI as the survey did (`CompilationPipeline.RequestScriptCompilation` with a clean build cache through `unity command eval`, then `unity recompile`), and read per-assembly times from `Library/Bee/fullprofile.json`.
+- **Regression contract:** no project file changes for the measurement; no claim without the numbers.
+- **Done:** the survey's table repeated, with the honest reading: a game still waits for Entities Graphics until Entities leaves Core's manifest, so a gain is expected for package projects and non-Entities consumers and not for the games yet.
+
+### L1-7 Core's repository to the settled layout (first story of step 2)
+
+- **Outcome:** Core's package folder sits at `Packages/Core` in CoreDev, arranged as the layout probe (LV1a) proved.
+- **Verified (2026-10-22):** each package's repository sits inside its package folder today (for example under `Assets/Core`) and the dev project roots are not repositories.
+- **Rules:** built only after the probe has passed; the lead never touches git, so moving a repository's root is the developer's act and this story prepares and verifies the move.
+- **Regression contract:** file identities (the GUIDs in the meta files) are kept; Core compiles and its tests pass in the moved layout.
+- **Done:** the dev project opens on the new layout and the report says what the developer must move.
+
+### L1r-1 GeoForge, Chat and VolumetricFog follow
+
+- **Outcome:** the assemblies of GeoForge, Chat and VolumetricFog reference the new console assembly wherever their files name the console namespace.
+- **Verify before building on it:** `Core.Console` appears in 2 GeoForge files, 3 Chat files and 1 VolumetricFog file (searched 2026-10-24).
+- **Rules:** edit each package in its own development project; change assembly definitions only, plus the temporary manifest line the step's rules allow.
+- **Regression contract:** each package compiles and its tests pass against CoreDev's working tree; no public type of the package changes.
+- **Done:** all three compile through the Unity CLI against the working tree; the report lists each file edited.
+
+### L1r-2 Modifiers and every other package follow
+
+- **Outcome:** Modifiers and any other package assembly that names a moved namespace references the matching new assembly.
+- **Verify before building on it:** Modifiers' `StatData.cs` uses the world-object namespace (searched 2026-10-24); search every package for the others instead of trusting this list.
+- **Rules:** assembly definitions only, plus the temporary manifest line; if a package needs more than a reference, raise it in the report.
+- **Regression contract:** Modifiers' tests (196 plus the performance suites, counted 2026-10-22) pass; **verify before building on it**.
+- **Done:** every Spellbound package compiles against CoreDev's working tree; the report lists the search and its results.
+
+### L1r-3 The games' own assemblies follow
+
+- **Outcome:** Corsairs' assemblies (WorldForge, WorldSystem, TalentSystem and the tests) and any Saboteer assembly that names a moved namespace reference the new assemblies.
+- **Verify before building on it:** 68 Corsairs files use the moved namespaces and WorldForge's references name only Core's main assembly (searched 2026-10-24); the search for Saboteer was not run.
+- **Rules:** assembly definitions only, plus the temporary manifest line, no scene, prefab or script change; WorldForge is edited in its own development project, the others in the game that owns them.
+- **Regression contract:** both games open and compile against CoreDev's working tree and their existing test assemblies compile.
+- **Done:** both games compile; nothing is merged to a branch they follow (that is the later step that also carries LS and LM).
+
+## The kickoff prompt for step 1
+
+Send this to a fresh session. The optional line grants one preview aid; remove it if you do not want to grant it. Step 1 has no user-facing strings, so there is no wording list to skim.
+
+```
+Load the lead-engineer and library-design skills and follow them.
+
+Build step 1 of the Roadmap in the line folder of the organisation's .github repository (Roadmap.md,
+with Line.md and Brief.md beside it): stories L1-1 to L1-6 and L1r-1 to L1r-3, Core as assemblies and
+every consumer's references. Work in /d/dev/unity/spellbound/CoreDev, and for L1r only the assembly
+definitions and the temporary manifest line named in the stories in GeoForgeDev, ChatDev, ModifiersDev,
+the VolumetricFog development project (verify its folder name), WorldForgeDev and the game projects.
+Read the Roadmap fully first, then the Line text's sections on Core and the rules of the line, then the
+Core sections of Areas/Line.md beside it, the area file the step names. Read
+nothing else.
+
+The plan is not the product. Nothing in it was run. Facts marked "verify before building on it" are
+leads: check them in the code before relying on them.
+
+You own the delivery. Use subagents where the work really splits, review every diff yourself, and
+walk every regression contract before you report. Never touch git; leave everything in the working
+trees. If a gap belongs in another package, say so in the report and stop that story.
+
+Optional: you may create one throwaway Unity project outside every repository for the Core-only
+compile and the rebuild measurement, and run the Unity CLI against the projects named above; nothing
+else outside them.
+
+Stop after step 1. Do not start L1-7 or anything else. End with the report the Roadmap asks for,
+the list of evidence you need from me, and "ready to test".
+```
+
+Then one follow-up prompt per remaining step, sent only after the evidence for the step before has been sent and the developer has said to continue:
+
+```
+Continue with step N of the Roadmap: <the epics and parts in the step's row>. Same rules as before.
+Stop after step N.
+```
+
+Step 2 starts with L1-7 and is sent as: "Continue with step 2 of the Roadmap, starting with story L1-7. Same rules as before. Stop after step 2." A step that names a pitch, a spike or a probe stops at its written result; the developer's answer is part of the evidence.
+
+## The report each step ends with
+
+Every step ends with the report defined in the line text ("The report a build step ends with"): stories with a status word, the regression contract walked line by line, compile and tests with counts, measurements beside the computed figures they replace, settings taken with their defaults, gaps raised, strings proposed and not changed, each "verify before building on it" fact confirmed, changed or unchecked, files changed, evidence needed, the developer's by-hand checklist for the Unity Editor, and "ready to test" as the last line. This plan adds two lines to it:
+
+1. **Cost:** gates used against the step's gates in the table, tokens used against the plan's figure for its epics, and, once sprint 1 has run, the measured gate rate and token rate so the plan can be re-issued.
+2. **Stop:** which item of the step's "Stop and wait for" column is the evidence the lead needs, so the developer can send it and say to continue.
+
+
+## What to read
+
+A builder reads this file in full, the line text for the packages, the rules of the line and the shared conventions, and the brief only to learn what the line is. For the step being built, the builder also reads the sections of the area file that the step's epic ids name (the list under the build steps), because the design of each epic lives there and only step 1's stories are written out here; the step's own stories are written from those sections at the step's start and approved before the first is built. Nothing else of the pitch is a source: where a fact is marked "verify before building on it", check the code, not the pitch.
