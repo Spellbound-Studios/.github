@@ -1,0 +1,51 @@
+name: Move
+description: Move a project or the whole line to another Unity editor version
+type: Story
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title names the move, for example *Move to Unity 6.7 LTS*. A working project is never opened in a newer Unity than its ProjectVersion.txt names outside a Move story; a newer Unity opens a throwaway copy first. The ledger of Unity systems the line builds on says what each editor changes. The line text is at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: input
+    id: from
+    attributes:
+      label: From
+      description: The editor version the projects are on today, as ProjectVersion.txt writes it
+    validations:
+      required: true
+  - type: input
+    id: to
+    attributes:
+      label: To
+      description: The editor version to move to
+    validations:
+      required: true
+  - type: textarea
+    id: ledger-rows
+    attributes:
+      label: Ledger rows that change
+      description: One per line, from the Unity ledger and the release notes
+  - type: textarea
+    id: projects
+    attributes:
+      label: Projects to move
+      description: One per line, in order. Every package dev project, then the games
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      value: |
+        - [ ] Throwaway copy opened once in the new editor; errors and warnings listed
+        - [ ] Ledger rows judged changed, unchanged or unsure
+        - [ ] Each project moved and its tests run
+        - [ ] Re-saved text asset's first line recorded for the release scan
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+    validations:
+      required: true

@@ -1,0 +1,58 @@
+name: Artist onboarding
+description: Bring an artist from nothing installed to the game open in the editor, ready to send
+type: Task
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title is *Onboard (name)*. An engineer opens this issue and fills the three fields; the artist follows the steps below, each one line or one address. Sending art needs git and Git LFS on the machine and nothing else; Unity Hub and the editor are needed to make art at all. The rules an engineer works by are the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: input
+    id: repository
+    attributes:
+      label: Game repository
+      description: The address the artist clones
+    validations:
+      required: true
+  - type: input
+    id: editor-version
+    attributes:
+      label: Editor version
+      description: Copied from ProjectSettings/ProjectVersion.txt of the game
+    validations:
+      required: true
+  - type: checkboxes
+    id: access
+    attributes:
+      label: Access
+      options:
+        - label: The artist's GitHub account is invited to the game repository with the right to push a branch
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        **Steps for the artist, Windows**
+
+        1. Install Git for Windows from https://gitforwindows.org with its default options. It gives you Git Bash, git and Git LFS together.
+        2. Install Unity Hub from https://unity.com/download and sign in with a Unity account.
+        3. In Unity Hub, install the editor version named above.
+        4. Open Git Bash and run `git clone <the game repository address>`. A browser window asks you to sign in to GitHub once.
+        5. Run `cd <the folder the clone made>` and then `bash setup.sh`. It tells you if anything is missing and which editor the project needs.
+        6. In Unity Hub, press Add, pick that folder, and open it.
+
+        **Steps for the artist, Mac**
+
+        1. Install git from https://git-scm.com/download/mac and Git LFS from https://git-lfs.com.
+        2. Install Unity Hub from https://unity.com/download and sign in with a Unity account.
+        3. In Unity Hub, install the editor version named above.
+        4. Open Terminal and run `git clone <the game repository address>`. A browser window asks you to sign in to GitHub once.
+        5. Run `cd <the folder the clone made>` and then `bash setup.sh`.
+        6. In Unity Hub, press Add, pick that folder, and open it.
+  - type: checkboxes
+    id: done
+    attributes:
+      label: Done
+      options:
+        - label: The artist opened the game in the editor
+        - label: bash setup.sh reported nothing missing

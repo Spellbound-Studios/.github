@@ -1,0 +1,27 @@
+name: Task
+description: One step inside a story. Hours to two days
+type: Task
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title is the action, for example *Add reconnect handling to the lobby*. A task is a sub-issue of its story. The line text is at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: input
+    id: story
+    attributes:
+      label: Story
+      description: The story this task belongs to, as repository#number. After opening, add the task as a sub-issue of that story
+    validations:
+      required: true
+  - type: textarea
+    id: what-to-do
+    attributes:
+      label: What to do
+    validations:
+      required: true
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
