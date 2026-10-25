@@ -1,0 +1,41 @@
+name: Decision
+description: A question a person must answer in writing before work can go on
+type: Decision
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title is the question. A story that waits on it names this issue under Waits on and is marked blocked by it. The person who decides writes the answer into the Answer field and closes the issue; the answer is the record. A question a standing rule or the game's premise already answers is applied, not asked. The line text is at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: One plain question, with what it affects and where
+    validations:
+      required: true
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommendation
+      description: The answer you would give, and why
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Alternative
+      description: The other answer, and what it costs
+    validations:
+      required: true
+  - type: textarea
+    id: what-waits
+    attributes:
+      label: What waits on it
+      description: The stories or epics that cannot start or finish without the answer
+  - type: textarea
+    id: answer
+    attributes:
+      label: Answer
+      description: Left empty when the issue is opened. The person who decides writes the answer here and closes the issue

@@ -1,0 +1,71 @@
+name: Boundary sheet
+description: Draw the boundary of a package or a seam before it is cut
+type: Task
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title names the concern, for example *Boundary of the decal store*. The same headings live in every package at Documentation~/boundary-sheet.md; this issue is where the sheet is written and reviewed before the package exists. The homes procedure that decides library, Studio or game is in the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: The one thing, in one sentence
+    validations:
+      required: true
+  - type: input
+    id: package
+    attributes:
+      label: Package
+      description: The package whose sentence covers it, or "new" with the sentence
+    validations:
+      required: true
+  - type: textarea
+    id: motivating-use
+    attributes:
+      label: Motivating use
+      description: The game need that raised it
+  - type: textarea
+    id: library-side
+    attributes:
+      label: Library side
+      description: Primitives, operations and the front door
+    validations:
+      required: true
+  - type: textarea
+    id: extension-points
+    attributes:
+      label: Extension points
+      description: Each with its default
+    validations:
+      required: true
+  - type: textarea
+    id: tunable-values
+    attributes:
+      label: Tunable values
+  - type: textarea
+    id: presentation
+    attributes:
+      label: Presentation the consumer can replace
+  - type: textarea
+    id: game-side
+    attributes:
+      label: Game side
+      description: What stays in the game or in Studio
+  - type: textarea
+    id: stranger-test
+    attributes:
+      label: Stranger test
+      description: Which of the imagined games (card game, farming sim, racing game, underwater game) would install it, and what they must never see
+    validations:
+      required: true
+  - type: textarea
+    id: existing-systems
+    attributes:
+      label: Existing systems reused
+  - type: textarea
+    id: gaps
+    attributes:
+      label: Gaps outside scope

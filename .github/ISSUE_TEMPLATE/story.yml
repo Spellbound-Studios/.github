@@ -1,0 +1,44 @@
+name: Story
+description: Something you can show working at the end of a sprint. One person, one sprint
+type: Story
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title says what someone can do when it is done, for example *Players can rejoin a lobby after disconnecting*. Anyone on the team opens a story; its Status on the board is the approval. The rules a story is built under are the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: input
+    id: outcome
+    attributes:
+      label: Outcome
+      description: What someone can do when it is done
+    validations:
+      required: true
+  - type: textarea
+    id: verified-facts
+    attributes:
+      label: Verified facts
+      description: What you checked in the code or on the machine, with the date. A lead you have not checked says "verify before building on it"
+  - type: textarea
+    id: rules
+    attributes:
+      label: Rules
+      description: What the story must respect beyond the line text, one per line
+  - type: textarea
+    id: regression-contract
+    attributes:
+      label: Regression contract
+      description: Behaviours near the change that must still hold afterwards, each concrete and checkable
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: What exists and what was observed when the story is done
+    validations:
+      required: true
+  - type: textarea
+    id: waits-on
+    attributes:
+      label: Waits on
+      description: Issues this story waits on, one per line; a story that waits on a question names its Decision issue here. After opening, mark each under Relationships, Mark as blocked by

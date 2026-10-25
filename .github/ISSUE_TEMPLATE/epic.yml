@@ -1,0 +1,32 @@
+name: Epic
+description: A goal that matters to the studio. More than one sprint, or more than one person
+type: Epic
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title is the outcome, for example *Saboteer Steam demo*. An epic of the package line carries its roadmap id first, for example *L1 Core as assemblies*. Epics come from the plan; the roadmap is in the line folder at https://github.com/Spellbound-Studios/.github/tree/main/line.
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: What is true when the epic is finished, so anyone can tell
+    validations:
+      required: true
+  - type: textarea
+    id: why-it-matters
+    attributes:
+      label: Why it matters
+      description: Which milestone first needs it, and what it unblocks
+  - type: textarea
+    id: stories
+    attributes:
+      label: Stories
+      description: One line per story, as you see them today. They become sub-issues
+  - type: textarea
+    id: waits-on
+    attributes:
+      label: Waits on
+      description: Issues this epic waits on, one per line. After opening, mark each under Relationships, Mark as blocked by

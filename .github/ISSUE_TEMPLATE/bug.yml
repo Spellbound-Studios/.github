@@ -1,0 +1,51 @@
+name: Bug
+description: Something is broken
+type: Bug
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The title is the symptom and when it happens, for example *Health bar shows wrong value in builds*.
+  - type: textarea
+    id: what-happens
+    attributes:
+      label: What happens
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: What you did, in order, from a fresh start
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Editor
+        - Development build
+        - Release build
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Unity version, operating system, and the version of each Spellbound package installed. Paste the output of core about once it exists
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: The relevant lines of the editor or player log
+      render: text

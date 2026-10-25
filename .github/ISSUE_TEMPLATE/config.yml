@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The line text
+    url: https://github.com/Spellbound-Studios/.github/tree/main/line
+    about: The rules, the packages and the conventions every person and agent on the line works by. Read it before you build, review or extend anything.
+  - name: Spellbound Studios on Discord
+    url: https://discord.gg/CtWfrZQNhY
+    about: Questions, help and conversation.
