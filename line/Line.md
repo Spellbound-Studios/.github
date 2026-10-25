@@ -417,7 +417,7 @@ Each is a setting with a default until its story closes with a written go or no-
 
 ## The report a build step ends with
 
-End every step with this report, in plain words, then stop. Do not start the next step.
+End every step with this report, in plain words, then stop. Do not start the next step. Since 2026-10-25 the report has two homes: the full table below goes into the body of the pull request that carries the step, which is the record, and the chat message that ends the step carries three parts only: the decisions that need the developer, what changed against the plan (a design, a sizing, a rule applied, a fact that turned out otherwise), and the developer's move. The developer's merge of that pull request is the sign-off: no separate yes is asked for a story, a spike or a probe, and a story closes through the pull request's Closes lines. Before a decision reaches the developer it passes one test: would two different games answer it differently? If yes it is an extension point with a default, applied and reported, never asked. The decisions that remain are the library's own choices, two or three for a pitch and none for an ordinary build step. Steps whose waits are all merged may run side by side, one session per step, each on its own branch and its own dev project; two steps that edit the same repository never run together.
 
 | Part | What it holds |
 |---|---|

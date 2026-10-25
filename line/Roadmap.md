@@ -1089,6 +1089,8 @@ Every step ends with the report defined in the line text ("The report a build st
 1. **Cost:** gates used against the step's gates in the table, tokens used against the plan's figure for its epics, and, once sprint 1 has run, the measured gate rate and token rate so the plan can be re-issued.
 2. **Stop:** which item of the step's "Stop and wait for" column is the evidence the lead needs, so the developer can send it and say to continue.
 
+Since 2026-10-25 the full report is the pull request's body and the chat carries three parts (the decisions that need the developer, what changed against the plan, the developer's move); the merge is the sign-off, as the line text says under "The report a build step ends with". Steps whose "Waits for steps" are all merged run side by side, one session per step on its own branch and dev project, never two in one repository at once.
+
 
 ## What to read
 
