@@ -1,0 +1,65 @@
+name: art pull request
+on:
+  workflow_call:
+    secrets:
+      SPELLBOUND_APP_CLIENT_ID:
+        required: true
+      SPELLBOUND_APP_PRIVATE_KEY:
+        required: true
+permissions:
+  contents: read
+jobs:
+  open:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app
+        with:
+          client-id: ${{ secrets.SPELLBOUND_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            ${{ github.event.repository.name }}
+            Roadmap
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app.outputs.token }}
+      - name: open the pull request from the first commit
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          first="$(git log --reverse --format=%H "origin/$DEFAULT_BRANCH..HEAD" | head -n 1)"
+          if [ -z "$first" ]; then
+            echo "The branch $BRANCH has no commit beyond $DEFAULT_BRANCH"
+            exit 1
+          fi
+          title="$(git log -1 --format=%s "$first")"
+          body="$(git log -1 --format=%b "$first")"
+          pattern='^(feat|fix|perf|refactor|docs|test|build|ci|chore)(\([a-z0-9._-]+\))?!?: .{1,100}$'
+          if ! printf '%s\n' "$title" | grep -Eq "$pattern"; then
+            echo "The first commit subject is not a pull request title: $title"
+            exit 1
+          fi
+          open_count="$(gh pr list --repo "$REPOSITORY" --head "$BRANCH" --state open --json number --jq 'length')"
+          if [ "$open_count" != "0" ]; then
+            echo "A pull request for $BRANCH is already open"
+            exit 0
+          fi
+          gh pr create --repo "$REPOSITORY" --base "$DEFAULT_BRANCH" --head "$BRANCH" --title "$title" --body "$body"
+      - name: file a bug when the pull request did not open
+        if: failure()
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          OWNER: ${{ github.repository_owner }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          body="$(printf '### What happens\n\nThe art branch %s in %s did not open a pull request.\n\n### Steps\n\nRead the run: %s\n\n### Where\n\nGitHub Actions\n\n### Environment\n\n%s\n' "$BRANCH" "$REPOSITORY" "$RUN" "$REPOSITORY")"
+          gh api "repos/$OWNER/Roadmap/issues" -f title="Art branch $BRANCH in ${REPOSITORY#*/} did not open a pull request" -f body="$body" -f type=Bug
