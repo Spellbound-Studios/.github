@@ -1008,7 +1008,7 @@ Applies to every story of the step:
 
 ### PP-3 The upgrade of a shipped game's old saves
 
-- **Outcome:** it is designed how a player's save written by an older release of a shipped game loads in a newer one: a step the game registers per section name and old fingerprint, applied at load when a section is refused by name, chained to the current layout, reported, and written out in the current layout on the next save, with no operator action; where a game records the fingerprints it shipped; what a customer may extend.
+- **Outcome:** it is designed how a player's save written by an older release of a shipped game loads in a newer one: a step the game registers per section name and old fingerprint, chained to the current layout and reported, run through two doors the game chooses between: at load when a section is refused by name (the default, written out on the next save), or over every save of a kind as a job the game drives from a button, a loading screen or its first start; where a game records the fingerprints it shipped; what a customer may extend.
 - **Verified (2026-10-24, decided):** a game sold on Steam is a customer from its first release built on the line, the demo is exempt, and in a shipped game the upgrade runs on its own; detection stays as it is and nothing is kept for compatibility before that release, so today's files are not carried into the rewritten Persistence.
 - **Rules:** no format version, no migration step and no old reader before the first ship; the step is the game's code and Persistence only applies it; any operation is named in the operation grammar, as a start and status pair if it can outlast a reload.
 - **Done:** L8u sized; the input of the stored-format release gate named.

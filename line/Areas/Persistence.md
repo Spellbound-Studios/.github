@@ -1,6 +1,6 @@
 # Persistence: the pitch (PP, step 3)
 
-What this is: the design of the rewritten Persistence, written before any of it is built, for the lead of L8a, L8, L8c, L8u and L8b. Status: **awaiting the developer's approval** (the pitch page carries the decisions as buttons; their answers are folded in here when given). Date: 2026-10-25. The binding rules are in `Line.md`; this file designs inside them and says where it applies one without asking.
+What this is: the design of the rewritten Persistence, written before any of it is built, for the lead of L8a, L8, L8c, L8u and L8b. Status: **decisions answered 2026-10-25** (unknown sections are kept, one file per store, the upgrade's timing is the game's door); the developer's judgement of the spike closes the step. Date: 2026-10-25. The binding rules are in `Line.md`; this file designs inside them and says where it applies one without asking.
 
 The sentence (Line.md, the Persistence row): saves and loads a game's state: sections any package or game declares, written as Core-packed bytes through a storage seam that never blocks the game's tick. Depends on Core, bridges nothing. Excluded: a JSON metadata file, a static entry point, knowledge of any section's layout, a migration path before the package ships to a customer, a section without a header, a tick rate in a save, an id it cannot resolve (it reports the id and the consumer's policy decides).
 
@@ -163,14 +163,24 @@ public delegate void SectionUpgradeStep(ReadOnlySpan<byte> stored, Store target)
 public sealed class UpgradeRegistry {
     public void Add(string sectionName, uint fromFingerprint, SectionUpgradeStep step);
 }
+
+public sealed class UpgradeJob {
+    public int Total { get; }
+    public int Done { get; }
+    public IReadOnlyList<(StoreKey Key, string Reason)> Failed { get; }
+    public bool Completed { get; }
+    public Task Completion { get; }
+    public bool Advance();
+}
 ```
 
+`Saves.UpgradeAll(string kind)` returns an `UpgradeJob`.
+
 - A step is the game's code: given the bytes of a section as they were written under an old layout, it fills the current sections of the store (one, several, or a renamed one). The game registers its steps on `saves.Upgrades` at start, keyed by the section name and the old fingerprint.
-- Persistence applies steps at load, with no operator action: a section refused by name whose (name, stored fingerprint) has a step runs it; if the step's result is itself refused by name (an older save, two layouts back), the next step runs, until the current layout or no step (then the section stays refused and reported). Upgraded names are listed in `Upgraded`, and the next save writes the current layout, so a player's save is upgraded the first time it is opened and never touched otherwise.
+- When the steps run is the game's choice, through two doors over one mechanism. The default door is the load: a section refused by name whose (name, stored fingerprint) has a step runs it; if the step's result is itself refused by name (an older save, two layouts back), the next step runs, until the current layout or no step (then the section stays refused and reported). Upgraded names are listed in `Upgraded`, and the next save writes the current layout, so with this door alone a player's save is upgraded the first time it is opened and never touched otherwise. The second door is `UpgradeAll(kind)`: a job over every store of a kind, one store per `Advance` (load with the steps, save if anything was upgraded), with `Total`, `Done` and the failures by key, so a game drives it from an "update saves" button, a loading screen or its first start and shows progress however it likes. `persistence upgrade-start --kind <kind>` and `persistence upgrade-status` are its operation pair in CL6a. Persistence prefers neither; a game that never calls the job gets the load door for nothing.
 - A game records what it shipped: `persistence sections --write <path>` (CL6a) writes one line per section, `name fingerprint`, and the release keeps that file with the release (Studio.Tools' release audit stores it; LV7d's stored-format gate compares the current list with the last release's and fails a changed line without a major and without a step registered for it). The old fingerprints a step needs come from that file, never from memory.
 - A customer extends it by registering steps for their own sections and their own old releases; Persistence ships no step of its own, because it knows no section's layout.
 - Today's files (`.bin`, id-keyed, no header) are not a customer's saves and are not carried: L8c re-saves, the demo is exempt, rule 15. The spike below shows that a step of this shape could carry one across if the studio ever wanted to.
-- A `persistence upgrade` batch operation over every file at start is the rejected alternative (decision 3): it needs a job with a start and status pair, a progress surface and a policy for files it cannot open, and it touches saves nobody loads.
 
 ### What L8b adds, behind the same seam
 
@@ -181,7 +191,7 @@ public sealed class UpgradeRegistry {
 
 ### Operations (CL6a, names fixed now)
 
-`persistence sections [--write <path>]`, `persistence save --store <kind>[:<id>]`, `persistence load --store <kind>[:<id>]`, `persistence inspect --store <kind>[:<id>]` (each section's name, fingerprint and length; an old layout prints as `failed:` with both fingerprints). No `migrate`.
+`persistence sections [--write <path>]`, `persistence save --store <kind>[:<id>]`, `persistence load --store <kind>[:<id>]`, `persistence inspect --store <kind>[:<id>]` (each section's name, fingerprint and length; an old layout prints as `failed:` with both fingerprints), and for L8u `persistence upgrade-start --kind <kind>` with `persistence upgrade-status`. No `migrate`.
 
 ### Settings and defaults
 
@@ -278,11 +288,11 @@ saves.Upgrades.Add("saboteer.settings.video", 0x3fa1c0de, (stored, store) => {
 - No tick in Persistence; the owner advances a sliced save (Persistence owns no world).
 - Operations come in CL6a with the rest of the packages; L8 ships none.
 
-## Decisions for the developer
+## Decisions for the developer (answered 2026-10-25: 1 keep, 2 one file per store)
 
 1. **A section no installed package knows: keep its bytes and write them back on the next save, or drop them with a report?** Recommended: keep them, so uninstalling a package for a while or opening a save from a newer build of the game loses nothing. Otherwise: drop with a report, and a save is only ever as wide as the installed packages.
 2. **One file per store (a character is one file), or one file per section (a character is a folder of files)?** Recommended: one file per store, as today, with the partial load reading only the named sections out of it (the file carries each section's length). Otherwise: a folder per store, which gives partial loads for free and many small files per character.
-3. **A shipped game's old saves: upgrade a save when it is loaded, or upgrade every save file once at the first start of the new version?** Recommended: at load, because a save nobody opens is never touched, a failed step is reported for that one save, and no job, progress surface or start-and-status pair is needed. Otherwise: a batch operation at first start, with a start and status pair and a progress screen the game must show.
+3. Withdrawn 2026-10-25: when a shipped game upgrades its saves was put as a decision and is a game's own choice, so it is a door with a default (steps at load) and a second door (`UpgradeAll` as a job the game drives); a stranger wires it to a button, a loading screen or nothing.
 
 ## Sizing
 
@@ -291,7 +301,7 @@ saves.Upgrades.Add("saboteer.settings.video", 0x3fa1c0de, (stored, store) => {
 | L8a (step 6) | 2 | 2 | 1: the package under the studio id at `Packages/Persistence`, `PersistenceKit.Open`, `Saves`, `Store`, `StoreKey`, `SectionCatalog`, the header and fingerprint, `FileStorage`, write and read of one store with plain sections. 2: `MemoryStorage`, the refusal by name with `LoadResult`, the unknown-section policy, `Required`, tests for every door and every extension point |
 | L8 (step 31) | 4 | 4 | 3: the repository restructure (`Packages/Persistence`, the shell, the tags). 4: the capture contract (`ISlicedSection`, `SaveJob.Advance`, the budget, the observations) with the never-blocks test. 5: `List`, `Delete`, `FlushToDisk`, the queued save of a store already saving, the durable record test. 6: the surface file's stored-format lines, the sample, the old package deleted from the repository |
 | L8c (step 31) | 4 | 4 | 1: Saboteer's settings and progress (six sections, one store). 2: Saboteer's chat settings and the callers of `SaveSystem` deleted (the HUD layout is UI6b's). 3: Corsairs' character stores (seven) and the start screen's list and load. 4: Corsairs' world and local stores, the chunk, time and view managers, both manifests, the old id gone |
-| L8u (step 31, before the first Steam release) | 4 | 3 | 1: `UpgradeRegistry`, the step delegate, the chain at load, `Upgraded` in the report. 2: `persistence sections --write`, the layout list a release keeps, the gate's input (with LV7d). 3: Saboteer's first step on a real old save as the worked test |
+| L8u (step 31, before the first Steam release) | 4 | 3 | 1: `UpgradeRegistry`, the step delegate, the chain at load, `UpgradeAll` and its job, `Upgraded` in the report. 2: `persistence sections --write`, the layout list a release keeps, the gate's input (with LV7d). 3: Saboteer's first step on a real old save as the worked test |
 | L8b (step 64) | 6 | 6 | 1: `WriteAll` on files with the commit marker and recovery at `Open`. 2 and 3: the database implementation (the engine decided then). 4: partial loads finished for regions. 5: per-entity stores on login. 6: the never-blocks measurement on the MMO server project |
 
 Total 19 gates against the plan's 20; L8u gives one back.
