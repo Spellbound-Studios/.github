@@ -1332,6 +1332,22 @@ Read live with `gh api` on 2026-10-25. The organisation `Spellbound-Studios` is 
 
 Repositories that can be protected today: `.github`, Core, Modifiers, GeoForge, Controller, SpellboundDocs, NetworkedTerraformingExample (public). Repositories that cannot: Inventory, Decals, UI, Chat, Persistence, WorldForge, VolumetricFog, GeoForgePro, Template, GameTemplate, Roadmap, SaboteurDev, CorsairsIsleDev, BuildPipeline, claude-skills (private). Until the plan changes, the default branch of a private repository is a team agreement and `repository-settings.sh --check` reports it as unenforced.
 
+### The written result of the settings (WF1b-8 and WF1b-9, 2026-10-25)
+
+Applied on 2026-10-25 with `repository-settings.sh --apply` over the twenty active repositories of the organisation, after steps 4 and 5 had merged, and read back green with `--check` on every one. The organisation stays on GitHub Free by the developer's decision of the same day; private repositories are a team agreement until that changes.
+
+| Setting | Where | Result |
+|---|---|---|
+| Squash merge only, the pull request title alone as the commit, a blank message, merged head branches deleted | all twenty repositories | applied |
+| The ruleset "Default branch": changes only through a pull request, code owner review on the `CODEOWNERS` paths, no deletion, no force push, squash only, organisation owners bypass | `.github`, Core, Modifiers, GeoForge, Controller, SpellboundDocs (public) | applied; Core's ruleset "Merge Power" (one approval, thread resolution, code quality) removed and replaced |
+| The same ruleset | Template, GameTemplate, Chat, UI, Decals, Inventory, VolumetricFog, WorldForge, claude-skills, SaboteurDev, CorsairsIsleDev, GeoForgePro, Persistence, BuildPipeline (private) | refused by the plan; reported as unenforced |
+| The required `unity-tests` status | nowhere yet | opt-in through `--require-unity-tests`, switched on when the local gate that posts the status lands (WF3a, step 33); requiring it earlier would block every pull request from anyone who is not an organisation owner |
+| The artist ruleset "Artists push art branches only" | the two game repositories | printed, not applied: the plan refuses rulesets there and WF1r switches it on when A5a lands |
+| The App on the bypass lists | nowhere yet | the App is deferred to step 15 (A5a) by the developer's decision of 2026-10-25, pending the artist's preference between an Action running as the App, a personal token, or `gh` on the artist's machine; one re-run with `--app-id` adds it |
+| Template and GameTemplate marked as template repositories | both | applied |
+
+Core's pull requests now merge with `--squash` like every other repository's; only its default branch `main` carries the rule, `dev` does not.
+
 ## The kickoff prompt for step 1
 
 Send this to a fresh session. The optional line grants one preview aid; remove it if you do not want to grant it. Step 1 has no user-facing strings, so there is no wording list to skim.
