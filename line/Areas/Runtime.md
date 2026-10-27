@@ -531,7 +531,7 @@ Cut:
 
 - Auto-repair without a report. Silent repair is how the Saboteer ladder hid its causes.
 - Unity profiler counters as the primary store. Compiled out in non-development builds (cited above).
-- A buoyancy or ship package. No owner today: Corsairs' own water system draws the sea (`WorldConcept.md:23`), and a ship hull is an `IReferenceFrame` the game writes. Revisit when a second game sails.
+- A buoyancy or ship package. No owner today: Corsairs' own water system draws the sea (`WorldConcept.md:23`), and a ship hull is an `IReferenceFrame` the game writes. Revisit when a second game sails. Evidence (2026-10-26), a data point and not a decision: a water probe measured floating a hull on 20 CPU wave samples per physics step; `Planning/PackageLine/Evidence/WaterProbe.md` in the Spellbound workspace.
 - A floating-origin system inside reference frames. Reference frames keep local poses small; a world shift is a world concern, area 5 and area 8.
 - Deterministic replay (direction C).
 - A `Mechanics` package (direction B).
