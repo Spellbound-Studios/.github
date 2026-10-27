@@ -430,6 +430,8 @@ The invariant is the one already in the code: the picture is drawn from the batc
 
 ### The measurement of the batch path, as a protocol (epic U3)
 
+Evidence (2026-10-26): a grass probe on the reference PC measured GPU-generated grass in Windows players on Unity 6.4, 6.7 and 7.0, found Frame Timing's GPU time unusable on DirectX 12, and checked BatchRendererGroup, the Resident Drawer and Entities in 6.7 and 7.0; `Planning/PackageLine/Evidence/GrassProbe.md` in the Spellbound workspace. A water probe of the same day, also a data point, found most of URP's per-pass GPU timers no longer visible to the recorder in 6.7 development players; `Planning/PackageLine/Evidence/WaterProbe.md` in the Spellbound workspace.
+
 A spike with a written go or no-go. It measures the decided path against today's and ranks nothing.
 
 | Part | Definition |

@@ -296,7 +296,7 @@ One paragraph per epic, grouped by area. Gate counts and dates are in the table 
 
 **FL Floor moves to 6000.7 when 6.3 support ends.** The floor moves to 6000.7 when 6.3 LTS support ends in December 2027: the 6.3 test row is dropped, the floor compile moves up and every manifest's floor is raised. The first Unity cycle's floor-move story.
 
-**IN1 Grass and impostors.** Instancing's mass drawing from non-interactive placements and the scrolling cover grid, culling and impostors, with the grass measurement first. A placeholder priced from an earlier plan until the Instancing pitch replaces it. A person judges the grass.
+**IN1 Grass and impostors.** Instancing's mass drawing from non-interactive placements and the scrolling cover grid, culling and impostors, with the grass measurement first. A placeholder priced from an earlier plan until the Instancing pitch replaces it. A person judges the grass. Evidence (2026-10-26): a grass probe measured GPU-generated grass in Windows players on Unity 6.4, 6.7 and 7.0, with the developer's answers on its draw path, look and GeoForge height; `Planning/PackageLine/Evidence/GrassProbe.md` in the Spellbound workspace.
 
 #### Command line
 
@@ -424,7 +424,7 @@ One paragraph per epic, grouped by area. Gate counts and dates are in the table 
 
 **UN2 Unity's pool and the registry asset.** Unity's pool in place of Core's, the registry asset in preloaded assets with an Addressables bridge, four registries moved out of Resources, and the sample import operation. A broken reference is re-saved with no redirect. A person moves Corsairs' presets out of Resources and creates the registry asset.
 
-**UN3 Batch path measurement.** The missing captures, the 20,000-instance scene, one prototype of Unity's `BatchRendererGroup` path, the measurement report in editor and in a Windows player, and a written go or no-go. Entities Graphics is only the baseline. It gates the Instancing seam and must finish before the old path is deleted. Worth having alone: yes, the answer is the product. A person runs it on the reference PC, judges the pop between levels of detail and reads a no-go.
+**UN3 Batch path measurement.** Evidence (2026-10-26): in DirectX 12 players of Unity 6.4 and 7.0, Frame Timing's GPU time read about 0.016 ms per frame, and Unity 7.0 hides URP's camera from the per-sampler GPU timer; `Planning/PackageLine/Evidence/GrassProbe.md` in the Spellbound workspace. The missing captures, the 20,000-instance scene, one prototype of Unity's `BatchRendererGroup` path, the measurement report in editor and in a Windows player, and a written go or no-go. Entities Graphics is only the baseline. It gates the Instancing seam and must finish before the old path is deleted. Worth having alone: yes, the answer is the product. A person runs it on the reference PC, judges the pop between levels of detail and reads a no-go.
 
 **UN4 WorldObjects store and awakening.** UN4a: WorldObjects' store as native columns per reference frame partition (a row is 47 bytes), the awakening job and policy, region release, the timer pass and a benchmark with 1, 20 and 200 viewers against the old query. UN4b: ObjectParent and Corsairs rewired, Core's ECS deleted, and the Entities package removed from Core's manifest in its last story. Worth having alone: yes, Core is Entities-free the day UN4b lands.
 
@@ -450,7 +450,7 @@ One paragraph per epic, grouped by area. Gate counts and dates are in the table 
 
 **NV5 Authoring and agent surface.** The profile inspector with preview, footprint gizmos, scene overlay, the navigation operations (path, reach, why, field, probe, fit-footprint), `FitFootprint` and `CheckReachability`, the context file, the Navigation.Places adapter, and the reachable-deposits check. World's reachability story and ArtPipeline's footprint check call it.
 
-**NV6 Fields in reference frames and joined fields: ships and moving decks.** A ship deck as a field riding its reference frame, a path that crosses from the deck's field into the ground's through a gangplank link, a moving or spherical GeoForge volume through the reference frame and the up provider, a water world, and a ship profile that floats on a water tag. The first story proves a path across a moving deck. It sits after the Corsairs milestone and before any Corsairs launch, because a sailing game does not launch without boats. It waits for Navigation's built things, for the reference frame binding in Character.Body, and for Core's half of the noun.
+**NV6 Fields in reference frames and joined fields: ships and moving decks.** A ship deck as a field riding its reference frame, a path that crosses from the deck's field into the ground's through a gangplank link, a moving or spherical GeoForge volume through the reference frame and the up provider, a water world, and a ship profile that floats on a water tag. The first story proves a path across a moving deck. It sits after the Corsairs milestone and before any Corsairs launch, because a sailing game does not launch without boats. It waits for Navigation's built things, for the reference frame binding in Character.Body, and for Core's half of the noun. Evidence (2026-10-26), a data point and not a decision: a water probe floated a ship on swell waves computed on the CPU and measured the cost of those queries and of drawing the sea in URP; `Planning/PackageLine/Evidence/WaterProbe.md` in the Spellbound workspace.
 
 **NV7 Strategic layer (backlog).** Optimistic unknown space and a coarse source such as WorldForge's plan or Horizon's shape; replan on load.
 
@@ -526,7 +526,7 @@ One paragraph per epic, grouped by area. Gate counts and dates are in the table 
 
 **PW WorldForge internals pitch.** The deeper pitch for WorldForge's internals: the generation model the world model's boundary seams were drawn for. It follows the first half of the world model and precedes the second. A person reviews and approves it.
 
-**PIN Instancing internals pitch.** The deeper pitch for Instancing's internals (grass, impostors, levels of detail), after the batch measurement and the Instancing seam. Instancing draws with Unity's `BatchRendererGroup` only. A person reviews and approves it.
+**PIN Instancing internals pitch.** The deeper pitch for Instancing's internals (grass, impostors, levels of detail), after the batch measurement and the Instancing seam. Instancing draws with Unity's `BatchRendererGroup` only. A person reviews and approves it. Evidence (2026-10-26): grass measurements and BatchRendererGroup as found in Unity 6.7 and 7.0, `Planning/PackageLine/Evidence/GrassProbe.md` in the Spellbound workspace.
 
 #### Calendar and rounds
 
