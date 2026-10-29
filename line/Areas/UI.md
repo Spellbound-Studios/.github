@@ -1,5 +1,7 @@
 # Checkpoint 2 revisited, area 11: UI, text surfaces and editor tooling (2026-10-23)
 
+Revision note, 2026-10-29: `ArtRegistry.md` (this folder) overrides this file where they differ. The editor look moves to the front as the new epic UI7d (steps 15.1 and 15.2): Core.Editor gains a look hook with keyed, ordered sources and a project setting (the "stylesheet registered with Core.Editor" of section 3k, which did not exist in Core), a passed state with open ids, and a page header and footer; UI.Editor registers a neutral look for both editor skins, adds the Gallery page and a confirmation inside a window; UI7b keeps the validators, New View and the Console page at step 59. "The decided four stay four" (section 9) is amended by these three additions, each needed by two shipped packages.
+
 ## Revision 2026-10-24, checkpoint 5, the hand-off fold
 
 The developer's answers of 2026-10-24 to the checkpoint 4 questions folded in one pass, and the two claims on this area from `RedTeam.md` 8.8 answered (section "Claims on this area, answered (checkpoint 5)"). Nothing decided is reopened. What changed:
