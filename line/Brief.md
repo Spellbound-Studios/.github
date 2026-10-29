@@ -4,7 +4,7 @@ For a person deciding whether to spend build time who has read nothing else. Fiv
 
 ## What the line is
 
-The line is every Spellbound package taken together as one family: twenty-three published packages that the studio's games are built from and that will be sold on the Asset Store once a listing exists (undated, after both games; until then each installs from its GitHub address), and five private Studio packages that hold the studio's own way of using them. A package is named for its one-sentence job, owns nothing outside that sentence, depends on another only when its sentence names it, and works for a stranger (a farming sim, a racing game, a card game) without editing it. Games are not part of the line; they install packages and extend them. Every package has the same layout, the same front door (`<Name>Kit`), one shared command line that a person and an AI agent both use, and its own tests.
+The line is every Spellbound package taken together as one family: twenty-two published packages that the studio's games are built from and that will be sold on the Asset Store once a listing exists (undated, after both games; until then each installs from its GitHub address), ArtPipeline, the studio's own art pipeline, which it keeps and does not sell (decided 2026-10-29), and five private Studio packages that hold the studio's own way of using them. A package is named for its one-sentence job, owns nothing outside that sentence, depends on another only when its sentence names it, and works for a stranger (a farming sim, a racing game, a card game) without editing it. Games are not part of the line; they install packages and extend them. Every package has the same layout, the same front door (`<Name>Kit`), one shared command line that a person and an AI agent both use, and its own tests.
 
 | Package | Job in one line |
 |---|---|
@@ -29,17 +29,17 @@ The line is every Spellbound package taken together as one family: twenty-three 
 | Decals | Paints decals at runtime on any surface. |
 | Volumetrics | Fog, clouds and the shadows through them under a quality budget. |
 | TetherShop | Ropes and chains from full simulation down to a rope that only looks like one. |
-| ArtPipeline | Checks and fixes an exported model or texture against the project's rules and sends it on with one button. |
+| ArtPipeline | The studio's own art pipeline: checks an export against the studio's rules, sends the picked items from the art registry with one button, and brings items from the registry into a game. Kept by the studio, not sold. |
 | PackageCheck | Runs the line's bar against a package as one command. |
 | Studio.Gameplay | Equipment, skills, talents and item tiers, built only on the public surfaces of Inventory and Modifiers. |
 | Studio.Online | Networking setup, scene flow, the chat profile, telemetry, the Steam lobby. |
-| Studio.Presentation | The studio theme, window chrome, HUD layout, art rules defaults. |
-| Studio.Tools | Release audit, captures, the house operations, templates, the artist's send route. |
+| Studio.Presentation | The studio theme, window chrome, HUD layout. |
+| Studio.Tools | Release audit, captures, the house operations, templates. |
 | Studio.Content | Places and generators both games share, named for neither, and the playable characters of the gym. |
 
 ## What it costs
 
-- **Size:** 889 gates (one gate is one reviewed unit of work a person signs off) in 119 epics, about 148.0 million tokens, 167.3 million with the review rounds.
+- **Size:** 926 gates (one gate is one reviewed unit of work a person signs off) in 122 epics, 889 in 119 before the art registry of 2026-10-29,, about 148.0 million tokens, 167.3 million with the review rounds.
 - **People:** two streams of one person each from 2026-11-02, one gate per person per working day beside their own work, 10 percent held in reserve.
 - **Saboteer on the line:** estimated 2028-01-10. **Corsairs Isle on the line:** estimated 2028-04-25. **Saboteer's first Steam release:** estimated 2028-06-12. **The plan ends:** estimated 2028-10-11.
 - **Sensitivity:** at 0.93 gates a day the four dates become 2028-04-10, 2028-08-21, 2028-10-20 and 2029-03-27; with a third person at the same rate, 2027-08-17, 2027-10-26, 2027-11-29 and 2028-02-28.
@@ -56,11 +56,11 @@ The line is every Spellbound package taken together as one family: twenty-three 
 
 ## The two milestones
 
-- **Saboteer on the line (estimated 2028-01-10):** the game plays the same or better on the new packages, is easier to extend, an artist gets a held prop into it without an engineer, and it has passed a soak and fault matrix. It keeps following the package branches.
+- **Saboteer on the line (estimated 2028-01-10):** the game plays the same or better on the new packages, is easier to extend, a new prop pulled from the art registry becomes a held item in it without code and an artist's held prop reaches the registry alone, and it has passed a soak and fault matrix. It keeps following the package branches.
 - **Corsairs Isle on the line (estimated 2028-04-25):** today's Corsairs runs on the new packages with its own soak, and Saboteer sheds Entities and repeats its soak. It is not the launch: Navigation, ships and moving decks follow (estimated 2028-05-22 to 2028-08-29), because Corsairs Isle launches complete, and a sailing game does not launch without boats. The launch has no date.
 - **Saboteer's first Steam release (estimated 2028-06-12):** after every change Saboteer still needs, Corsairs' soak and the first final tags of every package it installs, because from that day Saboteer follows a maintenance branch that refuses removals. The order is confirmed by the developer's note of 2026-10-24: Saboteer does not release until the packages are final.
 - **Saboteer's Next Fest demo:** due before the press preview on 2027-02-11 (festival 2027-02-22 to 2027-03-01; the dates come from third-party sites, so check Steam's partner page before 2026-12-14). The plan meets it with no margin: the build is estimated 2027-02-03.
-- **The demo contains** the new console with Saboteer's ten commands, the new chat window and settings with Saboteer's cut-over, the split UI package, input contexts and the layout section (a saved HUD layout shows the default once), Core on assemblies, and Persistence's first slice. **It does not contain** the networked chat bridge (estimated 2027-07-07), so the chat corruption above U+00FF stays until then, nor the artist's send button (estimated 2027-03-15).
+- **The demo contains** the new console with Saboteer's ten commands, the new chat window and settings with Saboteer's cut-over, the split UI package, input contexts and the layout section (a saved HUD layout shows the default once), Core on assemblies, and Persistence's first slice. **It does not contain** the networked chat bridge (estimated 2027-07-07), so the chat corruption above U+00FF stays until then, nor Send from the art registry, which Saboteer itself only meets after the festival.
 - **The cut-over ends estimated 2027-01-14**, the first day of the code freeze (from 2027-01-14: bug fixes and media only), under the freeze's one exemption for manifest lines; its last Saboteer-tagged part ends the working day before. A slip costs the chat cut-over, not the console. Modifiers' one breaking change waits on a side branch and merges estimated 2027-03-02.
 
 ## The rules in plain words
@@ -100,10 +100,10 @@ The line is every Spellbound package taken together as one family: twenty-three 
 - The release promise to a buyer: a major about every 12 months, an upgrade offered at a reduced cost (whether the Asset Store offers that for a UPM product is unverified), and inside a major bug fixes and maintenance with no API break for a year, reaching a buyer on the previous major through the catalogue.
 - After Core 2.0, Core is additive between majors; a release stops on a text file saved by a newer Unity than the oldest supported one.
 - A game sold on Steam is a customer from its first release: its players' saves keep loading, the demo is exempt, and Persistence upgrades old saves by itself.
-- Core ships the Spellbound window, which lists the line and installs from GitHub; shared workflows run at `@main`; every main branch is protected.
+- Core ships the Spellbound window, which lists the line and installs from GitHub; shared workflows run at `@main`; every main branch is protected where GitHub's plan allows, by team agreement on a private repository of the free plan.
 
 **Work and order**
-- The studio never leaves GitHub; artists push branches and Send sends only the files they changed; the author runs the tests before review.
+- The studio never leaves GitHub; artists send from the art registry's own project and Send sends only the items they picked; the author runs the tests before review.
 - Every package folder is its short name; the copyright line has no year; the game is Saboteer.
 - The floor is Unity 6000.3, the studio edits on 6.4, and no epic waits for 6.7; a working project opens in a newer Unity only in a Move story, which a person runs.
 - Navigation and ships come before Corsairs launches; the Places gym comes after Saboteer's milestone.
