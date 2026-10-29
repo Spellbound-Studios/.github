@@ -1,5 +1,5 @@
 name: Engineer onboarding
-description: Bring an engineer from nothing installed to a project open in the editor
+description: Bring an engineer from nothing installed to the projects open in the editor
 type: Task
 projects:
   - Spellbound-Studios/13
@@ -7,19 +7,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        The title is *Onboard (name)*. Open it for the engineer and tick the steps as they go. Every step is one line of bash or one address.
+        The title is *Onboard (name)*. Open it for the engineer and tick the steps as they go.
   - type: input
-    id: repository
+    id: repositories
     attributes:
-      label: First repository
-      description: The address of the repository the engineer starts in
-    validations:
-      required: true
-  - type: input
-    id: editor-version
-    attributes:
-      label: Editor version
-      description: Copied from ProjectSettings/ProjectVersion.txt of that repository
+      label: Repositories
+      description: The repositories the engineer starts with, as owner/name separated by spaces; the art registry and both games for most engineers
+      value: Spellbound-Studios/ArtRegistry Spellbound-Studios/SaboteurDev Spellbound-Studios/CorsairsIsleDev
     validations:
       required: true
   - type: checkboxes
@@ -28,10 +22,12 @@ body:
       label: Steps
       options:
         - label: Invited to the Spellbound-Studios organisation and the invitation accepted
-        - label: "Git 2.14 or later and Git LFS installed. Windows: Git for Windows from https://gitforwindows.org with its default options gives bash, git and Git LFS together. Mac: git from https://git-scm.com/download/mac and Git LFS from https://git-lfs.com"
-        - label: Unity Hub installed from https://unity.com/download, signed in, and the editor version above installed from the Hub
-        - label: "The Unity command line installed with: curl -fsSL https://unity.com/install.sh | bash"
-        - label: The repository cloned with git clone, then bash scripts/setup.sh run inside it
-        - label: The project added in Unity Hub and opened once without errors
+        - label: "Git for Windows installed from https://gitforwindows.org with its default options, the only install by hand"
+        - label: "In Git Bash, the one line run with the repositories above after it: bash <(curl -fsSL https://raw.githubusercontent.com/Spellbound-Studios/.github/main/setup.sh) <the repositories>. It installs GitHub's command-line tool, the Unity command line, Unity Hub and the editors, makes the SSH key, clones each repository with its large files, watches the art registry and opens each project once; it asks for the GitHub and Unity sign-ins in the browser and which program you model in"
+        - label: Each project added in Unity Hub and opened once without errors
         - label: The line text read in full at https://github.com/Spellbound-Studios/.github/tree/main/line
         - label: On Discord, in the engineering channel
+  - type: markdown
+    attributes:
+      value: |
+        A Mac route is written when a Mac user joins.

@@ -1,5 +1,5 @@
 name: Artist onboarding
-description: Bring an artist from nothing installed to the game open in the editor, ready to send
+description: Bring an artist from nothing installed to the art registry open in Unity, ready to send
 type: Task
 projects:
   - Spellbound-Studios/13
@@ -7,52 +7,35 @@ body:
   - type: markdown
     attributes:
       value: |
-        The title is *Onboard (name)*. An engineer opens this issue and fills the three fields; the artist follows the steps below, each one line or one address. Sending art needs git and Git LFS on the machine and nothing else; Unity Hub and the editor are needed to make art at all. The rules an engineer works by are the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
-  - type: input
-    id: repository
-    attributes:
-      label: Game repository
-      description: The address the artist clones
-    validations:
-      required: true
-  - type: input
-    id: editor-version
-    attributes:
-      label: Editor version
-      description: Copied from ProjectSettings/ProjectVersion.txt of the game
-    validations:
-      required: true
+        The title is *Onboard (name)*. An engineer opens this issue and ticks the access box; the artist follows the steps below. The rules an engineer works by are the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
   - type: checkboxes
     id: access
     attributes:
       label: Access
       options:
-        - label: The artist's GitHub account is invited to the game repository with the right to push a branch
+        - label: The artist's GitHub account is invited to the Spellbound-Studios organisation and the invitation is accepted
           required: true
   - type: markdown
     attributes:
       value: |
         **Steps for the artist, Windows**
 
-        1. Install Git for Windows from https://gitforwindows.org with its default options. It gives you Git Bash, git and Git LFS together.
-        2. Install Unity Hub from https://unity.com/download and sign in with a Unity account.
-        3. In Unity Hub, install the editor version named above.
-        4. Open Git Bash and run `git clone <the game repository address>`. A browser window asks you to sign in to GitHub once.
-        5. Run `cd <the folder the clone made>` and then `bash setup.sh`. It tells you if anything is missing and which editor the project needs.
-        6. In Unity Hub, press Add, pick that folder, and open it.
+        1. Install Git for Windows from https://gitforwindows.org with its default options. It gives you Git Bash, git and Git LFS together. This is the only program you install by hand.
+        2. Open Git Bash and paste this one line, then press Enter:
 
-        **Steps for the artist, Mac**
+           `bash <(curl -fsSL https://raw.githubusercontent.com/Spellbound-Studios/.github/main/setup.sh) Spellbound-Studios/ArtRegistry`
 
-        1. Install git from https://git-scm.com/download/mac and Git LFS from https://git-lfs.com.
-        2. Install Unity Hub from https://unity.com/download and sign in with a Unity account.
-        3. In Unity Hub, install the editor version named above.
-        4. Open Terminal and run `git clone <the game repository address>`. A browser window asks you to sign in to GitHub once.
-        5. Run `cd <the folder the clone made>` and then `bash setup.sh`.
-        6. In Unity Hub, press Add, pick that folder, and open it.
+           It installs GitHub's command-line tool, the Unity command line, Unity Hub and the editor the registry needs, makes your SSH key, downloads the art registry with its large files and opens it once. It asks you two things: to sign in to GitHub and to Unity when a browser window opens, and which program you model in.
+        3. If you model in Maya, open the registry in Unity Hub, then Edit, Project Settings, Fbx Export, pick Maya under 3D Application and press Install Unity Integration, with Maya closed. Maya then has a Unity menu under File.
+        4. Read the artist's manual, the README at the root of the art registry.
+        5. Join Discord at https://discord.gg/CtWfrZQNhY.
+
+        A Mac route is written when a Mac user joins.
   - type: checkboxes
     id: done
     attributes:
       label: Done
       options:
-        - label: The artist opened the game in the editor
-        - label: bash setup.sh reported nothing missing
+        - label: The setup line finished with every step done or skipped
+        - label: The artist opened the art registry in Unity
+        - label: The artist's Maya shows the Unity menu, or the artist does not model in Maya

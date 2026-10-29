@@ -3,63 +3,77 @@ on:
   workflow_call:
     secrets:
       SPELLBOUND_APP_CLIENT_ID:
-        required: true
+        required: false
       SPELLBOUND_APP_PRIVATE_KEY:
-        required: true
+        required: false
 permissions:
   contents: read
+  issues: write
 jobs:
   open:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v3
         id: app
+        continue-on-error: true
         with:
           client-id: ${{ secrets.SPELLBOUND_APP_CLIENT_ID }}
           private-key: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: |
-            ${{ github.event.repository.name }}
-            Roadmap
+          repositories: ${{ github.event.repository.name }}
+      - name: stop when the App gave no token
+        if: steps.app.outcome != 'success' || steps.app.outputs.token == ''
+        run: |
+          echo "The App gave no token: the secrets SPELLBOUND_APP_CLIENT_ID and SPELLBOUND_APP_PRIVATE_KEY are missing from this repository, or the App is not installed on it."
+          exit 1
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ steps.app.outputs.token }}
-      - name: open the pull request from the first commit
+      - name: open the pull request from the newest commit
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           REPOSITORY: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          PUSHER: ${{ github.actor }}
         run: |
           set -euo pipefail
-          first="$(git log --reverse --format=%H "origin/$DEFAULT_BRANCH..HEAD" | head -n 1)"
-          if [ -z "$first" ]; then
+          if git merge-base --is-ancestor HEAD "origin/$DEFAULT_BRANCH"; then
             echo "The branch $BRANCH has no commit beyond $DEFAULT_BRANCH"
             exit 1
           fi
-          title="$(git log -1 --format=%s "$first")"
-          body="$(git log -1 --format=%b "$first")"
+          title="$(git log -1 --format=%s HEAD)"
+          body="$(git log -1 --format=%b HEAD)"
           pattern='^(feat|fix|perf|refactor|docs|test|build|ci|chore)(\([a-z0-9._-]+\))?!?: .{1,100}$'
           if ! printf '%s\n' "$title" | grep -Eq "$pattern"; then
-            echo "The first commit subject is not a pull request title: $title"
+            echo "The newest commit subject is not a pull request title: $title"
             exit 1
           fi
           open_count="$(gh pr list --repo "$REPOSITORY" --head "$BRANCH" --state open --json number --jq 'length')"
           if [ "$open_count" != "0" ]; then
-            echo "A pull request for $BRANCH is already open"
+            echo "A pull request for $BRANCH is already open; the push joined it"
             exit 0
           fi
-          gh pr create --repo "$REPOSITORY" --base "$DEFAULT_BRANCH" --head "$BRANCH" --title "$title" --body "$body"
-      - name: file a bug when the pull request did not open
+          gh pr create --repo "$REPOSITORY" --base "$DEFAULT_BRANCH" --head "$BRANCH" --title "$title" --body "$body" --assignee "$PUSHER"
+      - name: file a bug in this repository when the pull request did not open
         if: failure()
         env:
-          GH_TOKEN: ${{ steps.app.outputs.token }}
-          OWNER: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
+          PUSHER: ${{ github.actor }}
+          APP_OUTCOME: ${{ steps.app.outcome }}
           RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
-          body="$(printf '### What happens\n\nThe art branch %s in %s did not open a pull request.\n\n### Steps\n\nRead the run: %s\n\n### Where\n\nGitHub Actions\n\n### Environment\n\n%s\n' "$BRANCH" "$REPOSITORY" "$RUN" "$REPOSITORY")"
-          gh api "repos/$OWNER/Roadmap/issues" -f title="Art branch $BRANCH in ${REPOSITORY#*/} did not open a pull request" -f body="$body" -f type=Bug
+          if [ "$APP_OUTCOME" != "success" ]; then
+            cause="The App gave no token: the secrets are missing from this repository or the App is not installed on it."
+          else
+            cause="The newest commit's subject did not pass the title rule, or the pull request could not be opened."
+          fi
+          body="$(printf '### What happens\n\nThe art branch %s pushed by %s did not open a pull request. %s\n\n### Steps\n\nRead the run: %s\n\n### Where\n\nGitHub Actions\n\n### Environment\n\n%s\n' "$BRANCH" "$PUSHER" "$cause" "$RUN" "$REPOSITORY")"
+          title="Art branch $BRANCH did not open a pull request"
+          if ! gh api "repos/$REPOSITORY/issues" -f title="$title" -f body="$body" -f type=Bug --silent; then
+            gh api "repos/$REPOSITORY/issues" -f title="$title" -f body="$body" --silent
+          fi
