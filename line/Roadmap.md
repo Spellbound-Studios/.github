@@ -2209,6 +2209,61 @@ Built on this machine in CoreDev, GeoForgeDev and the new PackageCheckDev, each 
 
 Settings taken are listed in the pull requests. Raised: Core's logger has no sink outside play mode; the Template has no PackageCheck manifest line, records no skeleton version, has no third-party notices section in its licence, and its `update-skeleton.sh` must fill the skeleton's new `COPYRIGHT_LINE` token; CoreDev's manifest has no PackageCheck line. Not run: the 6000.3 floor row; the run and line tiers, which are LV3a's.
 
+## The stories of step 15.1: Core's additions for the editor look (UI7d-1 to UI7d-4)
+
+Step 15.1 gives Core.Editor what the editor look of step 15.2 hangs on: a probe that says whether Spellbound UI's tokens reach editor windows and inspectors, a passed state for the header bar and the report, a header sentence and a footer a window page can set, and the look hook that dresses a root with the theme class and every registered sheet in order. Four stories, one gate each: UI7d-1 in UIDev (the probe; no UI file changes and UIDev's lock does not move), UI7d-2 to UI7d-4 in CoreDev (into `dev`). The split is the plan's; the outcomes are the epic's. Facts are marked **verified** with the date or **verify before building on it**. Two Ready Core stories ride in the same pull request before the look hook: Core#159 (the doors generator skips test assemblies) and Core#160 (assembly scanning matches a Spellbound assembly exactly), each by the done line in its issue body.
+
+Applies to every story of the step:
+
+- **Rules:** the rules of steps 1 to 14 hold (spelled-out names, one type per file, explicit access modifiers, no comments or XML docs, logging through Core, the studio's Rider formatting, the copyright line on every new C# file; a gap is raised and stops the story; the lead never touches git; nothing merges to a branch a game follows without the developer's hand). Core never references UI: the hook takes keyed, ordered sheet sources and knows no theme; every sheet is UI's or the project's.
+- **Rules:** a moved public line has no alias and no parallel path; every consumer of a moved line in the workspace (PackageCheck, GeoForge, ArtPipeline) is searched and named in the report, and none is edited here, because step 15.2 and step 18 take them.
+- **Rules:** the probe runs first, in an open editor on UIDev, in both editor skins, and leaves the editor on the skin it found; if a token on `.sb-theme` does not reach an editor window or a custom inspector, the step stops at the written answer and asks.
+- **Verified (2026-10-29):** Core `dev` is at c90f77f; Core.Editor holds `HeaderBar` (a title, a `Severity` of `FindingSeverity?` with three modifier classes, an actions slot), `SectionCard`, `ReportView` (a compact banner whose severity is the first finding's and null when there is none; `EmptyText` a constant), `TypePickerField`, `ControlStyleSheet` (applies `Editor/Controls/SpellboundControls.uss` to every control), `WindowShell(pages, selectedTitle, styleSheet)` with `Header`, `PageControls` filled from `WindowPage.CreateHeaderControls()`, and `SpellboundWindow.ConsumerStyleSheet`, which nothing in the workspace sets. `LogSettingsInspector` and `ObjectPresetEditor` set spacing and colours in code; `PackageIdentityInspector` and `DefinitionInspectorBanner` do not.
+- **Verified (2026-10-29):** the consumers of the moving lines are PackageCheck's `CheckPage` (`HeaderBar.Severity` on its summary and on each group card, its own `StyleSheetSource`), GeoForge's `MaterialTableInspector` (`Severity` Information and Error) and ArtPipeline's `ArtVerdictView` and `ArtInboxView` (`Severity`), with ArtPipeline's test doubles `PlainHeaderBar` and `PlainReportView` deriving from the controls. PackageCheck's rule A3 renders the doors block through `BridgeDoors.Find`, the runtime call, so a door skipped by `core context` must be skipped behind that same call.
+- **Verified (2026-10-29):** UI `beta` is at 2e0ea3d; its tokens are declared on `.sb-theme` (`Runtime/Widgets/Theme/Tokens.uss` for the dark theme, `LightTokens.uss` for the light one) and `ThemeSwitcher.ThemeUssClassName` is `sb-theme`; UI.Editor references `Spellbound.Core` and not Core.Editor; `Tests/Editor/Validation/EditorPanelTokenTests.cs` skips in batch mode and asserts only the class token on a child.
+- **Verified (2026-10-29):** Core has no bridge door of its own (no `CorePipelineKit`); the only door in CoreDev is the test fixture `FixtureOtherKit` in `Spellbound.Fixture.Other`, constrained on `UNITY_INCLUDE_TESTS`. `AssemblyScanning.ShouldSkip` skips by `StartsWith` over eight prefixes, so a buyer assembly named `SystemsKit` is skipped today.
+- **Regression contract:** Core's edit-mode and play-mode tests pass; `core validate`, `core context`, `core ledger` and `core unity-ledger` answer as before, except that the doors block no longer lists a test fixture; the inspector banner still shows a definition's report with its Run checks button; a `[SerializeReferenceDropdown]` field still picks a concrete type; `ObjectPresetEditor` still renames, removes and adds modules; the `LogConfig` inspector still sets the level, the file name, the capture and each sink, and Apply still writes the defines; the window still lists its pages, remembers the selection, shows the empty state and draws a page's controls in the header; a control used outside a dressed root still carries the layout sheet; `packagecheck check` over Core fails no rule it passed before.
+- **Regression contract:** no UI file changes and UIDev's lock does not move; the probe leaves UIDev's working tree clean and the editor on the skin it found; no game and no package other than Core changes.
+- **Done, for each story:** compiles clean in the dev project through the Unity command line, its tests pass, and the pull request's report lists what landed.
+
+### UI7d-1 The probe
+
+- **Outcome:** a written answer, in both editor skins, to four questions: whether a token declared on the element carrying `.sb-theme` is read on that element, whether a descendant reads it through `var()`, whether both hold inside a custom inspector in the Inspector window as they do in an editor window, and whether a token can point at one of Unity's own editor variables and follow the skin.
+- **Rules:** run in an open editor on UIDev through the Unity command line; the probe's files live outside the repository and its temporary sheet is removed afterwards; the skin is switched with the editor's own preference and switched back.
+- **Done:** the answer is written into this section and the look hook of UI7d-4 is designed from it.
+
+### UI7d-2 The header bar and the report show passed
+
+- **Outcome:** `HeaderStates` in `Spellbound.Core.Controls.Editor` names the open state ids `neutral`, `passed`, `information`, `warning`, `error` and `stale`, maps a `FindingSeverity` to one and gives the class `sb-header--<state>`; `HeaderBar.State` replaces `Severity`, is never null, defaults to neutral, takes any id a consumer invents and carries exactly one state class; `ReportView` shows passed in its banner when the bound run has no findings, carries the same state class as a view, and its empty line is a settable `EmptyText`.
+- **Rules:** no new `FindingSeverity`; the finding rows keep their severity classes.
+- **Done:** edit-mode tests on each shipped state, a custom id, the mapping, the passed banner and the settable text.
+
+### UI7d-3 A window page sets the header sentence, state and actions and writes a footer line
+
+- **Outcome:** `HeaderBar` gains a sentence under its title, hidden when empty; `WindowPage` gains `HeaderSentence`, `HeaderState` and `FooterText`, which raise `SurfaceChanged`; the shell shows the current page's three in its header and in a footer line under the content, follows `SurfaceChanged` while the page is current, a change made while the page draws included, restores them when the page is shown again, and keeps filling the actions slot from `CreateHeaderControls()`.
+- **Done:** edit-mode tests on the sentence, the state, the footer, a change while shown, a change while the page draws, a change while hidden and the restore on return.
+
+### UI7d-4 The look hook
+
+- **Outcome:** `EditorLook.Dress(root)` adds `sb-theme` and the skin's class, Core's layout sheet, every registered source's sheets for the current skin in order, then the project's own sheets from `EditorLookSettings`, which also names the keys left out; `EditorLook.Register(LookSource)` replaces a source by key and `Remove(key)` drops it; a dressed root follows the editor skin as the probe allows; `ButtonVariants` and `ChipTones` publish the shared class names; `SpellboundWindow`, `DefinitionInspectorBanner`, `LogSettingsInspector`, `PackageIdentityInspector`, `ObjectPresetEditor` and `TypePickerDrawer` make the call; spacing set in code moves to the layout sheet; `SpellboundWindow.ConsumerStyleSheet` and the shell's style sheet parameter go.
+- **Rules:** Core ships no colour and no theme; a source is any `Func<EditorSkin, IReadOnlyList<StyleSheet>>` under a key, so UI registers its editor look in step 15.2 without a change to Core.
+- **Done:** edit-mode tests on the order, the replacement and removal by key, the exclusion by setting, the project's own sheets, a custom source, a custom settings source, the idempotent call and the skin class.
+
+### The written result of the probe (UI7d-1, 2026-10-29)
+
+Run in a windowed editor on UIDev (6000.4.8f1, UI `beta` at 2e0ea3d, Core at the lock's e0ca89f) through the Unity command line, with a temporary sheet under `Assets/LookProbe` that was deleted afterwards; the editor was found on the light skin, switched to the dark skin and switched back. In each skin the same questions were asked twice: in a plain editor window whose root carried `.sb-theme`, and inside the Inspector window on the root element a UI Toolkit custom editor returns from `CreateInspectorGUI()` (an `InspectorElement` child, the way Core's inspectors dress their own root). The theme reaches both, so the step goes on.
+
+| Question | Light skin | Dark skin |
+|---|---|---|
+| A token declared on `.sb-theme` is read in code on the element carrying the class (`customStyle.TryGetValue`) | yes, window and inspector | yes, window and inspector |
+| The same token is read in code on a descendant | no, in both | no, in both |
+| A descendant takes the token through `var()`, a colour and a length, one and two levels down | yes, rgb(4, 5, 6) and 7 px in both | yes, in both |
+| A token can point at one of Unity's own editor variables and a rule can use the variable directly | yes: `--unity-colors-default-background` gives rgb(165, 165, 165) through the token and directly; `--unity-colors-default-border` rgb(153, 153, 153); `--unity-colors-warning-text` rgb(51, 51, 8) | yes: rgb(40, 40, 40), rgb(35, 35, 35) and rgb(244, 188, 2), so a sheet written against Unity's variables follows the skin by itself |
+| A `:root` token is read on the carrier | yes | yes |
+| A length token read in code | comes back as text (`7px`); reading it as a float logs a warning, so code reads tokens as colours or text | the same |
+
+What it settles for the look hook (UI7d-4): a sheet scoped under `.sb-theme` reaches every editor window and every inspector that dresses its root, with no second mechanism; code that needs a token reads it on the dressed root, never on a child; and switching the editor skin reloads the domain ("Reloading assemblies due to switching skins" in the editor log), so every window and inspector is rebuilt and dressed again with the new skin's sheets. The hook therefore keeps no skin poll: it adds `sb-theme--dark` or `sb-theme--light` beside `sb-theme`, asks each source for the current skin's sheets, and offers `RedressAll()` for a source registered after a root was dressed.
+
 ## The kickoff prompt for step 1
 
 Send this to a fresh session. The optional line grants one preview aid; remove it if you do not want to grant it. Step 1 has no user-facing strings, so there is no wording list to skim.
