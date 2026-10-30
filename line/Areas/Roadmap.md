@@ -836,6 +836,92 @@ Spikes and probes, with what each blocks. Each is a story inside the epic named,
 | A pushed branch of the shape art/<artist>-<slug> opens the pull request; any other shape is refused | A5a | A5a's caller and WF1r |
 | The test runner | WF3s (undated) | Nothing; local Unity CLI runs are the merge rule meanwhile |
 
+### The WorldObjects pitch (PWO, 2026-10-29)
+
+**The ask.** WorldObjects becomes a package of its own, cut from Core's `Spellbound.Core.WorldObjects` assembly (60 files, 2,562 lines, read in full on 2026-10-29), with a world instance that owns everything a world has and steps its own physics scene, a presenter behind a seam that never compiles on a server, a collision part that exists in every build, change and resolve told apart by type, and Core's 64-bit instance id in place of the per-chunk integer. It costs the ten gates of L3 and one gate of the riding epic (R3c, the bridge for an item riding a reference frame); the design stops at the package's own surface and the bridges the line already names, and says nothing about the store's columns (UN4a), the batch drawing (UN5) or the region streaming (NW3), which keep their own epics.
+
+**What exists.** One assembly inside Core that compiles in every build and references Entities, Entities Graphics, Entities Hybrid, Burst, Collections, Mathematics and Transforms. `ObjectPreset` (a hashed ScriptableObject found through `Resources.LoadAll`) names a baked picture prefab and an event surface prefab and holds its modules by surface. `ObjectParent` (757 lines) is the host of one chunk: it reads `World.DefaultGameObjectInjectionWorld` in nine places, queries the entities of its chunk, spawns a GameObject event surface for an instance within the preset's interaction distance of the viewer and despawns it beyond, and routes change, resolve, create and delete callbacks to the modules. The event surface is at once the interactive proxy, the collider (`StaticEventSurface` requires one) and the thing a module's callbacks receive. Instance ids are `int`, per chunk, and the same number is the entity's instance index, the proximity job's index and the save key; a preset id is a 32-bit hash. `DeltaResolver`, `PresetRegistry` and the entity prefab registry (through `SingletonManager`) are static. Corsairs is the whole consumer (58 files: a chunk host, three PurrNet sync modules of 1,900 lines implementing the three store contracts, nine module classes, four dispatch types); Saboteer reads presets and modules as item data in 23 files and spawns through its own service; WorldForge's generation pass writes entity spawn requests in 13 files; Modifiers' `StatData` carries `ObjectParent` in its signature. Core has four tests over the assembly (the chunk's index cursor and the proximity threshold, two packing round trips) and none over the delta resolver, the registries, the systems, the surface or the contracts. No `UNITY_SERVER` constraint appears in the assembly or in either game, so a dedicated server builds the same picture path and has no collider where no viewer stands.
+
+**What is missing.** A world: nothing owns a context, a clock, an allocator, a reference frame directory and a physics scene together, so two worlds cannot share a process and nothing steps a world's physics. A line between what any peer may do to its own picture of an instance (change) and what the deciding peer does to the instance's truth (resolve): the two contract families differ only by name, both receive the concrete `ObjectParent`, and two Corsairs modules delete and spawn from a handler. A collision part a server can collide with: colliders exist only inside a viewer's interaction distance, on GameObjects that also draw. A presenter seam: the picture is an Entities entity baked from the preset and cannot be swapped without Entities Graphics. An id that survives a save, a wire and a second world: Core's `InstanceId`, `IIdentityAllocator` and `LocalIdentityAllocator` exist with tests and nothing in WorldObjects uses them.
+
+**What we add.** The package `com.spellboundstudios.worldobjects` at `Packages/WorldObjects`, front door `WorldObjectsKit`, with the runtime assembly `Spellbound.WorldObjects` depending on Core and the engine modules (Burst, Collections and Mathematics declared, as the line allows a hot loop), the presentation assembly `Spellbound.WorldObjects.Presentation` constrained `!UNITY_SERVER`, an editor assembly, the two test assemblies and a sample. In it:
+
+1. **The world instance.** `WorldObjectsKit.CreateWorld(WorldSettings settings, ObservationContext observations)` returns a `WorldInstance` that owns its `ObservationContext`, its `TickClock` (started through `CoreKit.Time.StartClock(source, observations)` with the source the settings name, the game-time default when none), its `IIdentityAllocator` (Core's `LocalIdentityAllocator` over a `LocalLeaseIssuer` by default; Networking hands in the authority's allocator over its lease table), its `ReferenceFrameDirectory`, its `InstanceStore` and its presets, and a `PhysicsScene`: when `settings.sceneMode` is `OwnScene` the instance creates an additive scene with `LocalPhysicsMode.Physics3D` and adds a `WorldStepDriver` whose latest-order `FixedUpdate` calls `Simulate(Time.fixedDeltaTime)` once; when it is `DefaultScene` (the one-world case of rule 19) Unity steps the default scene and the instance adds no driver; a scene holding a prediction manager is never one the instance steps (the rule of NW10). `Dispose()` stops the clock, unloads the scene it made and releases every proxy; the context was the caller's and stays the caller's, so a game that shares one context across its doors keeps it. Nothing in the package is static; the registry of presets is the world's, filled from the `WorldSettings.presets` list or a provider the game hands in, never from `Resources`. A game with no world instance keeps doing what Core already lets it do: create a context and start a clock itself.
+
+2. **The presenter and the collision part.** `IInstancePresenter` lives in the runtime assembly with three members, `Show(in InstanceView view)`, `Hide(InstanceId id)` and `Moved(in InstanceView view)`, and a default `NoPresenter` that draws nothing, so a server build compiles the seam and the simulation calls it without a define. `GameObjectPresenter`, in the presentation assembly, is the default a client installs through `WorldSettings.presenter`: it instantiates the preset's `picturePrefab` for an instance the viewer source awakens and releases it through Core's pool when it sleeps. The collision part is the runtime assembly's: `CollisionParts` keeps, for every awake instance, one GameObject in the world's physics scene built from the preset's `collisionPrefab` (colliders and an `InstanceReference` component carrying the `InstanceId`, no renderer), so a rider's cast, a trigger and a sphere overlap find the instance on every peer, a dedicated server included. Awake means inside the interest of a viewer the world's viewer source lists (the viewer source is Core's by the line text and is not built yet; L3 adds it to Core or takes it from the step that does, a raise of this pitch): on a client that is the camera, on a server it is every player, so a server's colliders stand where its players are and nowhere else. Whether every instance keeps a collision part at all times or only the awake ones do is a setting of the world, `WorldSettings.collisionParts`, whose default is the awake ones, because two games answer it differently (a small board wants every part, a large world wants interest). The preset gains `collisionPrefab` beside `picturePrefab`; the event surface prefab goes, because the interactive proxy is the collision part and the picture is the presenter's.
+
+3. **Change, resolve and ids.** Two contract families, told apart by what they receive. A change handler (`IChangeHandler<TData>.Changed(in InstanceView view, TData data, IInstancePresenter presenter)`, with `Created` and `Deleted` on their own interfaces) receives a read-only `InstanceView` (id, preset, pose, reference frame, the packed data) and the presenter, so it can only draw, sound or animate. A resolver (`IChangeResolver<TData>.Resolve(InstanceWriter writer, TData data, in InstanceView view)`, with `ResolveCreated` and `ResolveDeleted`) receives the `InstanceWriter`, the one type with `Write`, `Delete` and `Spawn`, which the world hands out only on the peer that decides for the instance (always, in a game with no Networking; by the write policy of the source, with it). A handler cannot delete or spawn because nothing it holds can. Every instance is an `InstanceId` from Core: a runtime instance takes `allocator.Allocate()`; a placement (a procedural instance WorldForge derives from a seed) is an id the caller derives from the seed and the index and marks with `AsPlacement()`, never allocated; the store, the collision part, the presenter, the save section and the wire all key on the same 64 bits, so the per-chunk integer, the entity index and the deletion buffer go. `DeltaResolver` becomes an instance of the world (`DeltaTable`) built once from the modules the world's presets name, not from a scan of every assembly.
+
+**Before and after, the calling code.** Today a Corsairs module that reacts to damage receives the host and reaches for the world:
+
+```csharp
+public void HandleChange(StatData data, byte context, ObjectParent parent, int instanceIndex, TransformData transform) {
+    if (data.Health <= 0) parent.DeleteInstance(instanceIndex);
+}
+```
+
+After, the same module is two classes and the deletion can only live in the second:
+
+```csharp
+public void Changed(in InstanceView view, StatData data, IInstancePresenter presenter) {
+    if (data.Health <= 0) presenter.Show(view.WithPicture(brokenPicture));
+}
+
+public void Resolve(InstanceWriter writer, StatData data, in InstanceView view) {
+    if (data.Health <= 0) writer.Delete(view.Id);
+}
+```
+
+Today a game makes a chunk host per chunk against the default Entities world; after, it makes one world and asks it for a writer:
+
+```csharp
+var world = WorldObjectsKit.CreateWorld(worldSettings, observations);
+var writer = world.Writer();
+var id = writer.Spawn(presetId, pose, ReferenceFrameId.World);
+```
+
+A racing game that installs WorldObjects for its track props makes a world on the default scene with the GameObject presenter and never meets a chunk, an entity or a server define; a dedicated server of the co-op game makes the same world with `NoPresenter` and still has colliders for the players' casts.
+
+**Other directions, rejected.** Keep the Entities store and Entities Graphics as the drawer and only wrap them in a world type (rejected: Entities leaves the line by rule 5 and the drawer needs Forward+ and one world per process). Keep colliders only near the local player as today and give the server a kinematic stand-in per rider (rejected: a server with no collider has no truth to decide with, and the stand-in is a second physics path). Enforce change against resolve with a runtime audit that fails a write from a handler (rejected: the audit finds the bug in a soak after the fact; a handler that holds no writer cannot compile it).
+
+**The spike's result (PWO-4, 2026-10-29).** A throwaway project outside every repository (`_probes/WorldObjectsSpike`, Unity 6000.4.8f1, a second scene made with `LocalPhysicsMode.Physics3D`, box collider proxies with no renderer, a latest-order driver calling `Simulate(Time.fixedDeltaTime)`), run in a `-batchmode -nographics` editor and in a Windows player started with `-batchmode -nographics`, both on the reference PC (AMD Ryzen 9 9950X3D, 16 cores, 63 GB).
+
+| Measurement | Headless editor | Headless Windows player |
+|---|---|---|
+| A body in the world's scene with the driver off, 25 fixed steps | held at 0 m while the default scene's body fell 1.275 m | the same |
+| A body in the world's scene with the driver on, 25 fixed steps | fell 1.275 m, the driver stepped 25 times, the default scene's body fell on | the same |
+| A raycast from above each body | the world's scene hit its own body and the default scene its own | the same |
+| Spawning 1,000 collision proxies (a box collider, no renderer) | 7.6 to 17.5 ms, mean 9.6 ms over 20 batches | 5.0 to 13.3 ms, mean 7.4 ms |
+| One `Simulate` with 5,000 static proxies | mean 0.124 ms, worst 0.221 ms over 250 steps | mean 0.109 ms, worst 0.248 ms |
+| One `Simulate` with 20,000 static proxies | mean 0.136 ms, worst 0.338 ms | mean 0.111 ms, worst 0.314 ms |
+| One `Simulate` with 20,000 static proxies and 200 kinematic movers through `MovePosition` | mean 0.264 ms, worst 0.450 ms | mean 0.201 ms, worst 0.364 ms |
+| 1,000 raycasts into 20,000 proxies | 1,000 hits in 0.388 ms | 1,000 hits in 0.371 ms |
+| 1,000 sphere casts into 20,000 proxies | 1,000 hits in 0.444 ms | 1,000 hits in 0.440 ms |
+| The same raycast in the default scene | hit nothing | hit nothing |
+| A rider's cast above a mover after the moves | hit the mover | hit the mover |
+
+Go for the collision part as GameObject colliders in the world's own physics scene: a world's scene is stepped only by its driver (a body in it held still for 25 fixed steps with the driver off and fell once per step with it on, while the default scene's body fell throughout), casts into the world's scene never see the default scene and the reverse, the step of 20,000 static proxies costs 0.11 to 0.14 ms a fixed step on average and 0.34 ms at worst, with 200 kinematic movers through `MovePosition` 0.20 to 0.26 ms on average and 0.45 ms at worst, a rider's cast finds a moved mover, and 1,000 proxies spawn in 5 to 18 ms (means 7.4 ms in the player and 9.6 ms in the editor). The budget it implies for L3: a world of 20,000 awake collision parts spends under half a millisecond of a 20 ms fixed step on physics before any body moves, so the awake count matters for memory and spawn time, not for the step.
+
+**Stories for L3, in the shape this pitch fixes.** The full format is written at step 19's start.
+
+| Id | Outcome in one sentence | Size |
+|---|---|---|
+| L3-1 | The package exists at `Packages/WorldObjects` from the template with its identity, assemblies and sample, and the folders leave Core | 1 |
+| L3-2 | `WorldInstance` owns its context, clock, allocator, directory, presets and store, with no static state and two worlds in one test | 1 |
+| L3-3 | The store keys every instance on `InstanceId`, placements derive theirs, and the save section carries the id and the world's elapsed seconds | 1 |
+| L3-4 | The world's physics scene and `WorldStepDriver` in `OwnScene` mode, the default scene left to Unity in `DefaultScene` mode, a prediction manager's scene left alone | 1 |
+| L3-5 | `InstanceView`, `InstanceWriter`, the change and resolve contracts by type, and `DeltaTable` as the world's own | 1 |
+| L3-6 | `IInstancePresenter` with `NoPresenter` in the runtime assembly and `GameObjectPresenter` in the presentation assembly under `!UNITY_SERVER` | 1 |
+| L3-7 | `CollisionParts` in every build, awake by the viewer source, with `InstanceReference` and the preset's `collisionPrefab`; a cast on a server finds an instance | 1 |
+| L3-8 | Presets and modules without `Resources`, the preset list a world setting, the editor's preset inspector moved | 1 |
+| L3-9 | Modifiers' `StatData` and WorldForge's spawn requests rewired to the new contracts and ids | 1 |
+| L3-10 | Corsairs' chunk host and sync modules and Saboteer's preset reads follow; both games play | 1 |
+
+**Decisions.** Two, the library's own; each would be answered the same by every game. (Whether a collision part exists for every instance or only the awake ones is a question two games answer differently, so it is the setting `WorldSettings.collisionParts` above with the awake ones as its default, applied and not asked.)
+
+1. Should change and resolve be told apart by type (a handler receives a read-only view and the presenter, a resolver receives the writer), or by a runtime audit that fails a handler's write in the soak? Recommended: by type, because a module that cannot compile a deletion cannot ship one, and the audit would only find it after a playtest. Alternative: the audit, which keeps today's single interface per module and asks less of Corsairs' rewrite.
+2. Should the preset author a collision prefab beside its picture prefab, or should the collision part always be derived from the picture prefab's colliders at import? Recommended: an authored `collisionPrefab` with a derived default written at import by the editor assembly when the field is empty, because a hull, a tree and a chest want colliders the picture does not have (a coarse box for a tree's canopy, a trigger volume for a chest) and a derived part cannot know that. Alternative: always derived, one prefab per preset and no second asset to keep in step.
+
 ## Reserve
 
 One working day per stream in every sprint of 8 or more working days: 96 reserve gates across 51 sprints, 10 percent of capacity. It is a calendar reserve, not a line item, so the dates above already include it. If a sprint ends with the reserve unspent, the next sprint starts its next story one day early; the schedule is re-issued at each milestone. Sprints 5 and 31 (the Christmas weeks, five working days each) have none. The cut-over's window does not spend it: the reserve days of sprints 1 to 6 stay held back, and the cut-over still ends 2027-01-13.
