@@ -22,6 +22,9 @@ github_scope_refreshed="false"
 installed_editors_text=""
 installed_editors_read="false"
 placeholder_count=0
+git_user_name=""
+git_user_email=""
+typed_answer=""
 retry_sentence="run the line again, and if it fails again, ask an engineer."
 local_application_data="${LOCALAPPDATA:-$HOME/AppData/Local}"
 local_application_data="${local_application_data//\\//}"
@@ -124,6 +127,9 @@ registry_named() {
 maya_menu_sentence() {
     say "Unity's menu for Maya is installed from inside the registry project: with Maya closed, open Edit," \
         "Project Settings, Fbx Export, pick Maya 2026 under 3D Application and press Install Unity Integration."
+    say "The install adds Unity's line to Maya's shared userSetup.mel file in Maya's scripts folder," \
+        "Documents\\maya\\scripts. If Maya's File menu shows no Unity entry after the install, an earlier line" \
+        "in that file is failing and stops Unity's line from running, so move Unity's line to the top of that file."
 }
 
 check_operating_system() {
@@ -202,6 +208,7 @@ step_git() {
         stop_for_git
     fi
     git lfs version >/dev/null 2>&1 || stop_for_git
+    local changed="false"
     local filter
     local filters_set="true"
     for filter in clean smudge process; do
@@ -209,13 +216,71 @@ step_git() {
             filters_set="false"
         fi
     done
-    if [ "$filters_set" = "true" ]; then
-        step_skipped "Git $major.$minor and Git LFS are installed and set up already."
+    if [ "$filters_set" != "true" ]; then
+        run git lfs install --skip-repo >/dev/null \
+            || stop "Git LFS could not set itself up, so $retry_sentence"
+        changed="true"
+    fi
+    if git_identity_changed; then
+        changed="true"
+    fi
+    if [ "$changed" = "true" ]; then
+        step_done
+    else
+        step_skipped "Git $major.$minor and Git LFS are installed and set up already," \
+            "and Git signs your changes as $git_user_name <$git_user_email>."
+    fi
+}
+
+ask_answer() {
+    local question="$1"
+    local requirement="$2"
+    local pattern="$3"
+    local stop_sentence="$4"
+    typed_answer=""
+    while ! [[ "${typed_answer,,}" == $pattern ]]; do
+        printf '%s ' "$question"
+        if ! read -r typed_answer; then
+            printf '\n'
+            stop "$stop_sentence"
+        fi
+        if [ ! -t 0 ]; then
+            printf '\n'
+        fi
+        typed_answer="${typed_answer#"${typed_answer%%[![:space:]]*}"}"
+        typed_answer="${typed_answer%"${typed_answer##*[![:space:]]}"}"
+        if ! [[ "${typed_answer,,}" == $pattern ]]; then
+            say "$requirement"
+        fi
+    done
+}
+
+git_identity_changed() {
+    local changed="false"
+    local identity_stop_sentence="Git needs your name and email, so run the line again and type them when it asks."
+    local save_stop_sentence="Git could not save your name and email, so $retry_sentence"
+    git_user_name="$(git config --global --get user.name || true)"
+    git_user_email="$(git config --global --get user.email || true)"
+    if [ -z "$git_user_name" ]; then
+        ask_answer "What name should Git sign your changes with? Type your full name." \
+            "The answer has to be your name." "?*" "$identity_stop_sentence"
+        git_user_name="$typed_answer"
+        run git config --global user.name "$git_user_name" || stop "$save_stop_sentence"
+        changed="true"
+    fi
+    if [ -z "$git_user_email" ]; then
+        ask_answer "What email should Git sign your changes with? Type the email you use on GitHub." \
+            "The answer has to be an email address, such as name@example.com." "?*@?*.?*" \
+            "$identity_stop_sentence"
+        git_user_email="$typed_answer"
+        run git config --global user.email "$git_user_email" || stop "$save_stop_sentence"
+        changed="true"
+    fi
+    if [ "$changed" = "true" ]; then
+        say "Git signs your changes as $git_user_name <$git_user_email>."
         return 0
     fi
-    run git lfs install --skip-repo >/dev/null \
-        || stop "Git LFS could not set itself up, so $retry_sentence"
-    step_done
+    return 1
 }
 
 locate_github_command() {
@@ -452,21 +517,10 @@ step_application() {
     elif valid_application "$stored"; then
         application="$stored"
     else
-        while ! valid_application "$application"; do
-            printf '%s ' "Which program do you model in? Type maya, blender or none."
-            if ! read -r application; then
-                printf '\n'
-                stop "Run the line again with --application maya, --application blender or --application none."
-            fi
-            if [ ! -t 0 ]; then
-                printf '\n'
-            fi
-            application="${application//[[:space:]]/}"
-            application="${application,,}"
-            if ! valid_application "$application"; then
-                say "The answer has to be maya, blender or none."
-            fi
-        done
+        ask_answer "Which program do you model in? Type maya, blender or none." \
+            "The answer has to be maya, blender or none." "@(maya|blender|none)" \
+            "Run the line again with --application maya, --application blender or --application none."
+        application="${typed_answer,,}"
     fi
     if [ "$application" = "$stored" ]; then
         step_skipped "Your answer $application was stored on an earlier run."
@@ -531,11 +585,36 @@ step_clone() {
             stop "The folder $(windows_path "$folder") holds something other than $repository," \
                 "so move it away or pick another folder with --into, then run the line again."
         fi
+        local updated="false"
+        local commit_before
+        commit_before="$(git -C "$folder" rev-parse HEAD 2>/dev/null || true)"
+        local own_changes_stop_sentence="The folder $(windows_path "$folder") holds changes of its own that are not on"
+        own_changes_stop_sentence="$own_changes_stop_sentence GitHub, so ask an engineer before you run the line again."
+        run git -C "$folder" fetch --quiet origin \
+            || stop "Git could not reach GitHub to update $(windows_path "$folder")," \
+                "so check your internet connection, then run the line again."
+        if ! git -C "$folder" rev-parse --verify --quiet '@{upstream}' >/dev/null 2>&1; then
+            stop "The folder $(windows_path "$folder") is not on a branch that GitHub knows, so ask an engineer."
+        fi
+        local commits_ahead
+        commits_ahead="$(git -C "$folder" rev-list --count '@{upstream}..HEAD')" || stop "$own_changes_stop_sentence"
+        if [ "$commits_ahead" -gt 0 ]; then
+            stop "$own_changes_stop_sentence"
+        fi
+        run git -C "$folder" pull --quiet --ff-only 2>/dev/null || stop "$own_changes_stop_sentence"
+        if [ "$(git -C "$folder" rev-parse HEAD 2>/dev/null || true)" != "$commit_before" ]; then
+            say "The folder $(windows_path "$folder") now has the newest changes from GitHub."
+            updated="true"
+            changed="true"
+        fi
+        if [ -n "$(git -C "$folder" status --porcelain --untracked-files=no 2>/dev/null || true)" ]; then
+            say "The folder $(windows_path "$folder") has edits of its own that are not on GitHub, and they were kept."
+        fi
         if hooks_changed "$folder"; then
             changed="true"
         fi
         read_placeholder_count "$folder"
-        if [ "$placeholder_count" -gt 0 ]; then
+        if [ "$placeholder_count" -gt 0 ] || [ "$updated" = "true" ]; then
             run git -C "$folder" lfs pull || stop "$pull_stop_sentence"
             changed="true"
             pulled="true"
@@ -567,7 +646,8 @@ step_clone() {
     if [ "$changed" = "true" ]; then
         step_done
     else
-        step_skipped "The folder $(windows_path "$folder") is a clone of $repository already."
+        step_skipped "The folder $(windows_path "$folder") is a clone of $repository already" \
+            "and has the newest changes from GitHub."
     fi
 }
 
@@ -659,6 +739,7 @@ step_open_project() {
         step_skipped "The project was opened on an earlier run."
         return 0
     fi
+    say "Close Unity first if it is open, because Unity cannot open a project that is already open."
     say "Unity opens the project without a window so its packages download, and the first time takes a while."
     if ! run "$unity_command" open "$project_path" --batchmode --until-ready --timeout 3600; then
         stop "Unity could not open $project_path, so send the editor log at $(editor_log_for "$folder")" \
