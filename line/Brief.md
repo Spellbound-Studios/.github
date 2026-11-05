@@ -123,7 +123,7 @@ The line is every Spellbound package taken together as one family: twenty-two pu
 
 ## How to read the other two files
 
-- **Roadmap.md** is the plan: the epics grouped into build steps that each end with a report and a full stop, the gates and estimated dates, the pitches and spikes, the undated list, the backlog, and the stories of the first step. Read it to decide what to build next and to see what a slip costs.
+- **Roadmap.md** is the plan: the epics grouped into build steps that each end with a report and a full stop, the gates and estimated dates, the pitches and spikes, the undated list, the backlog, and an index of each step's stories, which live one file per step in `Stories/`. Read it to decide what to build next and to see what a slip costs.
 - **Line.md** is the binding text for every session, person or agent: what a builder owns, the kinds, every package with its dependencies, bridges and limits, every rule above in full, the shared conventions, the accepted limits and the report a step ends with. Read it before touching any package.
 - A session that builds loads the library-design and lead-engineer skills; a deeper pitch loads design-pitch; a review loads red-team. Every rule is settled and is not asked again; anything left open becomes a setting with a default named in the report. Each step's design lives in the area file the roadmap names for it, and the step's stories are written from it at the step's start.
 - Nothing waits for the developer: every question of the pitch is answered, the last two on 2026-10-24 (Saboteer ships after the packages are final, June 2028 estimated; Switchboard is the final name).

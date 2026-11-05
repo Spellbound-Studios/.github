@@ -7,14 +7,15 @@ What this is: the plan, the rules and the design of the Spellbound package line,
 | File | What it is | Who reads it |
 |---|---|---|
 | `Brief.md` | The executive brief: what the line is, what it costs, where it stops, the two milestones, the rules in plain words, what Unity 6.7 and Unity 7 change. Five minutes | A person deciding whether to spend build time, and anyone who has read nothing else |
-| `Roadmap.md` | The plan: the 70 build steps with hard stops (69 numbered and the festival's row F), the 119 dated epics with their estimated dates, the undated list and the backlog, the pitches, spikes and probes, the undated list, the backlog, the stories of step 1 and the kickoff prompt | Anyone starting or leading a build session, to find the step and what it waits for |
+| `Roadmap.md` | The plan: the 70 build steps with hard stops (69 numbered and the festival's row F), the 119 dated epics with their estimated dates, the undated list and the backlog, the pitches, spikes and probes, the undated list, the backlog, the index of each step's stories and the kickoff prompt | Anyone starting or leading a build session, to find the step and what it waits for |
+| `Stories/` | The stories of each step, one file per step named `Step<N>.md` (a dot in the step's number written as a hyphen), written there by the step's lead at the step's start | A step's lead, to write the step's stories, and anyone reviewing a built step |
 | `Line.md` | The binding line text: what a builder owns, the kinds, every package with its dependencies, bridges and limits, the rules, the homes procedure, the shared conventions, the accepted limits and the report a step ends with | Every person or agent before touching any package |
 
 These three bind. Every rule in them is decided and is not asked again; anything they leave open becomes a setting with a sensible default, named in the step's report. The board that carries the same plan is the Spellbound Roadmap (organisation project 13), one Epic per epic of the roadmap.
 
 ## The design each step is built from
 
-`Areas/` holds the design the roadmap's steps are built from, one file per area, as the pitch left them. A step's lead reads the sections of its area file that name the step's epics (the list under the roadmap's build steps says which file an epic id names), writes the step's stories from them in the format of step 1's stories, and reads nothing else of the pitch. Where a fact is marked "verify before building on it", check the code, not the file.
+`Areas/` holds the design the roadmap's steps are built from, one file per area, as the pitch left them. A step's lead reads the sections of its area file that name the step's epics (the list under the roadmap's build steps says which file an epic id names), writes the step's stories from them into `Stories/Step<N>.md`, in the format of step 1's stories (`Stories/Step1.md`), and reads nothing else of the pitch. Where a fact is marked "verify before building on it", check the code, not the file.
 
 | File | Area |
 |---|---|
