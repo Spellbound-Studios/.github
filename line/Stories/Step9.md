@@ -31,13 +31,13 @@ Applies to every story of the step:
 
 - **Outcome:** `scripts/bridge-fixture.sh` in Core's repository makes a throwaway project outside every repository that installs Core from this working tree by local path and Pipeline at a version it is given, starts a headless editor on an editor version it is given, waits for the Pipeline server, and asserts through `unity command`: the command is found by search, `core help` exits 0 with `succeeded:` first, a line that does not bind exits with the bad-arguments code and `invalid:` in the error, a valid call that finds a fault exits with the failure code and `failed:`, a refused call exits with the failure code and `refused:`, and a result spanning frames (an operation that returns a `Task`) completes. It records each exit code it observed. It then enters play mode with `editor_play`, calls `spellbound_run` during the reload and records what the CLI answered, which is the fact Limits left open.
 - **Rules:** bash, run by a person or by `run-local-tests.sh` once WF3a exists; it never touches git and removes its project at the end unless told to keep it.
-- **Done:** the script passes against Pipeline 0.8.0-exp.1 on 6000.4.8f1 and its written result (the exit codes, the reload answer) is in the Roadmap under this step.
+- **Done:** the script passes against Pipeline 0.8.0-exp.1 on 6000.4.8f1 and its written result (the exit codes, the reload answer) is in this file.
 
 ### CL2-4 Each Pipeline range and the 6000.3 floor row
 
 - **Outcome:** the fixture runs against every range the bridge names (0.8.0-exp.1 and 0.9.1-exp.1) on 6000.4.8f1, and against 0.8.0-exp.1 on 6000.3.10f1, and passes; a run against a Pipeline outside every range (0.7.0-exp.1) shows the bridge compiled out and the Core.Editor console line in `unity command console`.
 - **Verify before building on it:** the 0.9 declaration compiles against 0.9.1-exp.1 as the fetched page describes it.
-- **Done:** four written results in the Roadmap, one per run, each naming the editor, the Pipeline version, the command spelling found and the exit codes.
+- **Done:** four written results in this file, one per run, each naming the editor, the Pipeline version, the command spelling found and the exit codes.
 
 ### CL2-5 The development build with the runtime flag
 

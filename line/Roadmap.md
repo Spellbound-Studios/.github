@@ -1,6 +1,6 @@
 # The Spellbound package line: the roadmap
 
-What this is: the plan for building the line, for a person or an agent who needs the order of work, the dates, the costs and the first stories. For: anyone starting or leading a build session on the line, in any repository of the organisation. Date: 2026-10-24. Read `Brief.md` first if you have read nothing else; the binding rules, the packages and the shared conventions are in `Line.md` beside this file. Every rule in those files is decided and is not asked again. Anything a story leaves open becomes a setting with a sensible default, named in that step's report. Nothing is pinned, every date is an estimate the developer is not bound by, and the game is Saboteer.
+What this is: the plan for building the line, for a person or an agent who needs the order of work, the dates, the costs and the index of each step's stories. For: anyone starting or leading a build session on the line, in any repository of the organisation. Date: 2026-10-24. Read `Brief.md` first if you have read nothing else; the binding rules, the packages and the shared conventions are in `Line.md` beside this file. Every rule in those files is decided and is not asked again. Anything a story leaves open becomes a setting with a sensible default, named in that step's report. Nothing is pinned, every date is an estimate the developer is not bound by, and the game is Saboteer.
 
 A "gate" is one story that a person reviews and signs off. The planning rate is one gate per person per working day, beside their own work, with two people (two streams) from 2026-11-02. Sprints are 14 days from 2026-11-02.
 
@@ -781,9 +781,9 @@ with Line.md and Brief.md beside it): stories L1-1 to L1-6 and L1r-1 to L1r-3, C
 every consumer's references. Work in /d/dev/unity/spellbound/CoreDev, and for L1r only the assembly
 definitions and the temporary manifest line named in the stories in GeoForgeDev, ChatDev, ModifiersDev,
 the VolumetricFog development project (verify its folder name), WorldForgeDev and the game projects.
-Read the step's row of the Roadmap and the sections named here, by heading, then the Line text's sections on Core and the rules of the line, then the
-Core sections of Areas/Line.md beside it, the area file the step names. Read
-nothing else.
+Read row 1 of the Roadmap, the stories in Stories/Step1.md, the report section 'The report each step
+ends with', then the Line text's sections on Core and the rules of the line, then the Core sections
+of Areas/Line.md beside it, the area file the step names. Read nothing else.
 
 The plan is not the product. Nothing in it was run. Facts marked "verify before building on it" are
 leads: check them in the code before relying on them.
@@ -803,8 +803,8 @@ the list of evidence you need from me, and "ready to test".
 Then one follow-up prompt per remaining step, sent only after the evidence for the step before has been sent and the developer has said to continue:
 
 ```
-Continue with step N of the Roadmap: <the epics and parts in the step's row>. Same rules as before.
-Stop after step N.
+Continue with step N of the Roadmap: <the epics and parts in the step's row>. Its stories are
+written into Stories/Step<N>.md at the start. Same rules as before. Stop after step N.
 ```
 
 Step 2 starts with L1-7 and is sent as: "Continue with step 2 of the Roadmap, starting with story L1-7. Same rules as before. Stop after step 2." A step that names a pitch, a spike or a probe stops at its written result; the developer's answer is part of the evidence.
