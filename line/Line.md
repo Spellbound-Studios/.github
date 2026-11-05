@@ -401,7 +401,7 @@ Each is a setting with a default until its story closes with a written go or no-
 | The far-field renderer | None chosen. Candidates: today's tiles moved into Horizon, nested rings, Unity Terrain | W6p, then the measurement in W6a |
 | The far layer | A planning story first, its own epic after the renderer is measured | W6n |
 | What a saved world stores, and the world fingerprint | The fingerprint only detects a change and repairs nothing; no old generator is kept | W70 |
-| Navigation's tile cost | The spike ends in a written go or no-go that a person closes as a Decision issue, and NV2 starts only after it is closed. On a no-go the fallback is Unity's NavMesh for walkers only, plus our own volume search for fliers and burrowers | NV1 |
+| Navigation's tile cost | The spike ends in a written go or no-go that a person closes as a Decision issue, and NV2 starts only after it is closed | NV1 |
 | The batch draw path against today's, and the pop between levels of detail | BatchRendererGroup; no fade between levels | UN3 |
 | `PhysicsScene.Simulate` ordered from a latest-order fixed update | The order in rule 19 | Settled by the facts bench row in UN1a, run by the world-step order test in R3d and NW3s; the default stands until one of them closes it with a written go or no-go |
 | Who steps the physics of a world that predicts | Rule 11 | NW10 |

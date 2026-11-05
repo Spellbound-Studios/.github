@@ -45,7 +45,7 @@ Applies to every story of the step:
 ### NV1-5 The written go or no-go
 
 - **Outcome:** the written result in this section with every number beside the arithmetic it replaces, judged against budgets stated before the numbers are read, and a Decision issue in the Roadmap repository that blocks NV2 with the question, the recommendation, the alternative and what waits.
-- **Rules:** the budgets: the tiles of a 128-voxel chunk build within 8 ms on the reference PC (one worst frame of Corsairs' bar, because a chunk's tiles build once at load and rebuild per edit only where the edit's bounds intersect); a chunk's tiles hold within 200 kilobytes (under one twentieth of the dense array); the Surface and Open searches expand 1,000 nodes per millisecond or more (so a 10,000-node search is 10 ms, time sliced under a budget); and the seam matrix has zero unsound edges. A number outside its budget is a no-go unless the written result says why it is not. On a no-go the decided fallback applies (Unity's NavMesh for walkers, our own volume search for the other movers) and the result says what NV2 onward re-size to.
+- **Rules:** the budgets: the tiles of a 128-voxel chunk build within 8 ms on the reference PC (one worst frame of Corsairs' bar, because a chunk's tiles build once at load and rebuild per edit only where the edit's bounds intersect); a chunk's tiles hold within 200 kilobytes (under one twentieth of the dense array); the Surface and Open searches expand 1,000 nodes per millisecond or more (so a 10,000-node search is 10 ms, time sliced under a budget); and the seam matrix has zero unsound edges. A number outside its budget is a no-go unless the written result says why it is not. On a no-go the result says what NV2 onward re-size to.
 - **Regression contract:** none.
 - **Done:** the section, the Decision issue created by the hand-off script, and the developer closing it in writing.
 
@@ -110,7 +110,9 @@ Facts the spike found that shape NV2 onward:
 
 Not measured: a player build (every figure is the batch editor's, Burst on, managed code in Debug); a search across a chunk border; more than one refined region; the speed of the mixed coarse-and-fine search and the time to build a refined region (both ran for soundness only); the fine data stored as corner bits (40,187 bytes is arithmetic, the spike stored one byte per fine cell); the 6000.3 floor row.
 
-On the go, NV2 onward keep their sizes. The decided fallback (Unity's NavMesh for walkers and our own volume search for the other movers) is not applied.
+On the go, NV2 onward keep their sizes. The fallback left the plan on 2026-11-05 by the developer's decision of 2026-10-31.
+
+The spike's NavMesh comparison figures are kept as evidence, a data point and not a decision, at Planning/PackageLine/Evidence/NavMeshComparison.md.
 
 **Facts the step changed, both parts.** PK-4's story named `BinaryPrimitives` as the one path; measured first in the editor (Mono), it was slower than both existing paths (34 to 39 ms a column against 29 to 31 for `BitConverter` and 18 to 28 for the bitwise twins), so the one path is the bitwise one and the figures are in the Core pull request. The golden byte test, written on the base before the first change, exposed a latent defect in `SmartPackerRegistry`: Mono initialised its generic static cache when the calling method was compiled, re-entered the registry load and registered the first smart packer used outside play mode with hash 0; fixed in the same pull request. Collections resolved as the editor's built-in 6.4.0 whatever the manifest asked for.
 

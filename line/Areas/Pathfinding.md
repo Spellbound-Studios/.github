@@ -1,5 +1,7 @@
 # Checkpoint 2 revisited, area 9: Pathfinding (2026-10-23, revised 2026-10-24)
 
+Revision note, 2026-11-05: the NavMesh fallback left the plan by the developer's decision of 2026-10-31 (NavMesh is antithetical to the voxel world). Decision 3 and the limits no longer hold a fallback for a navigation no-go; the checkpoint 3 note below and findings that say decision 3 holds the fallback record the state at their date. Decision 1 stands. The spike's comparison figures are evidence at Planning/PackageLine/Evidence/NavMeshComparison.md.
+
 Revision note, checkpoint 5, the hand-off (2026-10-24): the developer's 25 answers to the checkpoint 4 questions folded in one pass; nothing decided is reopened. (1) Ships and moving decks (N6) leave the backlog and are built after the Corsairs milestone and before Corsairs Isle launches, beside N2 to N5 and N9 (answer 21); Corsairs launches complete, so the epic table, section 8 and the text on what Corsairs plays without Navigation say so, and the backlog row for N6 is gone. (2) The gym walk-through skips its `navigation` lines until Navigation lands, and the report's `checks:` line has no Navigation entry until then (answer 20). (3) The unreachable-ore check lives in `Spellbound.Navigation.Places.Editor`, a Places-gated editor assembly beside the Places bridge (answer 22); its registered name is `navigation.reachable-deposits` and it does not run while a designer edits. (4) `ReachableDepositsCheck` implements `IDefinitionCheck<PlaceDefinition>` (answer 14) and every drawn line is respelled; the report's checks line reads `<name> (<Package>)` with the type's own validation first. (5) N6 is written as a path across a `ReferenceFrame`. (6) The follower's step names the two cadences in one sentence (answer 8). Open decisions: none. Epics: 67 stories, unchanged in size; N6's placement moved. Claims on this area answered in section 16 (four, from commandline, world and ui; all accepted, no epic changed).
 
 Revision note, checkpoint 4 claims round (2026-10-24): seven claims answered in section 15. The check is internal with no door and has an assembly of its own (`Navigation.Places.Editor`, decided 2026-10-24); the loaded event names the place and its world instance; `RegionRows` is `PartitionRows`, and a door's state is read from its row for sleeping instances too. Epics unchanged.
@@ -383,7 +385,7 @@ What Corsairs plays without Navigation at its milestone. A search of `CorsairsIs
 
 1. Navigation serves a stranger's flat world with a grid source and a heightfield source. A walker on a Unity Terrain or mesh is sent to Unity's AI Navigation in the docs. Navigation does not write a mesh or Unity Terrain rasteriser and does not wrap Unity's NavMesh as a backend.
 2. Navigation holds the path follower, the crowd registry and replaceable local avoidance, with a `Navigation.Character` bridge to Character.Body. The line's sentence is amended to say so.
-3. N1 is a spike with a written go or no-go before N2. If the numbers fail, the fallback is Unity's NavMesh for walkers only, plus our own volume search for fliers and burrowers.
+3. N1 is a spike with a written go or no-go before N2.
 4. GeoForge's seam hands over signed voxel samples, not case codes (the line's amendment of 2026-10-23).
 5. Navigation ships before Corsairs Isle launches and after the "Corsairs on the line" milestone (2026-10-24). N1 may run earlier; N2 to N6 and N9 follow the milestone and precede any launch.
 6. The check seam is one interface, `IDefinitionCheck<T>`, and one attribute in Core.Editor; each package ships its own checks; `ReachableDepositsCheck` over `PlaceDefinition` is the worked example, reported in area 2's format with `failed` as the status word (2026-10-24).
@@ -398,7 +400,6 @@ What Corsairs plays without Navigation at its milestone. A search of `CorsairsIs
 - No cost in this document is measured; memory figures are arithmetic and every time figure is a budget to be measured in N1.
 - The ground level cannot represent a feature narrower than its cell, so doors are links and thin walls are conservative.
 - The seam between the ground level and a refined level is untested; N1 tests it and its written go or no-go covers failure.
-- Unity's NavMesh is the fallback for walkers only. It cannot serve a spider on a ceiling, a bird or a worm, so those would use our own volume search if N1 says no-go.
 - Left for the N1 spike: tile build time from the run lists, bytes per tile and per chunk, nodes per millisecond, the seam between levels, and label memory per family of profiles. Nothing else in the package is blocked on a probe.
 - The floor is Unity 6000.3 with Burst, Collections and Mathematics declared as packages; N1's numbers are taken on the studio's 6.4, and the 6.3 test row runs the correctness tests (soundness, the moat matrix), not the numbers.
 - Slope is quantised by the voxel grid, so "about 45 degrees" is approximate by one cell.
