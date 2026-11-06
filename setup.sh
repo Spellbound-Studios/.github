@@ -704,7 +704,12 @@ step_registry_watch() {
         step_skipped "Only the art registry was named, so there is nothing to fetch or watch."
         return 0
     fi
-    say "A game's items from the art registry are fetched by the art tools once they can do it; nothing is fetched today."
+    local index
+    for index in "${!repositories[@]}"; do
+        if [ "${repositories[$index]#*/}" != "ArtRegistry" ]; then
+            fetch_registry_items "${repositories[$index]}" "${folders[$index]}"
+        fi
+    done
     local subscribed
     subscribed="$("$github_command" api "repos/$owner/ArtRegistry/subscription" --jq .subscribed \
         </dev/null 2>/dev/null || true)"
@@ -728,25 +733,66 @@ editor_log_for() {
     fi
 }
 
-step_open_project() {
-    local repository="$1"
-    local folder="$2"
-    local name="${repository#*/}"
+open_project_without_window() {
+    local folder="$1"
     local project_path
     project_path="$(windows_path "$folder")"
-    begin_step "10" "Open $repository once" "10 ($name)"
-    if [ -f "$folder/Library/Spellbound/opened-by-setup.txt" ]; then
-        step_skipped "The project was opened on an earlier run."
-        return 0
-    fi
     say "Close Unity first if it is open, because Unity cannot open a project that is already open."
     say "Unity opens the project without a window so its packages download, and the first time takes a while."
     if ! run "$unity_command" open "$project_path" --batchmode --until-ready --timeout 3600; then
         stop "Unity could not open $project_path, so send the editor log at $(editor_log_for "$folder")" \
             "to an engineer."
     fi
+}
+
+close_project_without_window() {
+    local project_path
+    project_path="$(windows_path "$1")"
     run "$unity_command" close "$project_path" \
         || stop "Unity opened $project_path but did not close it, so restart the computer, then run the line again."
+}
+
+fetch_registry_items() {
+    local repository="$1"
+    local folder="$2"
+    local project_path
+    local fetch_text
+    local fetch_line
+    project_path="$(windows_path "$folder")"
+    say "Fetching the art registry's items for $repository."
+    open_project_without_window "$folder"
+    fetch_text="$(run "$unity_command" command spellbound_run --line "artpipeline fetch" --result-only \
+        --project-path "$project_path" </dev/null 2>&1 || true)"
+    fetch_line="$(grep -o -m 1 -E '(succeeded|previewed|refused|failed|invalid): [^"]*' <<< "$fetch_text" || true)"
+    fetch_line="${fetch_line%%\\n*}"
+    fetch_line="${fetch_line%$'\r'}"
+    case "$fetch_line" in
+        succeeded:* | previewed:*)
+            say "$fetch_line"
+            ;;
+        invalid:*)
+            say "This game's art tools do not fetch registry items yet, so nothing was fetched."
+            ;;
+        refused:* | failed:*)
+            close_project_without_window "$folder"
+            local sentence="${fetch_line#*: }"
+            stop "${sentence%.}, then run the line again."
+            ;;
+    esac
+    close_project_without_window "$folder"
+}
+
+step_open_project() {
+    local repository="$1"
+    local folder="$2"
+    local name="${repository#*/}"
+    begin_step "10" "Open $repository once" "10 ($name)"
+    if [ -f "$folder/Library/Spellbound/opened-by-setup.txt" ]; then
+        step_skipped "The project was opened on an earlier run."
+        return 0
+    fi
+    open_project_without_window "$folder"
+    close_project_without_window "$folder"
     if [ "$dry_run" != "1" ]; then
         mkdir -p "$folder/Library/Spellbound"
         date -u '+%Y-%m-%d %H:%M' > "$folder/Library/Spellbound/opened-by-setup.txt"
