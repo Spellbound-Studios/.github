@@ -907,8 +907,8 @@ Go for the collision part as GameObject colliders in the world's own physics sce
 | Id | Outcome in one sentence | Size |
 |---|---|---|
 | L3-1 | The package exists at `Packages/WorldObjects` from the template with its identity, assemblies and sample, and the folders leave Core | 1 |
-| L3-2 | `WorldInstance` owns its context, clock, allocator, directory, presets and store, with no static state and two worlds in one test | 1 |
-| L3-3 | The store keys every instance on `InstanceId`, placements derive theirs, and the save section carries the id and the world's elapsed seconds | 1 |
+| L3-2 | `WorldInstance` owns its context, clock, allocator, directory, presets, store and intent ledger, calls the ledger's `Expire` from the clock's step, and `ObjectPreset` implements `IAuthoredDefinition` | 1 |
+| L3-3 | The store keys every instance on `InstanceId`, placements take WorldForge's `PlacementId` through `InstanceId.AsPlacement()` once both use Core#180's hash, and the save section carries the id and the world's elapsed seconds | 1 |
 | L3-4 | The world's physics scene and `WorldStepDriver` in `OwnScene` mode, the default scene left to Unity in `DefaultScene` mode, a prediction manager's scene left alone | 1 |
 | L3-5 | `InstanceView`, `InstanceWriter`, the change and resolve contracts by type, and `DeltaTable` as the world's own | 1 |
 | L3-6 | `IInstancePresenter` with `NoPresenter` in the runtime assembly and `GameObjectPresenter` in the presentation assembly under `!UNITY_SERVER` | 1 |
@@ -917,7 +917,7 @@ Go for the collision part as GameObject colliders in the world's own physics sce
 | L3-9 | Modifiers' `StatData` and WorldForge's spawn requests rewired to the new contracts and ids | 1 |
 | L3-10 | Corsairs' chunk host and sync modules and Saboteer's preset reads follow; both games play | 1 |
 
-**Decisions.** Two, the library's own; each would be answered the same by every game. (Whether a collision part exists for every instance or only the awake ones is a question two games answer differently, so it is the setting `WorldSettings.collisionParts` above with the awake ones as its default, applied and not asked.)
+**Decisions, answered by the developer on 2026-10-29:** 1. A change and its consequence are told apart by type, not found by a runtime audit. 2. The preset authors a collision prefab beside its picture prefab, with a derived default written at import. (Whether a collision part exists for every instance or only the awake ones is a question two games answer differently, so it is the setting `WorldSettings.collisionParts` above with the awake ones as its default, applied and not asked.)
 
 1. Should change and resolve be told apart by type (a handler receives a read-only view and the presenter, a resolver receives the writer), or by a runtime audit that fails a handler's write in the soak? Recommended: by type, because a module that cannot compile a deletion cannot ship one, and the audit would only find it after a playtest. Alternative: the audit, which keeps today's single interface per module and asks less of Corsairs' rewrite.
 2. Should the preset author a collision prefab beside its picture prefab, or should the collision part always be derived from the picture prefab's colliders at import? Recommended: an authored `collisionPrefab` with a derived default written at import by the editor assembly when the field is empty, because a hull, a tree and a chest want colliders the picture does not have (a coarse box for a tree's canopy, a trigger volume for a chest) and a derived part cannot know that. Alternative: always derived, one prefab per preset and no second asset to keep in step.
