@@ -771,6 +771,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 18](Stories/Step18.md): GeoForge's presenter seam and the start of the world model (W1g, L7a, W1a, UI7d-10)
 - [Step 15.4](Stories/Step15-4.md): Send, Get latest and Put back (A5a, with ArtPipeline#25, #26 and #29)
 - [Step 21](Stories/Step21.md): the intent key and ledger, and the replication protocol (R1k, NW1)
+- [Step 22](Stories/Step22.md): density out (W2a)
 
 ## The kickoff prompt for step 1
 
