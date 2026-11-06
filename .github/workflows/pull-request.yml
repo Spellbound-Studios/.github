@@ -1,0 +1,10 @@
+name: pull request
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  checks:
+    uses: ./.github/workflows/check.yml
