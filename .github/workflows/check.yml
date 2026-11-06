@@ -1,0 +1,27 @@
+name: check
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  title:
+    if: github.event_name == 'pull_request' && (github.event.action != 'edited' || github.event.changes.title)
+    uses: $/.github/workflows/pull-request-title.yml
+  structure:
+    if: github.event.action != 'edited' || github.event.changes.base
+    runs-on: ubuntu-latest
+    concurrency:
+      group: check-structure-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: run the structure checks
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/check.sh ]; then
+            echo "skipped: scripts/check.sh is not in this repository"
+            exit 0
+          fi
+          bash scripts/check.sh

@@ -1,0 +1,31 @@
+name: pull request title
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: check the pull request title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+          if [ "$(printf '%s' "$TITLE" | wc -l)" -ne 0 ]; then
+            echo "Invalid title: it spans more than one line" >&2
+            exit 1
+          fi
+          if [ -f scripts/check-commit-message.sh ]; then
+            bash scripts/check-commit-message.sh --title "$TITLE"
+            exit 0
+          fi
+          echo "scripts/check-commit-message.sh is not in this repository: the title is checked against the same rule here"
+          if printf '%s\n' "$TITLE" | grep -Eq '^(feat|fix|perf|refactor|docs|test|build|ci|chore)(\([a-z0-9._-]+\))?!?: .{1,100}$'; then
+            exit 0
+          fi
+          echo "Invalid title: $TITLE" >&2
+          echo "Expected: type(scope): what changed, with an optional ! before the colon for a breaking change" >&2
+          echo "Allowed types: feat fix perf refactor docs test build ci chore" >&2
+          exit 1
