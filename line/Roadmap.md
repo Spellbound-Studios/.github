@@ -777,6 +777,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 21](Stories/Step21.md): the intent key and ledger, and the replication protocol (R1k, NW1)
 - [Step 22](Stories/Step22.md): density out (W2a)
 - [Step 15.5](Stories/Step15-5.md): the Registry window and the proof (A9b)
+- [Step 33](Stories/Step33.md): checks, rules and strangers begin (LV3a, LV5a, LV5s, WF3a, CL4b)
 
 ## The kickoff prompt for step 1
 
