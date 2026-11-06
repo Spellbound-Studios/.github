@@ -7,7 +7,7 @@ What this is: the plan, the rules and the design of the Spellbound package line,
 | File | What it is | Who reads it |
 |---|---|---|
 | `Brief.md` | The executive brief: what the line is, what it costs, where it stops, the two milestones, the rules in plain words, what Unity 6.7 and Unity 7 change. Five minutes | A person deciding whether to spend build time, and anyone who has read nothing else |
-| `Roadmap.md` | The plan: the 70 build steps with hard stops (69 numbered and the festival's row F), the 119 dated epics with their estimated dates, the undated list and the backlog, the pitches, spikes and probes, the undated list, the backlog, the index of each step's stories and the kickoff prompt | Anyone starting or leading a build session, to find the step and what it waits for |
+| `Roadmap.md` | The plan: the 76 build steps with hard stops (68 numbered, 15.1 to 15.7 and the festival's row F), the 122 dated epics with their estimated dates, the undated list and the backlog, the pitches, spikes and probes, the undated list, the backlog, the index of each step's stories and the kickoff prompt | Anyone starting or leading a build session, to find the step and what it waits for |
 | `Stories/` | The stories of each step, one file per step named `Step<N>.md` (a dot in the step's number written as a hyphen), written there by the step's lead at the step's start | A step's lead, to write the step's stories, and anyone reviewing a built step |
 | `Line.md` | The binding line text: what a builder owns, the kinds, every package with its dependencies, bridges and limits, the rules, the homes procedure, the shared conventions, the accepted limits and the report a step ends with | Every person or agent before touching any package |
 

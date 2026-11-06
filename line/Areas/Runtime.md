@@ -421,7 +421,7 @@ The figure in the page fragment shows the same rescue in the Before (a log line 
 |---|---|---|
 | One recorded occurrence | A 16-byte header cell (key 4, tick 4, subject 8) plus 0 to 3 argument cells of 16 bytes (four 4-byte values each): 16 to 64 bytes; a rescue (reason, from, to) is a header and two cells, 48 bytes | design, computed |
 | Default recorder | 32,768 cells of 16 bytes, 524,288 bytes (512 KiB) per world context, about 10,900 rescue-sized records; a per-key rate cap in the settings asset keeps one noisy key from overwriting the rest; a shard of N worlds holds N rings, and the size is a settings field | 32,768 x 16 = 524,288; 32,768 / 3 = 10,922 |
-| Guard state | 32 bytes per failing (guard, subject), none for a healthy one; 5,000 failing bodies in one world is 160,000 bytes | 8 + 4 + 8 = 20, padded to 32; 5,000 x 32 = 160,000 |
+| Guard state | 24 bytes per failing (guard, subject), none for a healthy one; 5,000 failing bodies in one world is 120,000 bytes | 8 + 4 + 8 = 20, aligned to 24; 5,000 x 24 = 120,000 |
 | One counter report in a relay | 12 bytes: key 4, reason 4, count 4; 16 entries is 192 bytes; 5,000 clients reporting every 10 s is 96,000 bytes a second (93.75 KiB/s) arriving at the shard | design, computed |
 | Today's relay batch cap | 16,384 bytes | `CrewLogRelay.cs:17` |
 | Float spacing at 10,000 m from the origin | 0.000977 m (2^-10: 10,000 lies in [8192, 16384), 23 fraction bits) | computed from the format; this is why reference frames keep local poses small, and whether a game also shifts its origin is area 5 and area 8's call |

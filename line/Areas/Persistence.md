@@ -312,7 +312,7 @@ Run 2026-10-25, 21 play mode tests, all passing on the second run; the row-by-ro
 
 ## Known limits
 
-- The fingerprint describes the fields, not the `Pack` code. A `Pack` that writes in another order than the fields are declared, or skips a field, is not detected by the header. The convention is that `Pack` writes the fields in declaration order; L8's tests round-trip every section of the package and PackageCheck gets a lead for a `Pack` whose write count differs from the field count only if a later story asks for it.
+- The fingerprint describes the fields, not the `Pack` code. A `Pack` that writes in another order than the fields are declared, or skips a field, is not detected by the header. The convention is that `Pack` writes the fields in declaration order; L8's tests round-trip every section of the package and PackageCheck gets a lead for a `Pack` whose write count differs from the field count; L8 asks for it: the fingerprint covers the encoding, so a changed `Pack` is refused by name.
 - Discovery by reflection shares CL1's open question under build stripping; a no-go there moves Persistence's catalog to the same source generator.
 - Packing throughput is unmeasured; the spike measures a copy, not a pack of a real world.
 - `Describe` lists fields by metadata token order; the probe shows that order is declaration order and equal across compiles on this editor. A compiler that reorders tokens would change every fingerprint at once, which the stored-format gate would catch as a changed line.
