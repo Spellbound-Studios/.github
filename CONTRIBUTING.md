@@ -60,10 +60,12 @@ Run `bash scripts/setup.sh` once after cloning: it points git at the repository'
 |---|---|
 | `main` | The default branch of every repository. Protected: changes arrive only through a pull request. A person moves a package's `main` at each release |
 | `beta` | Where a package's pull requests land before and after its first stable release; a project the studio works in follows `#beta` |
-| `rc` | A person merges `beta` into it when the strangers should run; the release tags a release candidate |
+| `rc` | A person promotes `beta` to it with `promote-release.sh rc` when the strangers should run; the release tags a release candidate |
 | `release-<major>` | The maintenance branch of a Core major, cut in every repository when that major's final tags are made; a shipped game follows it |
 | `art/<login>-<slug>` | The only branch shape an artist's Send pushes, to the art registry alone; a pushed `art/**` branch opens its own pull request there, assigned to the person who pushed it |
 | Anything else | A working branch. Name it for the work |
+
+A release is never typed. Pull requests land on `beta`, and each merge whose title is a `fix`, a `perf`, a `feat` or a breaking change releases the next `-beta.N` of the package. When the strangers should run, a person promotes `beta` to `rc` with `promote-release.sh rc`, a merge whose push starts the release, and the release tags the next `-rc.N`, which the strangers run against. A person promotes `rc` to `main` with `promote-release.sh main` only when the head of `rc` carries a green `strangers` status, and the release tags the final version; after a final release `promote-release.sh sync` merges `main` back into `beta`. Nobody types a version, edits the changelog or picks a tag name: the release reads the titles that landed and writes all three. Core's `v1.1.9` is the one tag that existed before the release did, so Core's rewrite releases as `2.0.0-beta.N`, and every other package's first release is `1.0.0-beta.1`. A repository releases only when it holds the App's two secrets; where they are absent, its release run ends green with one line that begins `skipped:`.
 
 ## Pull requests
 
@@ -83,7 +85,7 @@ The release, catalogue and pull request Actions run as a GitHub App the organisa
 | Name | Spellbound Workflows |
 | Homepage | https://github.com/Spellbound-Studios/.github |
 | Webhook | Off |
-| Repository permissions | Contents: read and write (release commits, tags and releases); Pull requests: read and write (opens and assigns pull requests); Issues: read and write (the Bug issue a failed art pull request files, the catalogue pull request); Commit statuses: read and write; Metadata: read |
+| Repository permissions | Actions: read and write (the line release dispatches each release run and reads its log); Contents: read and write (release commits, tags and releases); Pull requests: read and write (opens and assigns pull requests); Issues: read and write (the Bug issue a failed art pull request files, the catalogue pull request); Commit statuses: read and write; Metadata: read |
 | Where it can be installed | Only on this account |
 | Installation | On the organisation, all repositories |
 | Keys | The App's client id and one private key generated on the App's page |

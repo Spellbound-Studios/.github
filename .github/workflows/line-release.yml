@@ -1,0 +1,42 @@
+name: line release
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        type: string
+        default: beta
+      dry-run:
+        type: boolean
+        default: true
+      cut-maintenance:
+        type: string
+        default: ''
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app
+        with:
+          client-id: ${{ secrets.SPELLBOUND_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - uses: actions/checkout@v7
+      - name: release the line in order
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          BRANCH: ${{ inputs.branch }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          CUT_MAINTENANCE: ${{ inputs.cut-maintenance }}
+        run: |
+          set -euo pipefail
+          arguments=(--branch "$BRANCH")
+          if [ "$DRY_RUN" = "true" ]; then
+            arguments+=(--dry-run)
+          fi
+          if [ -n "$CUT_MAINTENANCE" ]; then
+            arguments+=(--cut-maintenance "$CUT_MAINTENANCE")
+          fi
+          bash scripts/line-release.sh "${arguments[@]}"

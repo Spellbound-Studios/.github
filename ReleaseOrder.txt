@@ -1,0 +1,22 @@
+# Controller is not in the order: StateMachine and Character replace it.
+# GeoForgePro is not in the order: it is held until its own pitch.
+# Stats is not in the order: Modifiers replaces it.
+Core
+WorldObjects
+Inventory
+Modifiers
+UI
+Switchboard
+Persistence
+Networking
+GeoForge
+Decals
+VolumetricFog
+TetherShop
+Character
+WorldForge
+Navigation
+Instancing
+ArtPipeline
+PackageCheck
+Studio
