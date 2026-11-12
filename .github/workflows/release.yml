@@ -1,0 +1,100 @@
+name: release
+on:
+  workflow_call:
+    inputs:
+      dry-run:
+        type: boolean
+        default: false
+    secrets:
+      SPELLBOUND_APP_CLIENT_ID:
+        required: false
+      SPELLBOUND_APP_PRIVATE_KEY:
+        required: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: check the App's secrets
+        id: secrets
+        env:
+          CLIENT_ID: ${{ secrets.SPELLBOUND_APP_CLIENT_ID }}
+          PRIVATE_KEY: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
+        run: |
+          if [ -z "$CLIENT_ID" ] || [ -z "$PRIVATE_KEY" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "skipped: the App's secrets are not set in this repository"
+            exit 0
+          fi
+          echo "present=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/create-github-app-token@v3
+        id: app
+        if: steps.secrets.outputs.present == 'true'
+        with:
+          client-id: ${{ secrets.SPELLBOUND_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+      - uses: actions/checkout@v7
+        if: steps.secrets.outputs.present == 'true'
+        with:
+          token: ${{ steps.app.outputs.token }}
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+          persist-credentials: true
+      - uses: actions/setup-node@v7
+        if: steps.secrets.outputs.present == 'true'
+        with:
+          node-version: lts/*
+      - name: run semantic-release
+        id: release
+        if: steps.secrets.outputs.present == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.app.outputs.token }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          APP_LOGIN: spellbound-workflows[bot]
+        run: |
+          set -euo pipefail
+          npm install --no-save --prefix "$RUNNER_TEMP/release" semantic-release @semantic-release/changelog \
+            @semantic-release/exec @semantic-release/git conventional-changelog-conventionalcommits@9
+          app_user_id="$(gh api users/spellbound-workflows%5Bbot%5D --jq .id)"
+          export GIT_AUTHOR_NAME="$APP_LOGIN"
+          export GIT_AUTHOR_EMAIL="$app_user_id+$APP_LOGIN@users.noreply.github.com"
+          export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+          export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+          arguments=()
+          if [ "$DRY_RUN" = "true" ]; then
+            arguments+=(--dry-run)
+          fi
+          npx --prefix "$RUNNER_TEMP/release" semantic-release "${arguments[@]}" 2>&1 | tee "$RUNNER_TEMP/release.log"
+      - name: report the release
+        if: always() && steps.secrets.outputs.present == 'true'
+        env:
+          DRY_RUN: ${{ inputs.dry-run }}
+          RELEASE_OUTCOME: ${{ steps.release.outcome }}
+        run: |
+          set -uo pipefail
+          log="$RUNNER_TEMP/release.log"
+          if [ "$RELEASE_OUTCOME" != "success" ]; then
+            printf '%s\n' "failed: semantic-release did not finish ($RELEASE_OUTCOME); the steps above say why"
+            exit 1
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            version="$(sed -nE 's/.*The next release version is ([^ ]+).*/\1/p' "$log" | tail -n 1)"
+            if [ -n "$version" ]; then
+              printf '%s\n' "previewed: $version"
+            else
+              printf '%s\n' "previewed: nothing to release"
+            fi
+            exit 0
+          fi
+          version="$(sed -nE 's/.*Published release ([^ ]+).*/\1/p' "$log" | tail -n 1)"
+          if [ -n "$version" ]; then
+            printf '%s\n' "succeeded: released v$version"
+          else
+            printf '%s\n' "succeeded: nothing to release"
+          fi
