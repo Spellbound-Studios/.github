@@ -101,6 +101,9 @@ Every repository of the organisation is set the same way, and `bash scripts/repo
 For every repository: the default branch accepts changes only through a pull request; the squash merge uses the title alone; merged head branches are deleted; the status `unity-tests` is required once the local gate exists; review from the code owners is required for the judgment fields `CODEOWNERS` names; the App is on the bypass list. The art registry adds a team agreement, printed by `--art-registry`: an artist holds the write role and pushes `art/<login>-<slug>` branches only, and `main` changes only through a pull request an engineer merges after the registry's tests. Games carry no artist rule, because art reaches them through the registry.
 Run `bash scripts/run-local-tests.sh` before asking for review and type the `post-status.sh` line it prints; the pull request merges only with that green `unity-tests` status. On a private repository GitHub Free cannot require it, so there it is a team agreement that `repository-settings.sh --check` reports as unenforced.
 
+- The local gate's canary rows run on demand, `run-local-tests.sh --only canary-beta` on the next Unity's beta named by `CANARY_EDITOR`, and the status they post is `unity-canary-beta`. No ruleset requires it: a pull request merges whatever its state, because the canary is allowed to fail.
+- `run-local-tests.sh --only canary-coreclr` reads that editor for the CoreCLR player module, and when the module is installed the status it posts is `unity-canary-coreclr`. No ruleset requires it either; where the module is absent the row says not run and posts nothing.
+
 On GitHub Free these rules can be set on public repositories only; a private repository answers "Upgrade to GitHub Pro or make this repository public to enable this feature" (checked 2026-10-25). Where a rule cannot be set it is a team agreement and the check reports it as unenforced.
 
 ## The board
