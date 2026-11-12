@@ -114,7 +114,7 @@ newest_run_identifier() {
 }
 
 names_absent_workflow() {
-    printf '%s\n' "$1" | grep -Eq 'HTTP 404|could not find any workflows'
+    printf '%s\n' "$1" | grep -Eq 'HTTP 404|could not find any workflows|No ref found for'
 }
 
 first_line() {
