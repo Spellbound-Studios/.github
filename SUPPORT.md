@@ -16,3 +16,4 @@
 ## What to expect
 
 We answer a bug within two working days. A fix lands on the package's `beta` branch first and reaches a released tag at the next release of that package. The version a fix carries follows semantic versioning: a fix is a patch, a new feature a minor, a break a major.
+Probe of protected main, 2026-11-07; this branch is closed unmerged.
