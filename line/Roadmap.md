@@ -781,6 +781,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 31](Stories/Step31.md): Persistence finished, part one (L8-3 to L8-6, L8u-1, L8u-2) and the part two stories (L8c, L8u-3)
 - [Step 19](Stories/Step19.md): WorldObjects as a package, then Core's adoption of the bar (L3, L3c)
 - [Step 34](Stories/Step34.md): releases from commits, release gates (WF4a, LV3b, LV7a, WF5a, LV7d)
+- [Step 26](Stories/Step26.md): Networking on PurrNet, Saboteer's chat bridge (NW2, NW4a, W6n, UI4b)
 
 ## The kickoff prompt for step 1
 
