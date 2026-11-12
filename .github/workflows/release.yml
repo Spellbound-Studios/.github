@@ -84,7 +84,7 @@ jobs:
             exit 1
           fi
           if [ "$DRY_RUN" = "true" ]; then
-            version="$(sed -nE 's/.*The next release version is ([^ ]+).*/\1/p' "$log" | tail -n 1)"
+            version="$(sed -nE 's/.*[Tt]he next release version is ([^ ]+).*/\1/p' "$log" | tail -n 1)"
             if [ -n "$version" ]; then
               printf '%s\n' "previewed: $version"
             else

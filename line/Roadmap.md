@@ -780,6 +780,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 33](Stories/Step33.md): checks, rules and strangers begin (LV3a, LV5a, LV5s, WF3a, CL4b)
 - [Step 31](Stories/Step31.md): Persistence finished, part one (L8-3 to L8-6, L8u-1, L8u-2) and the part two stories (L8c, L8u-3)
 - [Step 19](Stories/Step19.md): WorldObjects as a package, then Core's adoption of the bar (L3, L3c)
+- [Step 34](Stories/Step34.md): releases from commits, release gates (WF4a, LV3b, LV7a, WF5a, LV7d)
 
 ## The kickoff prompt for step 1
 
