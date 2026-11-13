@@ -784,6 +784,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 26](Stories/Step26.md): Networking on PurrNet, Saboteer's chat bridge (NW2, NW4a, W6n, UI4b)
 - [Step 16](Stories/Step16.md): readiness for Unity 6.7, the UN8 half built and MV filed for 2027-01-04 (UN8 1 to 5; MV 1 to 7)
 - [Step 43](Stories/Step43.md): the world model and WorldForge pitch, part one (W2b-1 to W2b-8 built; W2b-9 to W2b-12, PW 1 to 3 and W6p-1 filed)
+- [Step 24](Stories/Step24.md): StateMachine and Character, part one built (L4-1 to L4-7), parts two and three filed (R5a-1 to R5a-5, L4-8 to L4-10, R4p)
 
 ## The kickoff prompt for step 1
 
