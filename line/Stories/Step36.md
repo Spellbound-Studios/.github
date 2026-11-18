@@ -192,3 +192,34 @@ Built on this machine in four worktrees by the step runner: `_probes/TetherShop3
 - Corsairs: the separator's LFS object; the play check's names, reflection and missing status file; `EditorSettings.asset` and a play-mode tier; two hosts on one panel; the link role outside the tooltip; the bullet's spacing; the builder's public members; the crosshair through the frozen tooltip; the keyword underline at every tier.
 - Part three: L12-6 Saboteer installs TetherShop and owns the kinds; L12-8 the rope look; the audio, gameplay and controls pages; the play check onto the host's public surface.
 - Runner and briefs: `[UnityTest]` counts; status checks against the base; the console count form; the copyright exclusion; the editor's close over quit; the stale lockfile; the swap script; fog through the player camera; the gate's answers written beside the page.
+
+### The written result of step 36, part three (L12-6, L12-8 and the rope look gate, 2026-11-17)
+
+Built on this machine in one worktree by the step runner: `_probes/Saboteur36c` of `Spellbound-Studios/SaboteurDev` on `l12-saboteer-tethershop` from `main` 626b77f, part two's merge. One seam with its verify, one design task for the before pictures and the play script, one build story with its verify, one human gate answered on its page; one stop triage; one sign-off round. The plan, the triage and the sign-off ran on Fable; the seam, the design task, the build and both verifies on Opus at high effort. One pull request: Saboteer into `main`; with it and the `.github` report, step 36 is done. The long report is `line/Reports/Step36-part-three.md`. The developer answered the plan's four questions: the five kinds keep their GUIDs, the namespace is `Spellbound.Saboteur.Ropes`, the copyright line stays Saboteer's own, and, against the plan's recommendation, the three kinds' asset menus move to `Spellbound/Saboteur/Ropes/<Kind>`, the root every Saboteer asset menu uses.
+
+**What Saboteer gained.** `com.spellboundstudios.tethershop` from `TetherShop.git?path=/Packages/TetherShop#beta` at `beta`'s head 6487752 with Core 1.1.9, in the lock form UI and Switchboard use; `Assets/TetherShop` gone, its sixteen package types resolving from the package cache on the same GUIDs; `ElevatorKind`, `LoadKind`, `WinchKind`, `ElevatorRiderTracker` and `IElevatorRider` under `Assets/_Project/RopeImplementation/Kinds` in `Spellbound.Saboteur.Ropes` on their five GUIDs, the kinds' menus under `Spellbound/Saboteur/Ropes/`; `NetworkedRope.cs` on `Spellbound.TetherShop.Presentation` for the renderer; four stale class identifier lines rewritten by text match so `Pulley`, `Pull`, `Rope` and `HookWithRope` carry the new assembly and namespace; six edit-mode install tests resolving by GUID, path and string, red on the embedded copy and green on the package.
+
+**What the step settled.**
+
+| Question the step settled | Result |
+|-|-|
+| The kinds' GUIDs | Kept; the package sample ships no metas, so an imported sample would never collide |
+| The kinds' namespace | `Spellbound.Saboteur.Ropes`, the game's rope namespace; a game type never sits in a package's namespace |
+| The kinds' menus | `Spellbound/Saboteur/Ropes/<Kind>`, his answer; a game type never sits under a package's menu once it leaves the package |
+| The copyright line | Saboteer's own, which the files already carried |
+| The base | 626b77f, not the prompt's 1a94183; it compiles once Heathen and `Library` are copied in, and no lock entry lags |
+| The identifier lines | Four rewritten by text match, the rest untouched, no asset re-saved |
+| The order of the change | Move, deletion, manifest and lock in one change with the editor closed, so no editor saw two `Spellbound.TetherShop` assemblies or two assets per GUID |
+| The server target | No server build exists; the `UNITY_SERVER` trap at `NetworkedRope.cs:455` is raised, not patched with `#if` |
+| The fog picture | Through the player camera at the mist pocket on seed 328100252, before and after from the same script |
+| The elevator | Not judged: the base already ignored the pulley end; SaboteurDev#120 |
+
+**Tests.** Edit mode 271 of 271 before, 277 total with 5 failed at the seam, 277 of 277 after; audit 0 blockers, 32 warnings before and after; three scenes and nineteen assets at 0 missing scripts; twenty-one GUIDs resolving before and after, five under `Kinds/` and sixteen under the package after. `error CS` 0 on every editor; the column check printed nothing; every count re-read by a verifier on a fresh editor. At the gate the four picture pairs differ by 0.076 to 0.391 of 255 per channel, the embers only; the developer judged the rope and the fog unchanged. Cost $26.10 before the sign-off session (plan 13.13, catalogue 4.40, seam 1.54, before play 2.38, build 1.67, verify 2.98).
+
+**Facts that changed.** A rename check written against `git diff origin/main` reads 0 before the runner commits the untracked side; the same bytes compared outside the repository read the renames, and the verifier's rerun after the commit read the check as written. A second `InitializeFromItem` on a laid rope is ignored, so the taut picture is a new rope on the same hooks. `SegmentedRope.Tension` reads 0 for a rope between two fixed hooks because no taut joint is made. `GoToCave` answers a move the next `Status` does not show, so every rope is laid in the spawn hall. The base's elevator rope hangs from its loose end and ignores the pulley end.
+
+**Raised.**
+
+- Saboteer: the `UNITY_SERVER` trap; the elevator's pulley end (SaboteurDev#120); `Pull.asset`'s orphan `slack`; the duplicate kinds should the package sample be imported; the literal loop bound in the install tests; the Heathen folder; the `link.xml` deletions and LFS pointer files; the PurrNet teardown error per terrain region.
+- TetherShop: the `0.0.0` version; the mixed meta forms; the `Editor` asmdef with no scripts.
+- Runner and briefs: rename checks before the commit; the empty-`grep -v` exit; a design task's cost in the stage table; the gate's answer beside the page.
