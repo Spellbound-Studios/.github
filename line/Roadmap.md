@@ -796,6 +796,7 @@ Each step's stories are in their own file under `Stories/`, named by the step's 
 - [Step 16](Stories/Step16.md): readiness for Unity 6.7, the UN8 half built and MV filed for 2027-01-04 (UN8 1 to 5; MV 1 to 7)
 - [Step 43](Stories/Step43.md): the world model and WorldForge pitch, parts one to three built (W2b-1 to W2b-8 in WorldForge and GeoForge; W2b-9 to W2b-12 and L3-10's Corsairs half in Corsairs; the eight Corsairs consumers and the two-peer play, three of them stopped on raises), part four (PW 1 to 3 and W6p-1) filed
 - [Step 24](Stories/Step24.md): StateMachine and Character, all three parts built (L4-1 to L4-7 in the packages; R5a-1 to R5a-5 in Character; L4-8 to L4-10 and R4p in Saboteer and Corsairs)
+- [Step 40](Stories/Step40.md): Make playable, part one built (R8a-1 to R8a-3 and R8b-1 in WorldObjects, R8b-2 in Inventory); part two (A7a-1 to A7a-3, A10a-1 to A10a-3) and part three (A7a-4) filed
 
 ## The kickoff prompt for step 1
 
