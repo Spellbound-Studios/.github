@@ -142,3 +142,47 @@ Built on this machine in three worktrees by the step runner: `_probes/Inventory3
 - Strangers, Networking, StateMachine: the `ProjectSettings` dirt; the byte order mark decided once; no Core dependency in two `package.json` files at `beta`; `State.Context` untyped; `HandView.Deal` on a shown view; a dead `using`.
 - Part two: the developer's three asks and the shorter page.
 - Runner and briefs: empty-output grep wording; literal test values checked against constructors; `OperationResult` named for `failed:` texts; the seam's fails-before check; story diffs regenerated after a fix.
+
+### The written result of step 35, part two (L11a1, LV5b2, 2026-11-19)
+
+Built on this machine in two worktrees by the step runner: `_probes/Studio35b` of `Spellbound-Studios/Studio` on `l11a1-studio-gameplay` from `main` 02392c6, and `_probes/Strangers35b` of `Spellbound-Studios/Strangers` on `lv5b2-farmingsim` from `beta` 7259256. Inventory installed from `main` 7b0e66a, which holds the two members the approved pitch marked needed; Modifiers `main` 3a353a3 read and never edited; Core moved to `dev` 1325cd2. Two seams, seven build tasks (L11a1-2 and L11a1-3 each as two slices), one design task, one sign-off fix, each followed by a fresh verifier on its own editor or batch run; no human gate; two sign-off rounds. The plan and the sign-off ran on Fable; every seam, build, fix, verify and design task on Opus at high effort. Two pull requests: Studio into `main` and Strangers into `beta`. The long report is `line/Reports/Step35-part-two.md`. The developer's three asks from the approval were the plan's three questions and were answered with the recommendations: `TryRestore` with a return container, `Layout` as a read-only list with no event now, one design task rewriting the pitch page.
+
+**What Studio.Gameplay gained.** The package beside Studio.Tools: `package.json` 0.0.0 with no dependencies, a runtime assembly over Core, Inventory, Modifiers, WorldObjects and StateMachine, a test assembly, `AGENTS.md`, the page, the changelog; the manifest's four packages and `testables`. Equipment: `EquipmentSlotKind`, `WearRequirement`, `IWearableLookup`, `IWearCondition`, `WearableModule` (kind, requirements, implicits, `Tier`, `Skills`, `MakePayload`), `EquipmentSlots` over `TypedInventory<EquipmentSlotKind>` with `Layout`, `MeetsRequirements` and `TryRestore`, `SavedWornItem`, `RestoreResult`, `EquipmentReasons` (`Restored`, `SlotRemoved`, `RequirementsFailed`, `SavedQuantityInvalid`), `GrantPayload`, `WornGrants` applying from `Committed` under one source id per slot, affixes through the tier's tables, skills through the wearer's `SkillSet`. Tiers and skills: `ItemTier`, `AffixDraw`, `SkillDefinition`, `SkillCost`, `GrantedSkill`, `SkillSet`, `SkillRefusal`. Talents: `TalentNode`, `TalentTree`, `TalentTreeItems`, `TalentAllocation`, `TalentRefusal`, `TalentReasons`. House states: `HouseStage`, `IHouseFlow`, `HouseState`, `TitleState`, `LoadingState`, `PlayingState` and their three stamped assets. Tooltip lines: `GrantLineKind`, `GrantSegmentRole`, `GrantLineSegment`, `GrantLine`, `GrantLineWriter`, writing the pitch's ten sample strings verbatim with no UI reference. Validation codes `skills.base-value-rolled`, `skills.base-value-named`, `talents.grant-rolled`, `talents.grant-named`, `talents.node-duplicate`, `talents.node-missing`, `talents.prerequisite-outside-tree`, `talents.prerequisite-cycle`. The pitch page cut to 48 lines with a data-or-code table and nine linked sections.
+
+**What FarmingSim gained.** A third stranger with Core `#dev`, Inventory `main`, WorldObjects, Persistence, StateMachine, Character and UI `#beta`, no Places, no WorldForge; `FarmingSim.Scenario.asmdef` with no Input System or GeoForge reference; `CropData`, `CropRecord`, `CropLedger` (`farmingsim.crops`, seconds only), `FarmClockSource`; `FarmSettings`, `CropModule`, `FarmItems`, `Farm` (plant, grow by ticks, harvest as one `Mint` under `farming.harvest` with the delete from `Committed`, the audit balanced, `Save` and `Load` converting saved seconds to ticks at the loading rate), `Farmer` standing on a plane through Character's probe and spring math; 16 PlayMode tests; every file with the byte order mark.
+
+**What the step settled.**
+
+| Question the step settled | Result |
+|-|-|
+| A saved worn item whose slot kind is gone | Minted into the game's return container under `equipment.slot_removed`, never worn; too few free slots refuses the whole restore |
+| A saved item its slot refuses at restore | Returned under `equipment.requirements_failed`, counted apart; restore the wearer's stats first |
+| A saved worn quantity other than one | A bad save: the whole restore refused under `equipment.saved_quantity_invalid`, no step added |
+| `TryRestore`'s answer | True only for a restore that will commit; every placement validated as `Mint` validates |
+| The layout for a screen | `EquipmentSlots.Layout`, authored order, no event until `ReplaceLayout` is a transaction |
+| Affixes on a worn item | Applied through the tier's tables under the slot's source id; one none of the tables hold is logged and skipped |
+| A named modifier in base values or node grants | Refused under its own code, because the skill and the node apply no roll |
+| The refund's slot | The slot the node is found in; a node moved between slots keeps its grants |
+| The cycle report | At a node on the cycle, naming it |
+| Tests named for PackageCheck's T3 | The form stands for every studio package |
+| Reflection helpers outside `Tests/Support` | Allowed per area for this step; to fold later |
+| The range separator | The sample's en dash; `NoEmDash` refuses U+2014 alone |
+| The house assets' path | Created and loaded by package id; the files sit at the folder path |
+| Growth across a save | A tick count on the instance, seconds in the ledger, converted at load; no tick rate in the save |
+| The farmer | The scenario's own body over `SupportProbeMath` and `FloatSpringMath`; Character ships no standing component |
+| FarmingSim's harness | The batch form only; the root lock holds no `StrangerRunner` |
+| The pitch page | One screen from one design task; the lead republishes the same page |
+
+**Tests.** Studio EditMode 48 before, 148 after by seam 52, L11a1-1 85, 2a 108, 2b 125, 3a 134, 3b 145, fix 148; `error CS` 0 on every build and verify; `check` over Studio.Tools identical; `check` over Studio.Gameplay 7 must fix, 3 to confirm, 34 passed after the fix (8 must fix before it), C1 C2 C3 C9 C11 clean on every task. FarmingSim PlayMode 3, 10, 16; CardGame 6 of 6 before and after; CoreOnly untouched. Measured allocations: equip commit 6 samples, talent allocation commit 6, `TryBegin` 0, `WriteItem` rare sample 56. The column check printed nothing on every task. Cost $98.93 before the last sign-off round (plan 9.84, catalogue 9.02, seam 4.92, build 32.33, verify 19.87, sign-off 22.95); Studio chain $49.05, Strangers $9.47.
+
+**Facts that changed.** `Restore` moves `ElapsedSeconds` only; `Clock.Current` keeps counting from the fresh world's source. `HashedScriptableObject.OnValidate` runs before a `CreateAsset` asset has a path, so the stamp does not run on that import. The asset database resolves a package by its id, not its folder name. `ModifierGrantSet.Apply` under a default `RolledGrants` skips a named modifier. `AffixDraw` and `SkillCost` are not kept by Unity's serializer. `NoEmDash` refuses U+2014 alone. `InventoryEngine.TryGetItemInfo` is internal, so no caller reads a stack size. Character at 19c7d3f ships no body component that stands. CoreOnly's presentation test ignores itself while Core declares ugui, inputsystem and entities. The build role writes LF unless told CRLF.
+
+**Raised.**
+
+- Inventory: the stack size read; a refused counterpart to `Committed`; a transaction step that deletes a world instance; `TypedInventory`'s identity constructor; `ReplaceLayout` as a transaction, with the layout-changed ask carried to L11a2 (step 50) and Corsairs' conversion; the raw writers and `RecordMint`, `RecordBurn` public.
+- Modifiers: `SeededStream` through the roll path; the registries off `Resources`.
+- Core and StateMachine: `State.Context` untyped; the stamp on `CreateAsset`; Core#181.
+- Studio.Gameplay, later: the null tier's log; one cycle per walk; the helpers to fold into `Tests/Support`; the four tooltip claims to L11a2; `SlotStackSize` constant; the shared source id space; measurement tests in the suite; one node per transaction; the serializer gap; the rare tier's ceiling.
+- PackageCheck: T3 against behaviour names; D9 for the test runners; I2 in the brief template; the seven rules and three confirms Studio.Gameplay still carries.
+- Strangers: the `ProjectSettings` rewrite; the byte order mark; CoreOnly's test; `CropLedger.Records`; `Farmer`'s probe distance; the pending harvest; `Load` into a running farm; `GrowthTicks` travelling in the save.
+- Runner and briefs: CRLF from the build role; the line-ending check in every verify brief; `Tests/Support` allowed when the work needs it; asset paths by package id; one diff per story against the base.
