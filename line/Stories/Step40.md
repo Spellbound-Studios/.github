@@ -194,3 +194,34 @@ Built on this machine in two worktrees by the step runner: `_probes/ArtPipeline4
 - Core: `DefinitionDrafts.FolderRefusal` and `LineTokenizer.TryFillPlaceholders` internal; `AsPreviewed`'s prefix and `OperationResult.AsPreviewed` internal; a validate-only `core approve`; a parse-only door on `OperationHost`.
 - Queue: the lock-move row (ArtRegistry's lock to ArtPipeline's `beta` head, `kind-add-check` for the two checks, `README.md:16` re-read).
 - Unity CLI, Pipeline and the runner: close by pid; `quit --pid`; the capture brief writing the imported sample; fixture operations carrying the real lines' dry-run shape; a graphics editor for the 26 graphics tests.
+
+### The written result of step 40, part three (A7a-4, 2026-11-22)
+
+Built on this machine in one worktree by the step runner: `_probes/Saboteur40` of `Spellbound-Studios/SaboteurDev` on `a7a-saboteer-make-playable` from `main` 45bdbac (#123). A human precondition, one seam, one lock move, one build story, one fix from the sign-off, each build followed by a fresh verifier on its own editor, a scripted capture on the real prop and the developer's gate; four lead rulings, no paid triage, two sign-off rounds. The plan, the rulings and the sign-off ran on Fable; every seam, build, fix, capture and verify on Opus at high effort. Two pull requests: SaboteurDev into `main`, then `.github` into `main`, each closing no issue. The long report is `line/Reports/Step40-part-three.md`. The developer answered the plan's nine questions with their recommendations, the precondition at 15:5x (the artist's iron pickaxe, Props/Pickaxe, landed in the registry's `main`) and the gate at 18:44 on 2026-11-22: Approve. Nothing of his run is committed.
+
+**What Saboteer gained.** ArtPipeline from `beta` through the package client, the lock resolved to the head that carries the Registry page draft-key fix (8a2c069), WorldObjects moved to 7426e29 and Places to 7ea15c8, every other entry unmoved; the fetch folder and its meta ignored; `Assets/_Project/Settings/ArtPipeline/Art Registry.asset` naming the registry with the default folders and no icon style; the Held Prop kind with the registry's held checks minus its two layout conventions, the chain `worldobjects preset-new --prefab {prefab} --id {id}` then `inventory definition-new --preset {id} --id {id}_item --icon {icon}`, and the approve folder `Assets/_Project/Presets/Registry`; the Saboteer Art Rules rule set scoped to the fetch folder with one row on the kind and `Player.prefab` as the figure, so none of Saboteer's own art is judged. `ArtPipelineInstallTests` (5) and `SaboteerArtRulesTests` (11), both red first. The chain proven on a fixture and then run on the pickaxe: Pull, the variant with one fitted collider, two drafts, the agent's approve refused, the item draft carrying the painted icon, Approve moving the variant, the preset, its collision prefab and the item definition into the approve folder, the worktree restored.
+
+**What the step settled.**
+
+| Question the step settled | Result |
+|-|-|
+| The install | Now, in A9b-6's form; A9b-5 keeps its outcome and its place after the festival; Saboteer's three props stay in Saboteer |
+| The new prop | Real art from the artist, not a fixture: the iron pickaxe with a `grip_MainHand` locator and a painted icon |
+| The rules | Two assets beside the settings, the smallest set; step 39 extends them; the approve folder beside Saboteer's presets because the fetch folder is ignored and replaced |
+| The locks | ArtPipeline added, WorldObjects and Places moved, Inventory already there, everything else unmoved; a compile error after a move is a package gap, never a game fix |
+| The chain's lines | The corrected form with `{id}_item` and `--icon {icon}`; `asset:{icon}` refuses |
+| Play | None; the gate judges the variant, the two drafts and the icon; the held item in play is step 62's |
+| The icon style | None; the default style renders when an item has no icon, the painted icon wins |
+| The run's files | Not committed; the record, variant, drafts, approved assets and icon leave with the worktree |
+| The pulled icon | Arrived as a Single Sprite from the registry's meta, so the hand step was not needed; the gap is raised |
+| The draft key | The model's file name, as the operation keys it; fixed in ArtPipeline `beta` (pull request 87) outside the queue after the capture found the page keyed by the item's name |
+
+**Tests.** Edit mode 359 before, 364 after the seam, 375 after the kind and rule set, 375 at the head, 0 failed on every reading; play mode 0 and 0; `core validate` one pre-existing error throughout, the asset count 36 to 41 as the four ArtPipeline types joined; the release audit differing by its time line alone; the three scenes clean; `error CS` 0 everywhere; the column check printed nothing on every task. Cost $39.22 before the second sign-off session (plan 7.72, catalogue 7.05, seam 4.87, build 4.69, capture 3.99, verify 6.15, sign-off round 1 4.75).
+
+**Facts that changed.** Saboteer `main` was 45bdbac and its Inventory lock already 91f589c. The Registry page keyed drafts by the item's name while `artpipeline playable` keys by the model's file name; part two's fixture hid it because both were named alike. A PNG set to Sprite by script imports as Multiple in Saboteer until `spriteImportMode` is set. The editor deletes `link.xml` and its meta on open and rewrites a ProBuilder settings file to LF; every task restored them. Git Bash grep strips the carriage return and needs `-U`. A build brief cannot read `origin/main...HEAD` because the runner commits after the pass. The runner cuts every worktree from `origin/<base>`, so a second worktree from a branch's head cannot be made.
+
+**Raised.**
+
+- ArtPipeline: `RegistryPage.Waiting` counting the variant as a draft; the row tile blank after Pull for an item with an icon; `ArtGameIcons.Render` not setting `spriteImportMode = Single`; a pulled own icon keeping the registry's importer; the kind's default second line without `--icon`; fixtures whose item and model share a name.
+- Saboteer: `Assets/Drafts` and the approve folder not ignored during a run; the kind and the rule set for step 39 to extend; `SaboteerWorld.asset` by hand until step 62; the pickaxe's pivot finding for the developer.
+- Runner: build briefs reading committed history; the comment check and the copyright line; `grep -U`; `STATUS=done`; a design task's cost outside the stage table; a second worktree from a branch head.
