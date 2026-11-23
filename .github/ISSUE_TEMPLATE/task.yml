@@ -1,27 +1,29 @@
 name: Task
-description: One step inside a story. Hours to two days
+description: Necessary work that adds no behavior, such as documentation, tooling or clean-up
 type: Task
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title is the action, for example *Add reconnect handling to the lobby*. A task is a sub-issue of its story. The line text is at https://github.com/Spellbound-Studios/.github/tree/main/line.
-  - type: input
-    id: story
-    attributes:
-      label: Story
-      description: The story this task belongs to, as repository#number. After opening, add the task as a sub-issue of that story
-    validations:
-      required: true
+        The title says what gets done, for example *Document the lobby's reconnect settings*. Open it in the repository it serves. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
   - type: textarea
-    id: what-to-do
+    id: why
     attributes:
-      label: What to do
+      label: Why
+      description: What this work makes possible or what cost it removes.
     validations:
       required: true
   - type: textarea
     id: done-when
     attributes:
       label: Done when
+      description: What is true when the work is merged.
+    validations:
+      required: true
+  - type: input
+    id: estimate
+    attributes:
+      label: Estimate
+      description: The working days it takes.
+    validations:
+      required: true

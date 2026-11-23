@@ -1,13 +1,11 @@
 name: Engineer onboarding
 description: Bring an engineer from nothing installed to the projects open in the editor
 type: Task
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title is *Onboard (name)*. Open it for the engineer and tick the steps as they go.
+        The title is *Onboard (name)*. Open it for the engineer and tick each item as they go. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
   - type: input
     id: repositories
     attributes:
@@ -17,15 +15,17 @@ body:
     validations:
       required: true
   - type: checkboxes
-    id: steps
+    id: checklist
     attributes:
-      label: Steps
+      label: Checklist
       options:
         - label: Invited to the Spellbound-Studios organisation and the invitation accepted
-        - label: "Git for Windows installed from https://gitforwindows.org with its default options, the only install by hand"
-        - label: "In Git Bash, the one line run with the repositories above after it: bash <(curl -fsSL https://raw.githubusercontent.com/Spellbound-Studios/.github/main/setup.sh) <the repositories>. It installs GitHub's command-line tool, the Unity command line, Unity Hub and the editors, makes the SSH key, clones each repository with its large files, watches the art registry and opens each project once; it asks for the GitHub and Unity sign-ins in the browser and which program you model in"
+        - label: "Git for Windows installed from https://gitforwindows.org with its default options"
+        - label: Claude Code installed from https://docs.claude.com/en/docs/claude-code/setup
+        - label: Given access to the Roadmap and claude-skills repositories
+        - label: "In Git Bash, the setup command run with the repositories above after it: bash <(curl -fsSL https://raw.githubusercontent.com/Spellbound-Studios/.github/main/setup.sh) <the repositories>. It installs the GitHub CLI, the Unity CLI, Unity Hub and the editors, checks access to the Roadmap and claude-skills repositories and installs the studio's Claude Code plugin, makes the SSH key, clones each repository with its large files, watches the art registry and opens each project once; it asks for the GitHub and Unity sign-ins in the browser and which program you model in"
         - label: Each project added in Unity Hub and opened once without errors
-        - label: The line text read in full at https://github.com/Spellbound-Studios/.github/tree/main/line
+        - label: The rulebook read in full at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md
         - label: On Discord, in the engineering channel
   - type: markdown
     attributes:

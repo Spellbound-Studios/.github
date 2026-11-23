@@ -1,51 +1,54 @@
 name: Bug
-description: Something is broken
+description: A story or published behavior is broken
 type: Bug
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title is the symptom and when it happens, for example *Health bar shows wrong value in builds*.
-  - type: textarea
-    id: what-happens
+        The title says what is wrong in one sentence, for example *Health bar shows wrong value in builds*. Open it in the repository where the behavior is wrong. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
+  - type: input
+    id: found-in
     attributes:
-      label: What happens
-    validations:
-      required: true
-  - type: textarea
-    id: steps
-    attributes:
-      label: Steps
-      description: What you did, in order, from a fresh start
+      label: Found in
+      description: The version or branch where you saw it.
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
       label: Expected
+      description: The story or published behavior this breaks, and what should happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: How to reproduce
+      description: What you did, in order, from a fresh start.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual
+      description: What happens instead.
+    validations:
+      required: true
   - type: dropdown
-    id: where
+    id: severity
     attributes:
-      label: Where
+      label: Severity
+      description: How badly this stops people from using what is broken.
       options:
-        - Editor
-        - Development build
-        - Release build
+        - Blocker
+        - Major
+        - Minor
     validations:
       required: true
   - type: textarea
-    id: environment
+    id: regression-test
     attributes:
-      label: Environment
-      description: Unity version, operating system, and the version of each Spellbound package installed. Paste the output of core about once it exists
-      render: text
+      label: Regression test
+      description: The test that fails now and passes once this is fixed, or None while it is not written.
     validations:
       required: true
-  - type: textarea
-    id: log
-    attributes:
-      label: Log
-      description: The relevant lines of the editor or player log
-      render: text
