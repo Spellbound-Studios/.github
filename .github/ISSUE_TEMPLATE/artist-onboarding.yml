@@ -1,13 +1,11 @@
 name: Artist onboarding
 description: Bring an artist from nothing installed to the art registry open in Unity, ready to send
 type: Task
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title is *Onboard (name)*. An engineer opens this issue and ticks the access box; the artist follows the steps below. The rules an engineer works by are the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
+        The title is *Onboard (name)*. An engineer opens this issue and ticks the access box; the artist follows the steps below. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
   - type: checkboxes
     id: access
     attributes:

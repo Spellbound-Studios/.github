@@ -1,13 +1,11 @@
 name: Move
 description: Move a project or the whole line to another Unity editor version
 type: Story
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title names the move, for example *Move to Unity 6.7 LTS*. A working project is never opened in a newer Unity than its ProjectVersion.txt names outside a Move story; a newer Unity opens a throwaway copy first. The ledger of Unity systems the line builds on says what each editor changes. The line text is at https://github.com/Spellbound-Studios/.github/tree/main/line.
+        The title names the move, for example *Move to Unity 6.7 LTS*. A working project is never opened in a newer Unity than its ProjectVersion.txt names outside a Move story; a newer Unity opens a throwaway copy first. The ledger of Unity systems the line builds on says what each editor changes. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
   - type: input
     id: from
     attributes:

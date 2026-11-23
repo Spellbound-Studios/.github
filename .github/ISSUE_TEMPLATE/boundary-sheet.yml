@@ -1,13 +1,11 @@
 name: Boundary sheet
 description: Draw the boundary of a package or a seam before it is cut
 type: Task
-projects:
-  - Spellbound-Studios/13
 body:
   - type: markdown
     attributes:
       value: |
-        The title names the concern, for example *Boundary of the decal store*. The same headings live in every package at Documentation~/boundary-sheet.md; this issue is where the sheet is written and reviewed before the package exists. The homes procedure that decides library, Studio or game is in the line text at https://github.com/Spellbound-Studios/.github/tree/main/line.
+        The title names the concern, for example *Boundary of the decal store*. The same headings live in every package at Documentation~/boundary-sheet.md; this issue is where the sheet is written and reviewed before the package exists. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
   - type: textarea
     id: concern
     attributes:

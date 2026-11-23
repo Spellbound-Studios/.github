@@ -1,0 +1,38 @@
+name: Initiative
+description: A capability that spans repositories and is shown in a game's demo. It belongs in the Roadmap repository
+type: Initiative
+projects:
+  - Spellbound-Studios/13
+body:
+  - type: markdown
+    attributes:
+      value: |
+        An initiative is filed in the Roadmap repository and placed on the board. Its title is a capability sentence, for example *Saboteer can be played online with friends*. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
+  - type: input
+    id: shown-in
+    attributes:
+      label: Shown in
+      description: The game and the demo in which this capability is shown.
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target
+      description: The quarter it is due, for example 2027 Q1.
+    validations:
+      required: true
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: What is true when the initiative is finished, with its integration demo running on released versions.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: What this initiative will not do, or None.
+    validations:
+      required: true

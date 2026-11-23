@@ -1,5 +1,5 @@
 name: Epic
-description: A goal that matters to the studio. More than one sprint, or more than one person
+description: A capability one repository builds over more than one sprint, made of stories
 type: Epic
 projects:
   - Spellbound-Studios/13
@@ -7,26 +7,46 @@ body:
   - type: markdown
     attributes:
       value: |
-        The title is the outcome, for example *Saboteer Steam demo*. An epic of the package line carries its roadmap id first, for example *L1 Core as assemblies*. Epics come from the plan; the roadmap is in the line folder at https://github.com/Spellbound-Studios/.github/tree/main/line.
+        The title is a capability sentence, for example *GeoForge can draw terrain to the horizon*. Open it in the repository that owns the capability; its stories are its sub-issues. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
+  - type: input
+    id: initiative
+    attributes:
+      label: Initiative
+      description: The initiative as Spellbound-Studios/Roadmap#<number>, or None.
+    validations:
+      required: true
   - type: textarea
     id: done-when
     attributes:
       label: Done when
-      description: What is true when the epic is finished, so anyone can tell
+      description: One sentence that is true when the epic is finished, its demo included.
+    validations:
+      required: true
+  - type: input
+    id: target-version
+    attributes:
+      label: Target version
+      description: The version this epic is released in.
     validations:
       required: true
   - type: textarea
-    id: why-it-matters
+    id: needs-from-other-repositories
     attributes:
-      label: Why it matters
-      description: Which milestone first needs it, and what it unblocks
+      label: Needs from other repositories
+      description: Each need is a story filed in that repository, named as Spellbound-Studios/<Repository>#<number>, and this epic stays in Draft until every one is merged; None when there is none.
+    validations:
+      required: true
   - type: textarea
-    id: stories
+    id: out-of-scope
     attributes:
-      label: Stories
-      description: One line per story, as you see them today. They become sub-issues
-  - type: textarea
-    id: waits-on
+      label: Out of scope
+      description: What this epic will not do, or None.
+    validations:
+      required: true
+  - type: input
+    id: red-team
     attributes:
-      label: Waits on
-      description: Issues this epic waits on, one per line. After opening, mark each under Relationships, Mark as blocked by
+      label: Red team
+      description: Required, or Not required, because <reason>
+    validations:
+      required: true

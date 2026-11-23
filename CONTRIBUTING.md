@@ -30,16 +30,14 @@ It installs GitHub's command-line tool, the Unity command line, Unity Hub and th
 
 ## Issues
 
-Open an issue through its form: Epic, Story, Task, Bug, Decision, Move, Boundary sheet, Engineer onboarding, Artist onboarding. The form sets the issue type and adds the issue to the board. Stories are sub-issues of an epic, tasks are sub-issues of a story.
+Open an issue through its form: Initiative, Epic, Story, Bug, Task, Move, Boundary sheet, Engineer onboarding, Artist onboarding. The form sets the issue type. Only initiatives and epics are added to the board, and stories are sub-issues of an epic.
 
-- Anyone on the team opens a story. Its Status on the board is the approval.
-- A story that waits on another issue is marked blocked by it: on the issue, Relationships, then Mark as blocked by. The Status does not change.
-- A Decision is a question a person must answer in writing before work goes on. The answer is written into the issue's Answer field and the issue is closed. A story that waits on it is marked blocked by it. A question a standing rule or the game's premise already answers is applied, not asked.
+- A story waits only on a story in its own repository, named in its Waits on field and marked blocked by it: on the issue, Relationships, then Mark as blocked by.
 - An agent writes an issue body with `bash scripts/render-issue-body.sh`, which prints the same headings the form produces, and opens it with `gh issue create --type <Type>`.
 
 ## Titles and commits
 
-The title rule is one pattern, used by the commit hook in every repository and by the pull request check:
+Commits on a branch are free. The title rule is one pattern, used by the pull request check on every repository:
 
 ```
 ^(feat|fix|perf|refactor|docs|test|build|ci|chore)(\([a-z0-9._-]+\))?!?: .{1,100}$

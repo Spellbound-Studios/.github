@@ -7,6 +7,10 @@ export UNITY_NO_BANNER=1
 export UNITY_NO_PAGER=1
 
 dry_run="${SPELLBOUND_SETUP_DRY_RUN:-0}"
+studio_plugins=(spellbound spellbound-networking)
+studio_marketplace_name="spellbound-skills"
+studio_marketplace_repository="Spellbound-Studios/claude-skills"
+roadmap_repository="Spellbound-Studios/Roadmap"
 into="$HOME/Spellbound"
 application_argument=""
 application=""
@@ -314,13 +318,17 @@ step_github() {
     if ! "$github_command" auth status </dev/null >/dev/null 2>&1; then
         say "A browser window will ask you to sign in to GitHub."
         run "$github_command" auth login --hostname github.com --git-protocol ssh --web --skip-ssh-key \
-            --scopes admin:public_key \
+            --scopes admin:public_key,project \
             || stop "GitHub sign-in did not finish, so run the line again and finish signing in in the browser."
         changed="true"
     fi
     github_login="$("$github_command" api user --jq .login </dev/null 2>/dev/null || true)"
     if [ -z "$github_login" ]; then
         stop "GitHub sign-in did not finish, so run the line again and finish signing in in the browser."
+    fi
+    if [ -n "$(missing_github_scopes)" ]; then
+        refresh_github_scopes || stop "GitHub sign-in did not finish, so $retry_sentence"
+        changed="true"
     fi
     if [ "$changed" = "true" ]; then
         step_done
@@ -329,13 +337,26 @@ step_github() {
     fi
 }
 
-refresh_key_scope() {
+missing_github_scopes() {
+    local scope_text
+    local scope
+    local missing=""
+    scope_text="$("$github_command" auth status </dev/null 2>&1 | grep 'Token scopes:' || true)"
+    for scope in admin:public_key project; do
+        if [[ "$scope_text" != *"'$scope'"* ]]; then
+            missing="${missing:+$missing,}$scope"
+        fi
+    done
+    printf '%s' "$missing"
+}
+
+refresh_github_scopes() {
     if [ "$github_scope_refreshed" = "true" ]; then
         return 1
     fi
     github_scope_refreshed="true"
-    say "A browser window will ask you to let GitHub's command-line tool manage your SSH keys."
-    run "$github_command" auth refresh -h github.com -s admin:public_key
+    say "A browser window will ask you to let this computer manage your SSH keys and move work on the studio board."
+    run "$github_command" auth refresh -h github.com -s admin:public_key,project
 }
 
 read_key_list() {
@@ -343,7 +364,7 @@ read_key_list() {
     if key_list="$("$github_command" ssh-key list </dev/null 2>&1)"; then
         return 0
     fi
-    if grep -q "scope" <<< "$key_list" && refresh_key_scope; then
+    if grep -q "scope" <<< "$key_list" && refresh_github_scopes; then
         key_list="$("$github_command" ssh-key list </dev/null 2>&1)" || stop "$stop_sentence"
         return 0
     fi
@@ -356,7 +377,7 @@ add_public_key() {
     if add_output="$(run "$github_command" ssh-key add "$1" --title "$2" </dev/null 2>&1)"; then
         return 0
     fi
-    if grep -q "scope" <<< "$add_output" && refresh_key_scope; then
+    if grep -q "scope" <<< "$add_output" && refresh_github_scopes; then
         run "$github_command" ssh-key add "$1" --title "$2" </dev/null >/dev/null 2>&1 || stop "$stop_sentence"
         return 0
     fi
@@ -508,8 +529,67 @@ step_unity_hub() {
     fi
 }
 
+engineer_repository_named() {
+    local repository
+    for repository in "${repositories[@]}"; do
+        if [ "${repository#*/}" != "ArtRegistry" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+listing_names() {
+    awk -v name="$1" '{ for (position = 1; position <= NF; position++) if ($position == name) found = 1 }
+        END { exit !found }' <<< "$2"
+}
+
+step_studio_plugin() {
+    begin_step "6" "The studio plugin for Claude Code"
+    if ! engineer_repository_named; then
+        step_skipped "Only engineers need the studio plugin."
+        return 0
+    fi
+    command -v claude >/dev/null 2>&1 \
+        || stop "Install Claude Code from https://docs.claude.com/en/docs/claude-code/setup, then $retry_sentence"
+    local repository
+    for repository in "$roadmap_repository" "$studio_marketplace_repository"; do
+        "$github_command" repo view "$repository" </dev/null >/dev/null 2>&1 \
+            || stop "GitHub did not let you read $repository, so ask an organisation owner to give you access," \
+                "then $retry_sentence"
+    done
+    local changed="false"
+    if [[ ",$(missing_github_scopes)," == *",project,"* ]] && [ "$github_scope_refreshed" != "true" ]; then
+        refresh_github_scopes || stop "GitHub sign-in did not finish, so $retry_sentence"
+        changed="true"
+    fi
+    local marketplace_text
+    marketplace_text="$(claude plugin marketplace list </dev/null 2>/dev/null || true)"
+    if ! listing_names "$studio_marketplace_name" "$marketplace_text"; then
+        run claude plugin marketplace add "$studio_marketplace_repository" </dev/null \
+            || stop "Claude Code could not add the studio marketplace, so $retry_sentence"
+        changed="true"
+    fi
+    local installed_text
+    local plugin
+    installed_text="$(claude plugin list </dev/null 2>/dev/null || true)"
+    for plugin in "${studio_plugins[@]}"; do
+        if ! listing_names "$plugin@$studio_marketplace_name" "$installed_text"; then
+            run claude plugin install "$plugin@$studio_marketplace_name" </dev/null \
+                || stop "Claude Code could not install $plugin, so $retry_sentence"
+            changed="true"
+        fi
+    done
+    if [ "$changed" = "true" ]; then
+        step_done
+    else
+        step_skipped "The studio plugins $(join_words "${studio_plugins[@]}") are installed in Claude Code already," \
+            "and you can read $roadmap_repository and $studio_marketplace_repository."
+    fi
+}
+
 step_application() {
-    begin_step "6" "The program you model in"
+    begin_step "7" "The program you model in"
     local stored
     stored="$(git config --global --get spellbound.application || true)"
     if [ -n "$application_argument" ]; then
@@ -573,7 +653,7 @@ step_clone() {
     local folder="$2"
     local name="${repository#*/}"
     local pull_stop_sentence="Git LFS could not download the large files, so $retry_sentence"
-    begin_step "7" "Clone $repository" "7 ($name)"
+    begin_step "8" "Clone $repository" "8 ($name)"
     local changed="false"
     local pulled="false"
     if [ -e "$folder" ]; then
@@ -664,7 +744,7 @@ step_editor() {
     local folder="$2"
     local name="${repository#*/}"
     local version_file="$folder/ProjectSettings/ProjectVersion.txt"
-    begin_step "8" "Unity editor for $repository" "8 ($name)"
+    begin_step "9" "Unity editor for $repository" "9 ($name)"
     if [ ! -f "$version_file" ]; then
         if [ "$dry_run" = "1" ]; then
             step_skipped "The dry run made no clone to read the editor version from."
@@ -691,7 +771,7 @@ step_editor() {
 }
 
 step_registry_watch() {
-    begin_step "9" "Registry items and notifications"
+    begin_step "10" "Registry items and notifications"
     local owner=""
     local repository
     for repository in "${repositories[@]}"; do
@@ -786,7 +866,7 @@ step_open_project() {
     local repository="$1"
     local folder="$2"
     local name="${repository#*/}"
-    begin_step "10" "Open $repository once" "10 ($name)"
+    begin_step "11" "Open $repository once" "11 ($name)"
     if [ -f "$folder/Library/Spellbound/opened-by-setup.txt" ]; then
         step_skipped "The project was opened on an earlier run."
         return 0
@@ -801,7 +881,7 @@ step_open_project() {
 }
 
 step_maya_menu() {
-    begin_step "11" "Unity's menu for Maya"
+    begin_step "12" "Unity's menu for Maya"
     if [ "$application" != "maya" ]; then
         step_skipped "Only people who model in Maya need this step."
         return 0
@@ -859,6 +939,7 @@ main() {
         print_summary
         return 0
     fi
+    step_studio_plugin
     step_application
     local index
     for index in "${!repositories[@]}"; do
@@ -875,4 +956,6 @@ main() {
     print_summary
 }
 
-main "$@"
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    main "$@"
+fi
