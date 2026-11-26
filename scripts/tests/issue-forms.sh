@@ -10,6 +10,8 @@ old_rules_address="tree/main/line"
 retired_words="lines?|steps?|gates?|charters?"
 rulebook_forms=(initiative.yml epic.yml story.yml bug.yml task.yml)
 forms_on_the_board=(epic.yml initiative.yml)
+retired_forms=(decision.yml move.yml boundary-sheet.yml)
+retired_form_names=(Decision Move "Boundary sheet")
 rewritten_files=(config.yml engineer-onboarding.yml initiative.yml epic.yml story.yml bug.yml task.yml)
 
 failures=()
@@ -123,10 +125,12 @@ for path in "$forms"/*.yml; do
 done
 conclude 2 "only the epic and initiative forms place an issue on the board"
 
-if [ -e "$forms/decision.yml" ]; then
-    problem "decision.yml exists"
-fi
-conclude 3 "the Decision form is not offered"
+for form in "${retired_forms[@]}"; do
+    if [ -e "$forms/$form" ]; then
+        problem "$form exists"
+    fi
+done
+conclude 3 "the Decision, Move and Boundary sheet forms are not offered"
 
 if has_form bug.yml; then
     severity_options="$(dropdown_options_of bug.yml)"
@@ -202,13 +206,15 @@ if [ ! -f "$contributing" ]; then
     problem "CONTRIBUTING.md is missing"
 else
     contributing_text="$(tr -d '\r' < "$contributing")"
-    for words in "Initiative, Epic, Story, Bug, Task, Move, Boundary sheet, Engineer onboarding, Artist onboarding" \
+    for words in "Initiative, Epic, Story, Bug, Task, Engineer onboarding, Artist onboarding" \
         "Only initiatives and epics are added to the board"; do
         printf '%s\n' "$contributing_text" | grep -qF -- "$words" || problem "CONTRIBUTING.md does not hold \"$words\""
     done
-    if printf '%s\n' "$contributing_text" | grep -qF -- "Decision"; then
-        problem "CONTRIBUTING.md still names the Decision form"
-    fi
+    for name in "${retired_form_names[@]}"; do
+        if printf '%s\n' "$contributing_text" | grep -qwF -- "$name"; then
+            problem "CONTRIBUTING.md still names the $name form"
+        fi
+    done
 fi
 conclude 14 "CONTRIBUTING.md lists the forms and says only initiatives and epics go on the board"
 
