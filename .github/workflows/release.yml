@@ -59,7 +59,7 @@ jobs:
           APP_LOGIN: spellbound-workflows[bot]
         run: |
           set -euo pipefail
-          npm install --no-save --prefix "$RUNNER_TEMP/release" semantic-release @semantic-release/changelog \
+          npm install --no-save --prefix "$RUNNER_TEMP/release" semantic-release@25 @semantic-release/changelog \
             @semantic-release/exec @semantic-release/git conventional-changelog-conventionalcommits@9
           app_user_id="$(gh api users/spellbound-workflows%5Bbot%5D --jq .id)"
           export GIT_AUTHOR_NAME="$APP_LOGIN"
