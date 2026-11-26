@@ -30,7 +30,7 @@ It installs GitHub's command-line tool, the Unity command line, Unity Hub and th
 
 ## Issues
 
-Open an issue through its form: Initiative, Epic, Story, Bug, Task, Move, Boundary sheet, Engineer onboarding, Artist onboarding. The form sets the issue type. Only initiatives and epics are added to the board, and stories are sub-issues of an epic.
+Open an issue through its form: Initiative, Epic, Story, Bug, Task, Engineer onboarding, Artist onboarding. The form sets the issue type. Only initiatives and epics are added to the board, and stories are sub-issues of an epic.
 
 - A story waits only on a story in its own repository, named in its Waits on field and marked blocked by it: on the issue, Relationships, then Mark as blocked by.
 - An agent writes an issue body with `bash scripts/render-issue-body.sh`, which prints the same headings the form produces, and opens it with `gh issue create --type <Type>`.
