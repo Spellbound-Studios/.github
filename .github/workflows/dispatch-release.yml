@@ -1,4 +1,4 @@
-name: line release
+name: dispatch release
 on:
   workflow_dispatch:
     inputs:
@@ -24,7 +24,7 @@ jobs:
           private-key: ${{ secrets.SPELLBOUND_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
       - uses: actions/checkout@v7
-      - name: release the line in order
+      - name: release each repository in order
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           BRANCH: ${{ inputs.branch }}
@@ -39,4 +39,4 @@ jobs:
           if [ -n "$CUT_MAINTENANCE" ]; then
             arguments+=(--cut-maintenance "$CUT_MAINTENANCE")
           fi
-          bash scripts/line-release.sh "${arguments[@]}"
+          bash scripts/dispatch-release.sh "${arguments[@]}"
