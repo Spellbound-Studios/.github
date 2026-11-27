@@ -2,7 +2,7 @@
 set -uo pipefail
 
 test_folder="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-line_release="${1:-$test_folder/../line-release.sh}"
+dispatch_release="${1:-$test_folder/../dispatch-release.sh}"
 major=2
 branch=beta
 
@@ -11,7 +11,7 @@ trap 'rm -rf "$workspace"' EXIT
 
 export GIT_CONFIG_NOSYSTEM=1
 export GIT_CONFIG_GLOBAL="$workspace/gitconfig"
-export GIT_AUTHOR_NAME="line release fixture"
+export GIT_AUTHOR_NAME="dispatch release fixture"
 export GIT_AUTHOR_EMAIL="fixture@example.invalid"
 export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
 export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
@@ -72,7 +72,7 @@ make_origin Second 2.1.0
 make_origin Zero 0.2.0
 printf 'First\nAbsent\nSecond\nZero\n' > "$workspace/order.txt"
 
-first_output="$(bash "$line_release" --cut-maintenance "$major" --branch "$branch" --order "$workspace/order.txt" \
+first_output="$(bash "$dispatch_release" --cut-maintenance "$major" --branch "$branch" --order "$workspace/order.txt" \
     --origin-root "$workspace/origins" 2>&1)"
 first_status=$?
 
@@ -102,7 +102,7 @@ printf 'First\nAbsent\nSecond\nThird\n' > "$workspace/order-again.txt"
 
 first_cut_head="$(head_of First "release-$major")"
 second_cut_head="$(head_of Second "release-$major")"
-second_output="$(bash "$line_release" --cut-maintenance "$major" --branch "$branch" \
+second_output="$(bash "$dispatch_release" --cut-maintenance "$major" --branch "$branch" \
     --order "$workspace/order-again.txt" --origin-root "$workspace/origins" 2>&1)"
 second_status=$?
 

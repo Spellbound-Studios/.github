@@ -14,8 +14,8 @@ LOG_RETRY_SECONDS=10
 
 usage() {
     cat <<'TEXT'
-usage: bash scripts/line-release.sh [--branch <beta|rc|main>] [--dry-run] [--plan-only] [--order <file>]
-                                    [--cut-maintenance <major> [--origin-root <folder>]]
+usage: bash scripts/dispatch-release.sh [--branch <beta|rc|main>] [--dry-run] [--plan-only] [--order <file>]
+                                        [--cut-maintenance <major> [--origin-root <folder>]]
 
 Releases every repository of ReleaseOrder.txt in order: dispatches release.yml on the branch, waits for its run
 and reads the status word of its last status line, stopping the order on failed:. A repository that does not
@@ -126,7 +126,7 @@ print_plan() {
     if [ -n "$cut_major" ]; then
         echo "the cut of release-$cut_major from $branch, in order:"
     else
-        echo "the line release on $branch, in order:"
+        echo "the dispatch release on $branch, in order:"
     fi
     for repository in "${repositories[@]}"; do
         index=$((index + 1))
@@ -382,7 +382,7 @@ count_outcome() {
 }
 
 if [ -n "$cut_major" ]; then
-    workspace="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/line-release.XXXXXX")"
+    workspace="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/dispatch-release.XXXXXX")"
     trap 'rm -rf "$workspace"' EXIT
     if [ -z "$origin_root" ] && [ -n "${GH_TOKEN:-}" ]; then
         credential="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 | tr -d '\n')"
@@ -403,9 +403,9 @@ fi
 
 for repository in "${repositories[@]}"; do
     if ! release_repository "$repository"; then
-        echo "failed: the line release on $branch stopped at $repository"
+        echo "failed: the dispatch release on $branch stopped at $repository"
         exit 1
     fi
     count_outcome
 done
-echo "$outcome_word: the line release on $branch: $done_count released or previewed, $skipped_count skipped"
+echo "$outcome_word: the dispatch release on $branch: $done_count released or previewed, $skipped_count skipped"
