@@ -2,7 +2,7 @@
 
 Three sentences to remember: the pull request title is `type(scope): what changed`; a `!` before the colon means it breaks someone; the version is made by the release and is never typed.
 
-Everything binding about the packages, the rules of the line and the shared conventions is the line text in this repository's `line` folder: https://github.com/Spellbound-Studios/.github/tree/main/line. Nothing here copies it. This file says how the repositories, the board and the pull requests work day to day.
+Everything binding about the packages, the way the studio works and the shared conventions is the rulebook in the private `Roadmap` repository: https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md. Nothing here copies it. This file says how the repositories, the board and the pull requests work day to day.
 
 ## Where things live
 
@@ -13,7 +13,7 @@ Everything binding about the packages, the rules of the line and the shared conv
 | The studio's art | The `ArtRegistry` repository, a private Unity project made from `GameTemplate`: every model, texture and source file, the studio's rules as its settings, and a record per item; games pull single items from it through ArtPipeline's Registry window and never hold the files in their own repositories |
 | An issue | The repository where its code changes. Work that spans repositories, or has no code, goes in `Roadmap` |
 | The board | Spellbound Roadmap, https://github.com/orgs/Spellbound-Studios/projects/13. Its README is the source of truth for titles, types, fields and Status |
-| The plan | `line/Roadmap.md` here, one Epic on the board per epic of the plan |
+| The plan | The issues in each repository, as the rulebook says: https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md. The board holds one card per initiative and per epic |
 | Issue forms, the pull request template, this file, `SUPPORT.md`, the setup script | This repository; GitHub applies the forms to every repository of the organisation that has none of its own, and `setup.sh` is fetched by its raw address |
 | The shared workflows | `.github/workflows` here, called from every repository at `@main` |
 | The shell every repository holds | `Template` for a package, `GameTemplate` for a game; the art registry was made from `GameTemplate` once and keeps its own files. The files are listed in each repository's `managed-files.txt` and `scripts/sync-template.sh` opens a pull request where one drifted |
@@ -70,7 +70,7 @@ A release is never typed. Pull requests land on `beta`, and each merge whose tit
 - Before asking for review, run the Unity tests through the Unity command line in the dev project. Whoever merges an artist's pull request runs the art registry's tests first. Merging needs those passing tests; the status they post is `unity-tests`.
 - The body opens with what the reader will see, especially when the pull request changes the shape of a repository or adds files a reader would not expect.
 - One line per story the pull request delivers: `Closes Spellbound-Studios/<repository>#<number>`. Done is a merged pull request; nothing is done without one.
-- A build step of the plan puts its full report in the pull request body, in the shape the line text gives under "The report a build step ends with", with `ready to test` as its last line. The merge is the sign-off.
+- The body carries the evidence the rulebook's Checks before a merge asks for and ends with `ready to test`. The merge is the sign-off.
 - Never edit `version` in `package.json`; the release writes it, and the check fails a pull request that does.
 - Merged head branches are deleted by the repository.
 
