@@ -26,11 +26,11 @@ A new Windows PC needs one install by hand, Git for Windows from https://gitforw
 bash <(curl -fsSL https://raw.githubusercontent.com/Spellbound-Studios/.github/main/setup.sh) Spellbound-Studios/<Repository> [more repositories]
 ```
 
-It installs GitHub's CLI, the Unity CLI, Unity Hub and the editor each repository needs, makes an SSH key with no passphrase and adds it to the person's GitHub account, asks which program the person models in, clones each repository over SSH with its large files, watches the art registry for an engineer, and opens each project once so its packages resolve. Run again for another repository it skips what exists. The sign-ins to GitHub and Unity happen in the browser when the script asks for them. A Mac route is written when a Mac user joins.
+It installs GitHub's CLI, the Unity CLI, Unity Hub and the editor each repository needs, makes an SSH key with no passphrase and adds it to the person's GitHub account, asks which program the person models in, clones each repository over SSH with its large files, watches the art registry for an engineer, and opens each project once so its packages resolve. Run again for another repository it skips what exists. The repositories go in a Spellbound folder under the home directory unless `--into <folder>` or SPELLBOUND_HOME names another; the choice is remembered. The command also writes a `spellbound` function into the shell file, which opens that folder, updates the studio plugin and re-runs the setup when the script has changed, and it gives the folder its instruction file and the session-start greeting that reads the board. The sign-ins to GitHub and Unity happen in the browser when the script asks for them. A Mac route is written when a Mac user joins.
 
 ## Issues
 
-Open an issue through its form: Initiative, Epic, Story, Bug, Task, Engineer onboarding, Artist onboarding. The form sets the issue type. Only initiatives and epics are added to the board, and stories are sub-issues of an epic. The rulebook's Kinds of work and Issue forms say what each form holds and how its title reads; every field is filled, with None where nothing applies.
+Open an issue through its form: Initiative, Epic, Story, Bug, Task, Engineer onboarding, Artist onboarding. The form sets the issue type. Only initiatives and epics are added to the board, and stories are sub-issues of an epic. The rulebook's Kinds of work and Issue forms say what each form holds and how its title reads. An epic or story needs only its title and its first sentence to be recorded in Backlog; every field is filled by the time the item is Ready, with None where nothing applies.
 
 - A story waits only on a story in its own repository, named in its Waits on field and marked blocked by it: on the issue, Relationships, then Mark as blocked by.
 - An agent writes an issue body with `bash scripts/render-issue-body.sh`, which prints the same headings the form produces, and opens it with `gh issue create --type <Type>`.
@@ -50,7 +50,7 @@ Commits on a branch are free. The title rule is one pattern, used by the pull re
 | `!` or `BREAKING CHANGE` | major | next `-beta.N` |
 | `refactor`, `docs`, `test`, `build`, `ci`, `chore` | none | none |
 
-Run `bash scripts/setup.sh` once after cloning: it points git at the repository's `.githooks` folder, so a commit with a bad title is refused with the allowed types printed; a repository that keeps large files in Git LFS ships the Git LFS hooks in that folder too, since git reads no other. Commits on a branch are free in every other way; the pull request is squash-merged with its title alone, so the title is the commit that lands.
+The setup command runs each repository's `scripts/setup.sh` after cloning it; for a clone made by hand, run `bash scripts/setup.sh` once. The script points git at the repository's `.githooks` folder, so a commit with a bad title is refused with the allowed types printed; a repository that keeps large files in Git LFS ships the Git LFS hooks in that folder too, since git reads no other. Commits on a branch are free in every other way; the pull request is squash-merged with its title alone, so the title is the commit that lands.
 
 ## Branches
 
@@ -106,3 +106,5 @@ On GitHub Free these rules can be set on public repositories only; a private rep
 ## The board
 
 The board at https://github.com/orgs/Spellbound-Studios/projects/13 holds one card per initiative and per epic. Titles, types, fields and states are the rulebook's, in its sections Kinds of work, Issue forms and People and states. `bash scripts/sprint-report.sh` prints the current sprint: what is in it, by state and by person, and which epics wait.
+
+An epic moves through seven stages: Backlog, Refinement, Ready, In progress, In review, Red team and Done, and skips Red team when it needs none. Backlog is an idea anyone recorded with no owner, holding only its title and one sentence, and a story can be recorded the same way under its epic. Refinement is an epic or story an engineer has taken and is planning with their AI, and the refine skill fills the rest of its fields. Ready means every field holds an answer or None, every story has its checks, the planning record is linked where the refinement was full, and nothing it waits for is still open. The rulebook's People and states section defines the stages after Ready.
