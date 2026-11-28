@@ -7,10 +7,8 @@ forms="${1:-$repository_root/.github/ISSUE_TEMPLATE}"
 contributing="${2:-$repository_root/CONTRIBUTING.md}"
 rulebook_address="https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md"
 old_rules_address="tree/main/line"
-retired_words="lines?|steps?|gates?|charters?|drafts?"
-fully_required_forms=(initiative.yml bug.yml task.yml)
-refinement_placeholder="Filled during refinement, or None."
-stages="Backlog, Refinement, Ready, In progress, In review, Red team and Done"
+retired_words="lines?|steps?|gates?|charters?"
+rulebook_forms=(initiative.yml epic.yml story.yml bug.yml task.yml)
 forms_on_the_board=(epic.yml initiative.yml)
 retired_forms=(decision.yml move.yml boundary-sheet.yml)
 retired_form_names=(Decision Move "Boundary sheet")
@@ -78,38 +76,6 @@ optional_fields_of() {
         is_field && /^    id: / { field = $0; sub(/^    id: /, "", field) }
         is_field && /^      required: true$/ { required = 1 }
         END { close_field() }' | paste -sd ','
-}
-
-required_fields_of() {
-    form_text "$1" | awk '
-        function close_field() { if (field != "" && required) print field }
-        /^  - type: / { close_field(); field = ""; required = 0; is_field = ($0 != "  - type: markdown") }
-        is_field && /^    id: / { field = $0; sub(/^    id: /, "", field) }
-        is_field && /^      required: true$/ { required = 1 }
-        END { close_field() }' | paste -sd ','
-}
-
-optional_fields_without_placeholder_of() {
-    form_text "$1" | awk -v placeholder="      placeholder: $2" '
-        function close_field() { if (field != "" && !required && !marked) print field }
-        /^  - type: / { close_field(); field = ""; required = 0; marked = 0; is_field = ($0 != "  - type: markdown") }
-        is_field && /^    id: / { field = $0; sub(/^    id: /, "", field) }
-        is_field && /^      required: true$/ { required = 1 }
-        is_field && $0 == placeholder { marked = 1 }
-        END { close_field() }' | paste -sd ','
-}
-
-expect_backlog_form() {
-    local form="$1" first_sentence="$2" required unmarked
-    has_form "$form" || return
-    required="$(required_fields_of "$form")"
-    if [ "$required" != "$first_sentence" ]; then
-        problem "$form requires ${required:-nothing} instead of $first_sentence alone"
-    fi
-    unmarked="$(optional_fields_without_placeholder_of "$form" "$refinement_placeholder")"
-    if [ -n "$unmarked" ]; then
-        problem "$form leaves $unmarked optional without saying it is filled during refinement"
-    fi
 }
 
 expect_labels() {
@@ -182,9 +148,9 @@ expect_hint_holds story.yml "Needed by" None
 conclude 5 "the story form asks for Given, When, Then checks, a time box of five days at most and Needed by"
 
 holds epic.yml "GeoForge can draw terrain to the horizon"
-holds epic.yml Refinement
+holds epic.yml Draft
 holds story.yml "A player can dig through a cave wall"
-conclude 6 "the epic and story forms give a capability sentence title and the epic's Refinement wait"
+conclude 6 "the epic and story forms give a capability sentence title and the epic's Draft wait"
 
 holds initiative.yml "Roadmap repository"
 conclude 7 "the initiative form says it belongs in the Roadmap repository"
@@ -221,7 +187,7 @@ expect_hint_holds epic.yml "Needs from other repositories" "Spellbound-Studios/<
 expect_hint_holds epic.yml Initiative "Spellbound-Studios/Roadmap#<number>"
 conclude 11 "cross-repository references are asked for in the form GitHub links"
 
-for form in "${fully_required_forms[@]}"; do
+for form in "${rulebook_forms[@]}"; do
     has_form "$form" || continue
     optional="$(optional_fields_of "$form")"
     if [ -n "$optional" ]; then
@@ -230,9 +196,7 @@ for form in "${fully_required_forms[@]}"; do
 done
 expect_hint_holds story.yml "Time box" "None unless this is a spike"
 expect_hint_holds story.yml "Default answer" "None unless this is a spike"
-expect_backlog_form epic.yml done-when
-expect_backlog_form story.yml behavior
-conclude 12 "the initiative, bug and task forms require every field, and the epic and story forms require only their first sentence"
+conclude 12 "every field of the five rulebook forms is required"
 
 holds config.yml "$rulebook_address"
 holds config.yml "It needs organisation access, so read it before you open an issue."
@@ -253,11 +217,6 @@ else
     done
 fi
 conclude 14 "CONTRIBUTING.md lists the forms and says only initiatives and epics go on the board"
-
-if [ -f "$contributing" ]; then
-    tr -d '\r' < "$contributing" | grep -qF -- "$stages" || problem "CONTRIBUTING.md does not name $stages"
-fi
-conclude 15 "CONTRIBUTING.md names the seven stages in order"
 
 if [ "${#failures[@]}" -ne 0 ]; then
     exit 1

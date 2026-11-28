@@ -994,6 +994,7 @@ shell_block() {
     printf '%s\n' "$shell_block_begin"
     printf 'export SPELLBOUND_HOME="%s"\n' "$into"
     printf '%s\n' \
+        'unalias spellbound 2>/dev/null' \
         'spellbound() {' \
         '    cd "$SPELLBOUND_HOME" || return 1' \
         '    local plugin' \
