@@ -11,7 +11,13 @@ studio_plugins=(spellbound spellbound-networking)
 studio_marketplace_name="spellbound-skills"
 studio_marketplace_repository="Spellbound-Studios/claude-skills"
 roadmap_repository="Spellbound-Studios/Roadmap"
-into="$HOME/Spellbound"
+raw_address="https://raw.githubusercontent.com/Spellbound-Studios/.github/main"
+shell_file="$HOME/.bashrc"
+shell_block_begin="# >>> Spellbound setup >>>"
+shell_block_end="# <<< Spellbound setup <<<"
+shell_block_changed="false"
+folder_staging=""
+into=""
 application_argument=""
 application=""
 repositories=()
@@ -144,6 +150,41 @@ check_operating_system() {
     esac
 }
 
+folder_path() {
+    local path="${1//\\//}"
+    case "$path" in
+        /* | [A-Za-z]:*) ;;
+        *) path="$PWD/$path" ;;
+    esac
+    if [[ "$path" =~ ^/([a-zA-Z])(/.*)?$ ]]; then
+        path="${BASH_REMATCH[1]^^}:${BASH_REMATCH[2]:-/}"
+    elif [[ "$path" =~ ^([a-zA-Z]):(.*)$ ]]; then
+        path="${BASH_REMATCH[1]^^}:${BASH_REMATCH[2]}"
+    fi
+    while [[ "$path" == ?*/ ]] && ! [[ "$path" =~ ^[A-Z]:/$ ]]; do
+        path="${path%/}"
+    done
+    printf '%s\n' "$path"
+}
+
+remembered_folder() {
+    [ -f "$shell_file" ] || return 1
+    local value
+    value="$(awk -v BINMODE=3 -v begin="$shell_block_begin" -v end="$shell_block_end" '
+        { sub(/\r$/, "") }
+        $0 == begin { inside = 1; next }
+        $0 == end { inside = 0; next }
+        inside && /^export SPELLBOUND_HOME=/ { sub(/^export SPELLBOUND_HOME=/, ""); print; exit }' "$shell_file")"
+    value="${value#\"}"
+    value="${value%\"}"
+    rememberable_folder "$value" || return 1
+    printf '%s\n' "$value"
+}
+
+rememberable_folder() {
+    [[ "$1" =~ ^[A-Za-z0-9/:._\ -]+$ ]]
+}
+
 parse_arguments() {
     local repository
     while [ "$#" -gt 0 ]; do
@@ -175,12 +216,20 @@ parse_arguments() {
     if [ -n "$application_argument" ] && ! valid_application "$application_argument"; then
         stop "Put maya, blender or none after --application, then run the line again."
     fi
-    into="${into//\\//}"
-    case "$into" in
-        /* | [A-Za-z]:*) ;;
-        *) into="$PWD/$into" ;;
-    esac
-    into="${into%/}"
+    if [ -z "$into" ]; then
+        into="${SPELLBOUND_HOME:-}"
+    fi
+    if [ -z "$into" ]; then
+        into="$(remembered_folder || true)"
+    fi
+    if [ -z "$into" ]; then
+        into="$HOME/Spellbound"
+    fi
+    into="$(folder_path "$into")"
+    if ! rememberable_folder "$into"; then
+        stop "The folder $into holds characters other than letters, digits, spaces, dots, underscores, hyphens," \
+            "slashes and a colon, so pick another folder with --into, then run the setup command again."
+    fi
     for repository in "${repositories[@]}"; do
         folders+=("$(folder_for "$repository")")
     done
@@ -648,6 +697,27 @@ read_placeholder_count() {
     placeholder_count="$(awk '$2 == "-" { count++ } END { print count + 0 }' <<< "$listing")"
 }
 
+run_repository_setup() {
+    local folder="$1"
+    if [ "$dry_run" = "1" ] && [ ! -d "$folder" ]; then
+        printf 'would run: bash scripts/setup.sh in %s, where the clone holds it\n' "$(windows_path "$folder")" >&3
+        return 0
+    fi
+    [ -f "$folder/scripts/setup.sh" ] || return 0
+    if [ "$dry_run" = "1" ]; then
+        printf 'would run: bash scripts/setup.sh in %s\n' "$(windows_path "$folder")" >&3
+        return 0
+    fi
+    local code=0
+    (cd "$folder" && bash scripts/setup.sh) </dev/null >/dev/null 2>&1 || code=$?
+    if [ "$code" -eq 0 ]; then
+        say "The folder's own setup script: passed."
+    else
+        say "The folder's own setup script exited $code, so open Git Bash in $(windows_path "$folder")," \
+            "run bash scripts/setup.sh and send what it prints to an engineer."
+    fi
+}
+
 step_clone() {
     local repository="$1"
     local folder="$2"
@@ -713,6 +783,7 @@ step_clone() {
         changed="true"
         pulled="true"
     fi
+    run_repository_setup "$folder"
     if [ "$dry_run" = "1" ]; then
         if [ "$pulled" = "true" ]; then
             run git -C "$folder" lfs ls-files
@@ -895,6 +966,216 @@ step_maya_menu() {
     step_done
 }
 
+fetch_raw() {
+    curl -fsSL "$raw_address/$1" -o "$2" </dev/null 2>/dev/null \
+        || stop "GitHub did not send $1, so check the internet connection, then run the setup command again."
+}
+
+install_text() {
+    local staged="$1"
+    local target="$2"
+    if [ -f "$target" ] && cmp -s "$staged" "$target"; then
+        return 1
+    fi
+    if [ "$dry_run" = "1" ]; then
+        printf 'would write: %s\n' "$(windows_path "$target")" >&3
+        return 0
+    fi
+    { mkdir -p "$(dirname "$target")" && cp "$staged" "$target"; } \
+        || stop "Windows could not write $(windows_path "$target"), so ask an engineer."
+    return 0
+}
+
+text_hash() {
+    git hash-object --no-filters "$1"
+}
+
+shell_block() {
+    printf '%s\n' "$shell_block_begin"
+    printf 'export SPELLBOUND_HOME="%s"\n' "$into"
+    printf '%s\n' \
+        'spellbound() {' \
+        '    cd "$SPELLBOUND_HOME" || return 1' \
+        '    local plugin' \
+        "    for plugin in ${studio_plugins[*]}; do" \
+        "        claude plugin update \"\$plugin@$studio_marketplace_name\" </dev/null >/dev/null 2>&1" \
+        '    done' \
+        '    local staging' \
+        '    staging="$(mktemp -d 2>/dev/null)" || return 0' \
+        '    mkdir -p .spellbound' \
+        '    if curl -fsSL '"$raw_address"'/scripts/greeting.sh -o "$staging/greeting.sh" 2>/dev/null \' \
+        '        && ! cmp -s "$staging/greeting.sh" .spellbound/greeting.sh; then' \
+        '        cp "$staging/greeting.sh" .spellbound/greeting.sh' \
+        '    fi' \
+        '    if curl -fsSL '"$raw_address"'/folder/CLAUDE.md -o "$staging/CLAUDE.md" 2>/dev/null; then' \
+        '        if [ ! -f CLAUDE.md ]; then' \
+        '            cp "$staging/CLAUDE.md" CLAUDE.md' \
+        '        elif ! cmp -s "$staging/CLAUDE.md" CLAUDE.md \' \
+        '            && ! cmp -s "$staging/CLAUDE.md" .spellbound/CLAUDE.md; then' \
+        '            cp "$staging/CLAUDE.md" .spellbound/CLAUDE.md' \
+        '        fi' \
+        '    fi' \
+        '    if curl -fsSL '"$raw_address"'/setup.sh -o "$staging/setup.sh" 2>/dev/null; then' \
+        '        local fetched' \
+        '        local recorded' \
+        '        fetched="$(git hash-object --no-filters "$staging/setup.sh")"' \
+        '        recorded="$(cat .spellbound/setup.hash 2>/dev/null)"' \
+        '        if [ "$#" -gt 0 ] || [ "$fetched" != "$recorded" ]; then' \
+        '            bash "$staging/setup.sh" "$@"' \
+        '        fi' \
+        '    fi' \
+        '    rm -rf "$staging"' \
+        '}' \
+        "$shell_block_end"
+}
+
+merged_shell_file() {
+    local carriage_return=""
+    if [ "$(tr -dc '\r' < "$1" | wc -c)" -gt 0 ]; then
+        carriage_return="$(printf '\r')"
+    fi
+    awk -v BINMODE=3 -v begin="$shell_block_begin" -v end="$shell_block_end" -v block_file="$2" \
+        -v ending="$carriage_return" '
+        function print_block(   row) {
+            while ((getline row < block_file) > 0) print row ending
+            close(block_file)
+        }
+        { text = $0; sub(/\r$/, "", text) }
+        skipping && text == end { skipping = 0; held = 0; next }
+        skipping { held_rows[++held] = $0; next }
+        text == begin {
+            if (!placed) print_block()
+            placed = 1
+            skipping = 1
+            held = 0
+            held_rows[++held] = $0
+            next
+        }
+        { print }
+        END {
+            if (skipping) for (position = 1; position <= held; position++) print held_rows[position]
+            if (!placed) {
+                if (NR > 0) print ending
+                print_block()
+            }
+        }' "$1"
+}
+
+session_start_entry() {
+    local indent="$1"
+    local command="bash \\\"$into/.spellbound/greeting.sh\\\""
+    printf '%s\n' \
+        "$indent{" \
+        "$indent  \"matcher\": \"startup\"," \
+        "$indent  \"hooks\": [" \
+        "$indent    {" \
+        "$indent      \"type\": \"command\"," \
+        "$indent      \"command\": \"$command\"," \
+        "$indent      \"timeout\": 20" \
+        "$indent    }" \
+        "$indent  ]" \
+        "$indent}"
+}
+
+session_start_hook() {
+    local indent="$1"
+    printf '%s\n' "$indent\"SessionStart\": ["
+    session_start_entry "$indent  "
+    printf '%s\n' "$indent]"
+}
+
+greeting_settings_changed() {
+    local staging="$1"
+    local settings_file="$into/.claude/settings.json"
+    if [ ! -f "$settings_file" ]; then
+        {
+            printf '%s\n' '{' '  "hooks": {'
+            session_start_hook "    "
+            printf '%s\n' '  }' '}'
+        } > "$staging/settings.json"
+        install_text "$staging/settings.json" "$settings_file"
+        say "Claude Code now opens each session in the folder with your work from the studio board."
+        return 0
+    fi
+    if grep -qF ".spellbound/greeting.sh" "$settings_file"; then
+        return 1
+    fi
+    if grep -qF '"SessionStart"' "$settings_file"; then
+        say "The file $(windows_path "$settings_file") has a SessionStart hook of its own and no session greeting," \
+            "so add this entry to its SessionStart list, with a comma between entries:"
+        session_start_entry "      "
+    else
+        say "The file $(windows_path "$settings_file") has settings of its own and no session greeting," \
+            "so add this inside its hooks section, with a comma after it if another hook follows:"
+        session_start_hook "    "
+    fi
+    return 1
+}
+
+step_folder() {
+    begin_step "13" "The Spellbound folder"
+    local changed="false"
+    local kept_sentence="its shell setting, its CLAUDE.md, the session greeting and the record of this setup already."
+    local staging
+    staging="$(mktemp -d)"
+    folder_staging="$staging"
+    trap 'rm -rf "$folder_staging"' EXIT
+    if [ ! -d "$into" ]; then
+        run mkdir -p "$into"
+        changed="true"
+    fi
+    if [ -f "$shell_file" ]; then
+        cp "$shell_file" "$staging/shell.current"
+    else
+        : > "$staging/shell.current"
+    fi
+    shell_block > "$staging/shell.block"
+    merged_shell_file "$staging/shell.current" "$staging/shell.block" > "$staging/shell.next"
+    if install_text "$staging/shell.next" "$shell_file"; then
+        say "The shell file $(windows_path "$shell_file") now sets SPELLBOUND_HOME to $(windows_path "$into")," \
+            "so a later run without --into keeps this folder."
+        shell_block_changed="true"
+        changed="true"
+    fi
+    if command -v claude >/dev/null 2>&1; then
+        fetch_raw "folder/CLAUDE.md" "$staging/CLAUDE.md"
+        if [ ! -f "$into/CLAUDE.md" ]; then
+            install_text "$staging/CLAUDE.md" "$into/CLAUDE.md"
+            say "The folder now has the studio's CLAUDE.md."
+            changed="true"
+        elif ! cmp -s "$staging/CLAUDE.md" "$into/CLAUDE.md"; then
+            if install_text "$staging/CLAUDE.md" "$into/.spellbound/CLAUDE.md"; then
+                changed="true"
+            fi
+            say "The folder's CLAUDE.md differs from the studio's and was kept," \
+                "so the studio's copy is in $(windows_path "$into/.spellbound/CLAUDE.md") to compare."
+        fi
+        fetch_raw "scripts/greeting.sh" "$staging/greeting.sh"
+        if install_text "$staging/greeting.sh" "$into/.spellbound/greeting.sh"; then
+            say "The session greeting now matches the studio's copy."
+            changed="true"
+        fi
+        if greeting_settings_changed "$staging"; then
+            changed="true"
+        fi
+    else
+        say "Claude Code is not installed, so the folder gets no CLAUDE.md and no session greeting."
+        kept_sentence="its shell setting and the record of this setup already."
+    fi
+    fetch_raw "setup.sh" "$staging/setup.sh"
+    text_hash "$staging/setup.sh" > "$staging/setup.hash"
+    if install_text "$staging/setup.hash" "$into/.spellbound/setup.hash"; then
+        changed="true"
+    fi
+    rm -rf "$staging"
+    trap - EXIT
+    if [ "$changed" = "true" ]; then
+        step_done
+    else
+        step_skipped "The folder $(windows_path "$into") has $kept_sentence"
+    fi
+}
+
 print_summary() {
     local folder
     say ""
@@ -910,6 +1191,10 @@ print_summary() {
         say "No step was skipped."
     fi
     say "Here is what to do next."
+    if [ "$shell_block_changed" = "true" ]; then
+        say "Open a new Git Bash window and type spellbound: it opens $(windows_path "$into")," \
+            "updates the studio plugins and runs this setup again whenever the studio changes it."
+    fi
     if [ "${#repositories[@]}" -eq 0 ]; then
         say "Run the same line again with a repository after it, such as Spellbound-Studios/ArtRegistry."
         return 0
@@ -934,8 +1219,9 @@ main() {
     step_unity_command_line
     step_unity_hub
     if [ "${#repositories[@]}" -eq 0 ]; then
+        step_folder
         say ""
-        say "No repository was named, so the script ran the tool steps only."
+        say "No repository was named, so nothing was cloned."
         print_summary
         return 0
     fi
@@ -953,6 +1239,7 @@ main() {
         step_open_project "${repositories[$index]}" "${folders[$index]}"
     done
     step_maya_menu
+    step_folder
     print_summary
 }
 
