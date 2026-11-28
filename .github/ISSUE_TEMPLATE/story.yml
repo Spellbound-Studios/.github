@@ -6,6 +6,8 @@ body:
     attributes:
       value: |
         The title is a capability sentence, for example *A player can dig through a cave wall*. Open it in its epic's repository and add it as a sub-issue of that epic. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
+
+        An idea goes in Backlog with its title and its Behavior sentence alone. The other fields are filled during refinement, and every one holds an answer or None by the time the story is Ready.
   - type: textarea
     id: behavior
     attributes:
@@ -18,40 +20,34 @@ body:
     attributes:
       label: Checks
       description: Write three to five checks, one per row, each as Given a context, When an action, Then a result.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: input
     id: days
     attributes:
       label: Days
       description: The working days it takes, ten at most.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: input
     id: waits-on
     attributes:
       label: Waits on
       description: "A story in this repository as #number, or None."
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: input
     id: time-box
     attributes:
       label: Time box
       description: None unless this is a spike; in working days, and above five days, split the question.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: textarea
     id: default-answer
     attributes:
       label: Default answer
       description: None unless this is a spike; the answer used when the time box runs out.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: input
     id: needed-by
     attributes:
       label: Needed by
       description: The epic in another repository that asked for this story, as Spellbound-Studios/<Repository>#<number> so the issue links it, or None when no other repository is waiting.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
