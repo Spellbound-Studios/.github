@@ -8,13 +8,14 @@ body:
     attributes:
       value: |
         The title is a capability sentence, for example *GeoForge can draw terrain to the horizon*. Open it in the repository that owns the capability; its stories are its sub-issues. The rulebook is at https://github.com/Spellbound-Studios/Roadmap/blob/main/Rulebook.md.
+
+        An idea goes in Backlog with its title and its Done when sentence alone. The other fields are filled during refinement, and every one holds an answer or None by the time the epic is Ready.
   - type: input
     id: initiative
     attributes:
       label: Initiative
       description: The initiative as Spellbound-Studios/Roadmap#<number>, or None.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: textarea
     id: done-when
     attributes:
@@ -27,26 +28,22 @@ body:
     attributes:
       label: Target version
       description: The version this epic is released in.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: textarea
     id: needs-from-other-repositories
     attributes:
       label: Needs from other repositories
-      description: Each need is a story filed in that repository, named as Spellbound-Studios/<Repository>#<number>, and this epic stays in Draft until every one is merged; None when there is none.
-    validations:
-      required: true
+      description: Each need is a story filed in that repository, named as Spellbound-Studios/<Repository>#<number>, and this epic stays in Refinement until every one is merged; None when there is none.
+      placeholder: Filled during refinement, or None.
   - type: textarea
     id: out-of-scope
     attributes:
       label: Out of scope
       description: What this epic will not do, or None.
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
   - type: input
     id: red-team
     attributes:
       label: Red team
       description: Required, or Not required, because <reason>
-    validations:
-      required: true
+      placeholder: Filled during refinement, or None.
