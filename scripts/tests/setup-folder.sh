@@ -238,6 +238,14 @@ setup_fetches() {
     grep -c '^called: curl .*/main/setup\.sh' "$shell_calls"
 }
 
+record alias_before_block
+printf 'alias spellbound=%s\n' "'cd /elsewhere'" | cat - "$home/.bashrc" > "$workspace/bashrc.alias"
+cp "$workspace/bashrc.alias" "$home/.bashrc"
+alias_kind="$(HOME="$home" bash -c 'shopt -s expand_aliases; source "$HOME/.bashrc" 2>&1; type -t spellbound')"
+if [ "$alias_kind" != "function" ]; then
+    fail "alias_before_block: an older spellbound alias above the block broke the function, got: $alias_kind"
+fi
+
 rm "$folder/.spellbound/greeting.sh"
 run_spellbound
 record command_unchanged
